@@ -15,13 +15,46 @@ import type { NavItem } from "@/content/types";
 
 const { brand, mobile, aria } = navBarContent;
 
+function stripHash(href: string) {
+  return href.split("#")[0];
+}
+
 function isLinkActive(pathname: string, href: string) {
-  return href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const path = stripHash(href);
+  return path === "/" ? pathname === "/" : pathname.startsWith(path);
+}
+
+function isChildOwnedByNavItem(parentHref: string, childHref: string) {
+  const parentPath = stripHash(parentHref);
+  const childPath = stripHash(childHref);
+
+  if (parentPath === "/") {
+    return childPath === "/";
+  }
+
+  return childPath === parentPath || childPath.startsWith(`${parentPath}/`);
 }
 
 function isNavItemActive(pathname: string, item: NavItem) {
   if (isLinkActive(pathname, item.href)) return true;
-  return item.children?.some((child) => pathname.startsWith(child.href)) ?? false;
+
+  return (
+    item.children?.some(
+      (child) =>
+        isChildOwnedByNavItem(item.href, child.href) &&
+        isLinkActive(pathname, child.href)
+    ) ?? false
+  );
+}
+
+function isDropdownChildActive(pathname: string, childHref: string) {
+  const childPath = stripHash(childHref);
+
+  if (childHref.includes("#")) {
+    return pathname === childPath || pathname.startsWith(`${childPath}/`);
+  }
+
+  return isLinkActive(pathname, childHref);
 }
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -137,7 +170,7 @@ function DesktopDropdown({
         <div className="relative overflow-hidden rounded-md border border-stone-200 bg-white shadow-[0_8px_30px_rgba(28,25,23,0.12)]">
           <div className="absolute -top-[6px] left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-stone-200 bg-white" />
           {item.children.map((child, index) => {
-            const childActive = pathname.startsWith(child.href);
+            const childActive = isDropdownChildActive(pathname, child.href);
 
             return (
               <Link
@@ -228,7 +261,7 @@ function MobileNavItem({
                 href={child.href}
                 onClick={onNavigate}
                 className={`block rounded-md px-2 py-2.5 text-sm transition-colors sm:text-base ${
-                  pathname.startsWith(child.href)
+                  isDropdownChildActive(pathname, child.href)
                     ? "text-brand"
                     : "text-stone-600 hover:text-brand"
                 }`}
