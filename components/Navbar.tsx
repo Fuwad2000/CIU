@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import TopBar from "@/components/TopBar";
+import AnnouncementTicker from "@/components/AnnouncementTicker";
 import {
   donateLink,
   navBarContent,
@@ -278,6 +279,7 @@ export default function Navbar() {
     <>
       <div className="sticky top-0 z-50">
         <TopBar compact={isScrolled} />
+        <AnnouncementTicker />
         <header
           className={`border-b border-border/80 bg-surface shadow-[0_1px_0_rgba(0,0,0,0.03),0_4px_24px_rgba(28,25,23,0.06)] transition-all duration-300 ease-out ${
             isScrolled ? "shadow-md" : ""

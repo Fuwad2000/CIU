@@ -163,4 +163,25 @@ body {
   .animate-hero-ken-burns {
     animation: none;
   }
+
+  .announcement-marquee {
+    animation: none;
+  }
+}
+
+@keyframes announcement-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.announcement-marquee {
+  animation: announcement-marquee 45s linear infinite;
+}
+
+.announcement-marquee:hover {
+  animation-play-state: paused;
 }
