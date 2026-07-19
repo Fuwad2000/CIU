@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Family Services placeholder">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#0d5f58"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <rect x="80" y="80" width="1440" height="740" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="4" stroke-dasharray="16 12" rx="24"/>
+  <text x="800" y="430" text-anchor="middle" fill="rgba(255,255,255,0.92)" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="600">Family Services</text>
+  <text x="800" y="490" text-anchor="middle" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="24">Image Placeholder</text>
+</svg>

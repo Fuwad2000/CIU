@@ -54,7 +54,7 @@ export const heroSlides: HeroSlide[] = [
     id: "welcome",
     imageSrc: "/images/home/hero-community.svg",
     imageAlt: "Placeholder — welcoming CIU community gathering",
-    label: "WELCOME TO",
+    label: "السلام عليكم",
     heading: "Canadian Islamic Union",
     text: "Building faith, strengthening families, and inspiring future generations through Islamic education, spiritual development, community service, and meaningful connection.",
     primaryButton: {
@@ -210,6 +210,9 @@ export const featuredProgramsContent = {
 
 export const upcomingEventsContent = {
   heading: "Upcoming Events",
+  label: "Community Calendar",
+  subheading:
+    "Join us for learning, fellowship, and meaningful gatherings throughout the year.",
   events: [
     {
       name: "Weekly Community Halaqah",

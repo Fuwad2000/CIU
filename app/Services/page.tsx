@@ -1,7 +1,13 @@
-export default function ServicesPage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-semibold text-zinc-900">Services</h1>
-    </div>
-  );
+import type { Metadata } from "next";
+import ServicesPage from "@/components/services/ServicesPage";
+import { siteContent } from "@/content/SiteContent";
+
+export const metadata: Metadata = {
+  title: `Services | ${siteContent.shortName}`,
+  description:
+    "Explore CIU services including spiritual guidance, family support, youth programs, Islamic education, community gatherings, and charitable initiatives.",
+};
+
+export default function Page() {
+  return <ServicesPage />;
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ContactForm from "@/components/contact/ContactForm";
+import { MotionItem, MotionSection, MotionStagger } from "@/components/motion";
 import SocialIcon from "@/components/SocialIcon";
 import { contactContent } from "@/content/ContactContent";
 import { ArrowUpRight, Mail, MapPin, Phone, Share2 } from "lucide-react";
@@ -39,6 +40,7 @@ export default function ContactPage() {
     <div className="bg-background">
       <section className="border-b border-brand/10 bg-brand text-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+          <MotionSection>
           <div className="mx-auto max-w-3xl text-center">
             <p className="inline-flex items-center justify-center gap-2 text-sm font-semibold tracking-[0.14em] text-brand-light uppercase sm:text-base">
               <Mail className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
@@ -51,10 +53,12 @@ export default function ContactPage() {
               {hero.intro}
             </p>
           </div>
+          </MotionSection>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <MotionSection>
         <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
           <div className="border-b border-border bg-background/80 px-5 py-4 sm:px-6">
             <h2 className="text-lg font-semibold text-foreground sm:text-xl">
@@ -65,77 +69,88 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div className="grid divide-y divide-border sm:grid-cols-2 xl:grid-cols-4 xl:divide-y-0">
-            <ContactDetail
-              label={address.label}
-              icon={<MapPin className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
-              className="xl:border-r xl:border-border"
-            >
-              <p>
-                {address.lines[0]}
-                <br />
-                {address.lines[1]}
-              </p>
-              <a
-                href={address.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 font-semibold text-brand transition hover:text-brand-dark"
+          <MotionStagger className="grid divide-y divide-border sm:grid-cols-2 xl:grid-cols-4 xl:divide-y-0">
+            <MotionItem>
+              <ContactDetail
+                label={address.label}
+                icon={<MapPin className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
+                className="xl:border-r xl:border-border"
               >
-                Open in Google Maps
-                <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
-              </a>
-            </ContactDetail>
+                <p>
+                  {address.lines[0]}
+                  <br />
+                  {address.lines[1]}
+                </p>
+                <a
+                  href={address.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1 font-semibold text-brand transition hover:text-brand-dark"
+                >
+                  Open in Google Maps
+                  <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+                </a>
+              </ContactDetail>
+            </MotionItem>
 
-            <ContactDetail
-              label={phone.label}
-              icon={<Phone className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
-              className="xl:border-r xl:border-border"
-            >
-              <a
-                href={phone.href}
-                className="font-semibold text-foreground transition hover:text-brand"
+            <MotionItem>
+              <ContactDetail
+                label={phone.label}
+                icon={<Phone className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
+                className="xl:border-r xl:border-border"
               >
-                {phone.value}
-              </a>
-            </ContactDetail>
+                <a
+                  href={phone.href}
+                  className="font-semibold text-foreground transition hover:text-brand"
+                >
+                  {phone.value}
+                </a>
+              </ContactDetail>
+            </MotionItem>
 
-            <ContactDetail
-              label={email.label}
-              icon={<Mail className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
-              className="xl:border-r xl:border-border"
-            >
-              <a
-                href={email.href}
-                className="break-all font-semibold text-foreground transition hover:text-brand"
+            <MotionItem>
+              <ContactDetail
+                label={email.label}
+                icon={<Mail className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
+                className="xl:border-r xl:border-border"
               >
-                {email.value}
-              </a>
-            </ContactDetail>
+                <a
+                  href={email.href}
+                  className="break-all font-semibold text-foreground transition hover:text-brand"
+                >
+                  {email.value}
+                </a>
+              </ContactDetail>
+            </MotionItem>
 
-            <ContactDetail
-              label={social.label}
-              icon={<Share2 className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
-            >
-              <div className="flex flex-wrap gap-2 pt-0.5">
-                {social.links.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    aria-label={link.label}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand/15 bg-brand/5 text-brand transition hover:border-brand hover:bg-brand hover:text-white"
-                  >
-                    <SocialIcon platform={link.platform} className="h-4 w-4" />
-                  </a>
-                ))}
-              </div>
-            </ContactDetail>
-          </div>
+            <MotionItem>
+              <ContactDetail
+                label={social.label}
+                icon={<Share2 className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />}
+              >
+                <div className="flex flex-wrap gap-2 pt-0.5">
+                  {social.links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      aria-label={link.label}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand/15 bg-brand/5 text-brand transition hover:border-brand hover:bg-brand hover:text-white"
+                    >
+                      <SocialIcon platform={link.platform} className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
+              </ContactDetail>
+            </MotionItem>
+          </MotionStagger>
         </div>
 
-        <div className="mt-8 grid min-h-[560px] gap-6 lg:grid-cols-2 lg:items-stretch lg:gap-8">
-          <ContactForm className="min-h-[560px]" />
+        <MotionStagger className="mt-8 grid min-h-[560px] gap-6 lg:grid-cols-2 lg:items-stretch lg:gap-8">
+          <MotionItem>
+            <ContactForm className="min-h-[560px]" />
+          </MotionItem>
 
+          <MotionItem>
           <div className="flex min-h-[560px] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
             <div className="h-1 bg-gold" />
             <div className="border-b border-border px-6 py-5 sm:px-8">
@@ -176,7 +191,9 @@ export default function ContactPage() {
               </Link>
             </div>
           </div>
-        </div>
+          </MotionItem>
+        </MotionStagger>
+        </MotionSection>
       </section>
     </div>
   );

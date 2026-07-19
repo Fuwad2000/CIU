@@ -27,7 +27,7 @@ export const footerContent = {
       { href: "/Contact", label: "Contact", icon: "contact" as const },
       {
         href: "/Membership",
-        label: "Become a Member",
+        label: "Membership",
         icon: "member" as const,
       },
     ],
