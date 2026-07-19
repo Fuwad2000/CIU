@@ -91,7 +91,7 @@ function DesktopDropdown({
       <Link
         href={item.href}
         onMouseEnter={() => setOpenDropdown(null)}
-        className={`relative flex h-full items-center px-3.5 text-base font-medium transition-colors ${
+        className={`relative flex h-full items-center px-3.5 text-sm font-medium transition-colors sm:text-base lg:text-lg ${
           isActive ? "text-brand" : "text-stone-600 hover:text-foreground"
         }`}
       >
@@ -113,7 +113,7 @@ function DesktopDropdown({
     >
       <Link
         href={item.href}
-        className={`relative flex h-full items-center gap-1 px-3.5 text-base font-medium transition-colors ${
+        className={`relative flex h-full items-center gap-1 px-3.5 text-sm font-medium transition-colors sm:text-base lg:text-lg ${
           isActive ? "text-brand" : "text-stone-600 hover:text-foreground"
         }`}
       >
@@ -143,7 +143,7 @@ function DesktopDropdown({
                 key={child.href}
                 href={child.href}
                 onClick={() => setOpenDropdown(null)}
-                className={`block px-5 py-3.5 text-center text-base font-medium transition-colors ${
+                className={`block px-5 py-3.5 text-center text-sm font-medium transition-colors sm:text-base lg:text-lg ${
                   index < item.children!.length - 1
                     ? "border-b border-stone-200"
                     : ""
@@ -184,7 +184,7 @@ function MobileNavItem({
       <Link
         href={item.href}
         onClick={onNavigate}
-        className={`block border-b border-border px-1 py-4 text-xl font-medium transition-colors ${
+        className={`block border-b border-border px-1 py-4 text-base font-medium transition-colors sm:text-lg ${
           isActive ? "text-brand" : "text-foreground hover:text-brand"
         }`}
       >
@@ -198,7 +198,7 @@ function MobileNavItem({
       <button
         type="button"
         onClick={() => setExpandedItem(expanded ? null : item.href)}
-        className={`flex w-full items-center justify-between px-1 py-4 text-xl font-medium transition-colors ${
+        className={`flex w-full items-center justify-between px-1 py-4 text-base font-medium transition-colors sm:text-lg ${
           isActive ? "text-brand" : "text-foreground"
         }`}
       >
@@ -212,7 +212,7 @@ function MobileNavItem({
             <Link
               href={item.href}
               onClick={onNavigate}
-              className={`block rounded-md px-2 py-2.5 text-lg transition-colors ${
+              className={`block rounded-md px-2 py-2.5 text-sm transition-colors sm:text-base ${
                 pathname === item.href
                   ? "text-brand"
                   : "text-stone-600 hover:text-brand"
@@ -226,7 +226,7 @@ function MobileNavItem({
               <Link
                 href={child.href}
                 onClick={onNavigate}
-                className={`block rounded-md px-2 py-2.5 text-lg transition-colors ${
+                className={`block rounded-md px-2 py-2.5 text-sm transition-colors sm:text-base ${
                   pathname.startsWith(child.href)
                     ? "text-brand"
                     : "text-stone-600 hover:text-brand"
@@ -307,8 +307,8 @@ export default function Navbar() {
               />
             </div>
             <span
-              className={`hidden font-semibold tracking-tight text-foreground transition-all duration-300 sm:inline ${
-                isScrolled ? "text-lg lg:text-xl" : "text-xl"
+              className={`font-semibold tracking-tight text-foreground transition-all duration-300 ${
+                isScrolled ? "text-sm sm:text-base lg:text-lg" : "text-base sm:text-lg"
               }`}
             >
               {brand.name}
@@ -332,8 +332,8 @@ export default function Navbar() {
                 href={donateLink.href}
                 className={`inline-flex items-center rounded-lg font-semibold shadow-sm transition-all duration-300 ${
                   isScrolled
-                    ? "px-4 py-2 text-sm lg:px-4 lg:py-2"
-                    : "px-5 py-2.5 text-base"
+                    ? "px-4 py-2 text-sm sm:text-base"
+                    : "px-5 py-2.5 text-sm sm:text-base"
                 } ${
                   isDonateActive
                     ? "bg-brand-dark text-white shadow-md"
@@ -385,7 +385,7 @@ export default function Navbar() {
                 className="h-full w-full object-contain"
               />
             </div>
-            <span className="text-xl font-semibold tracking-tight text-foreground">
+            <span className="text-base font-semibold tracking-tight text-foreground sm:text-lg">
               {brand.name}
             </span>
           </Link>
@@ -419,7 +419,7 @@ export default function Navbar() {
           <Link
             href={donateLink.href}
             onClick={closeMenu}
-            className={`block rounded-lg px-4 py-3.5 text-center text-base font-semibold tracking-wide shadow-sm transition-all ${
+            className={`block rounded-lg px-4 py-3.5 text-center text-sm font-semibold tracking-wide shadow-sm transition-all sm:text-base ${
               isDonateActive
                 ? "bg-brand-dark text-white"
                 : "bg-brand text-white hover:bg-brand-dark"
