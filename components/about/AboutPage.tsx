@@ -1,9 +1,9 @@
+import AboutHero from "@/components/about/AboutHero";
 import ImagePlaceholder from "@/components/about/ImagePlaceholder";
 import {
   AcademyIcon,
   CheckIcon,
   CommunitySectionIcon,
-  HeroIcon,
   LookingAheadIcon,
   MissionIcon,
   ServiceIcon,
@@ -24,7 +24,7 @@ function SectionHeading({
 }) {
   return (
     <div className="mx-auto max-w-3xl text-center">
-      <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      <h2 className="text-balance text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         {title}
       </h2>
       {intro ? (
@@ -91,9 +91,9 @@ function SectionTitle({
   title: string;
 }) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="inline-flex rounded-xl bg-brand/10 p-3">{icon}</div>
-      <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+    <div className="flex min-w-0 items-start gap-3 sm:items-center">
+      <div className="inline-flex shrink-0 rounded-xl bg-brand/10 p-3">{icon}</div>
+      <h2 className="min-w-0 text-xl font-semibold tracking-tight text-foreground sm:text-2xl lg:text-3xl">
         {title}
       </h2>
     </div>
@@ -102,7 +102,6 @@ function SectionTitle({
 
 export default function AboutPage() {
   const {
-    hero,
     story,
     vision,
     mission,
@@ -115,32 +114,8 @@ export default function AboutPage() {
   } = aboutContent;
 
   return (
-    <div className="bg-background">
-      <section className="bg-brand text-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <MotionSection>
-            <div className="mx-auto max-w-4xl text-center">
-            <p className="inline-flex items-center justify-center gap-2 text-sm font-semibold tracking-[0.14em] text-brand-light uppercase sm:text-base">
-              <HeroIcon className="text-brand-light" />
-              About the Canadian Islamic Union (CIU)
-            </p>
-            <h1 className="mt-4 text-2xl font-semibold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
-              {hero.headline}
-            </h1>
-            <p className="mt-6 text-sm leading-relaxed text-white/95 sm:text-base lg:text-lg">
-              {hero.intro}
-            </p>
-          </div>
-          <div className="mx-auto mt-10 max-w-5xl">
-            <ImagePlaceholder
-              {...hero.image}
-              aspect="banner"
-              className="border-white/30 bg-white/10 [&_p]:text-white [&_svg]:text-white/60"
-            />
-          </div>
-          </MotionSection>
-        </div>
-      </section>
+    <div className="overflow-x-hidden bg-background">
+      <AboutHero />
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <MotionSection>
@@ -161,7 +136,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-y border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <MotionSection>
           <MotionStagger className="grid gap-6 lg:grid-cols-2 lg:gap-8">
             <MotionItem className="rounded-2xl border border-border bg-background p-6 shadow-sm sm:p-8">
@@ -225,7 +200,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-y border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <MotionSection>
           <SectionHeading title={whatWeDo.title} intro={whatWeDo.intro} />
           <MotionStagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
@@ -276,7 +251,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-y border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <MotionSection>
           <MotionStagger className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
             <MotionItem>
@@ -315,7 +290,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-y border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <MotionSection>
           <div className="mx-auto max-w-3xl text-center">
             <div className="mx-auto inline-flex rounded-xl bg-brand/10 p-3">

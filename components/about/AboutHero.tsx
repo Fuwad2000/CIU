@@ -1,0 +1,39 @@
+"use client";
+
+import Image from "next/image";
+import { HeroIcon } from "@/components/about/icons";
+import { MotionSection } from "@/components/motion";
+import { aboutContent } from "@/content/AboutContent";
+
+export default function AboutHero() {
+  const { label, organization, headline, intro, imageSrc, imageAlt } = aboutContent.hero;
+
+  return (
+    <section className="relative h-[420px] overflow-hidden sm:h-[480px] lg:h-[580px]">
+      {/*
+        TODO: Replace /images/about/about-hero.svg with an approved CIU community
+        photograph (e.g. about-hero.jpg) before publishing.
+      */}
+      <Image src={imageSrc} alt={imageAlt} fill priority sizes="100vw" className="object-cover" />
+      <div className="absolute inset-0 bg-hero-overlay" />
+      <div className="absolute inset-0 bg-brand/35 mix-blend-multiply" />
+
+      <div className="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <MotionSection className="max-w-3xl">
+          <p className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-brand-light uppercase sm:text-sm">
+            <HeroIcon className="text-brand-light" />
+            {label}
+          </p>
+          <div className="gold-accent-bar mt-4" aria-hidden="true" />
+          <p className="mt-4 text-sm font-medium text-white/90 sm:text-base">{organization}</p>
+          <h1 className="mt-3 text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+            {headline}
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/92 sm:text-base lg:text-lg">
+            {intro}
+          </p>
+        </MotionSection>
+      </div>
+    </section>
+  );
+}

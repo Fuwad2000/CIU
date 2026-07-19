@@ -24,10 +24,14 @@ export type StatItem = {
 
 export const aboutContent = {
   hero: {
+    label: "ABOUT CIU",
+    organization: "Canadian Islamic Union (CIU)",
     headline:
       "Building Stronger Muslim Families, Inspiring Future Leaders, Serving Our Communities",
     intro:
       "The Canadian Islamic Union (CIU) is a nonprofit community organization dedicated to strengthening faith, nurturing character, and empowering Muslim families across Canada. Through authentic Islamic education, mentorship, family services, and community initiatives, we strive to build a generation that is spiritually grounded, socially responsible, and positively engaged in Canadian society.",
+    imageSrc: "/images/about/about-hero.svg",
+    imageAlt: "Placeholder — CIU community, families, and educational gathering",
     image: {
       label: "Hero Image Placeholder",
       caption:
