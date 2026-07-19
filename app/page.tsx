@@ -1,8 +1,23 @@
+import AboutPreview from "@/components/home/AboutPreview";
+import FeaturedPrograms from "@/components/home/FeaturedPrograms";
+import GalleryPreview from "@/components/home/GalleryPreview";
+import HeroCarousel from "@/components/home/HeroCarousel";
+import ImpactSection from "@/components/home/ImpactSection";
+import MissionPillars from "@/components/home/MissionPillars";
+import PrayerTimes from "@/components/home/PrayerTimes";
+import UpcomingEvents from "@/components/home/UpcomingEvents";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <>
+      <HeroCarousel />
+      <PrayerTimes />
+      <AboutPreview />
+      <MissionPillars />
+      <FeaturedPrograms />
+      <UpcomingEvents />
+      <ImpactSection />
+      <GalleryPreview />
+    </>
   );
 }

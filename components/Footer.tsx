@@ -5,10 +5,38 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import SocialIcon from "@/components/SocialIcon";
 import {
+  ContactIcon,
+  DonateIcon,
+  MemberIcon,
+} from "@/components/home/icons";
+import {
   affiliateLinks,
   exploreLinks,
   footerContent,
 } from "@/content/FooterContent";
+
+function CtaButtonIcon({ icon }: { icon: "donate" | "contact" | "member" }) {
+  switch (icon) {
+    case "donate":
+      return <DonateIcon className="h-4 w-4 shrink-0" />;
+    case "contact":
+      return <ContactIcon className="h-4 w-4 shrink-0" />;
+    case "member":
+      return <MemberIcon className="h-4 w-4 shrink-0" />;
+  }
+}
+
+function ctaButtonClass(index: number) {
+  if (index === 0) {
+    return "inline-flex items-center justify-center gap-2 rounded-lg bg-white px-3 py-2.5 text-sm font-semibold text-brand shadow-sm transition hover:bg-brand-light sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-lg";
+  }
+
+  if (index === 1) {
+    return "inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 bg-white/10 px-3 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-lg";
+  }
+
+  return "inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-3 py-2.5 text-sm font-semibold text-white transition hover:border-white/40 sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-lg";
+}
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -84,24 +112,16 @@ export default function Footer() {
             </div>
 
             <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-row sm:flex-wrap sm:gap-3 lg:flex-col xl:flex-row">
-              <Link
-                href={cta.buttons[0].href}
-                className="inline-flex items-center justify-center rounded-lg bg-white px-3 py-2.5 text-sm font-semibold text-brand shadow-sm transition hover:bg-brand-light sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-lg"
-              >
-                {cta.buttons[0].label}
-              </Link>
-              <Link
-                href={cta.buttons[1].href}
-                className="inline-flex items-center justify-center rounded-lg border border-white/30 bg-white/10 px-3 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-lg"
-              >
-                {cta.buttons[1].label}
-              </Link>
-              <Link
-                href={cta.buttons[2].href}
-                className="inline-flex items-center justify-center rounded-lg border border-white/20 px-3 py-2.5 text-sm font-semibold text-white transition hover:border-white/40 sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-lg"
-              >
-                {cta.buttons[2].label}
-              </Link>
+              {cta.buttons.map((button, index) => (
+                <Link
+                  key={button.href}
+                  href={button.href}
+                  className={ctaButtonClass(index)}
+                >
+                  <CtaButtonIcon icon={button.icon} />
+                  {button.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

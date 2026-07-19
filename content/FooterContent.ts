@@ -23,9 +23,13 @@ export const footerContent = {
     description:
       "Your donation helps fund programs, services, and outreach. Reach out anytime — we would love to hear from you.",
     buttons: [
-      { href: "/Donate", label: "Donate" },
-      { href: "/Contact", label: "Contact" },
-      { href: "/Membership", label: "Join" },
+      { href: "/Donate", label: "Donate", icon: "donate" as const },
+      { href: "/Contact", label: "Contact", icon: "contact" as const },
+      {
+        href: "/Membership",
+        label: "Become a Member",
+        icon: "member" as const,
+      },
     ],
   },
   brand: {

@@ -1,7 +1,13 @@
-export default function ContactPage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-semibold text-zinc-900">Contact</h1>
-    </div>
-  );
+import type { Metadata } from "next";
+import ContactPage from "@/components/contact/ContactPage";
+import { siteContent } from "@/content/SiteContent";
+
+export const metadata: Metadata = {
+  title: `Contact | ${siteContent.shortName}`,
+  description:
+    "Contact the Canadian Islamic Union by phone, email, or message. Visit us in Mississauga or connect with us on social media.",
+};
+
+export default function Page() {
+  return <ContactPage />;
 }

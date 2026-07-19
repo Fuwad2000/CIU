@@ -1,7 +1,13 @@
-export default function AboutPage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-semibold text-zinc-900">About</h1>
-    </div>
-  );
+import type { Metadata } from "next";
+import AboutPage from "@/components/about/AboutPage";
+import { siteContent } from "@/content/SiteContent";
+
+export const metadata: Metadata = {
+  title: `About | ${siteContent.shortName}`,
+  description:
+    "Learn about the Canadian Islamic Union — our story, vision, mission, values, and community impact across Canada.",
+};
+
+export default function Page() {
+  return <AboutPage />;
 }
