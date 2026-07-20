@@ -4,8 +4,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   fadeUpVariants,
   sectionTransition,
+  subtleFadeVariants,
   viewport,
 } from "@/components/motion/variants";
+import { useIsMobile } from "@/components/motion/useSubtleMotion";
 
 export default function MotionSection({
   children,
@@ -17,6 +19,7 @@ export default function MotionSection({
   delay?: number;
 }) {
   const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   if (reduceMotion) {
     return className ? <div className={className}>{children}</div> : children;
@@ -28,8 +31,12 @@ export default function MotionSection({
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
-      variants={fadeUpVariants}
-      transition={{ ...sectionTransition, delay }}
+      variants={isMobile ? subtleFadeVariants : fadeUpVariants}
+      transition={
+        isMobile
+          ? { duration: 0.5, ease: sectionTransition.ease, delay }
+          : { ...sectionTransition, delay }
+      }
     >
       {children}
     </motion.div>

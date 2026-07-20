@@ -28,22 +28,30 @@
   --color-gold-light: var(--gold-light);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.3125rem;
+}
+
+html {
+  font-size: 17px;
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  font-size: 17px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@media (min-width: 1024px) {
-  body {
-    font-size: 18px;
-  }
 }
 
 .bg-gold-gradient {
@@ -74,6 +82,15 @@ body {
     rgba(0, 0, 0, 0.82) 0%,
     rgba(0, 0, 0, 0.58) 42%,
     rgba(0, 0, 0, 0.28) 100%
+  );
+}
+
+.bg-hero-carousel-overlay {
+  background: linear-gradient(
+    105deg,
+    rgba(0, 0, 0, 0.86) 0%,
+    rgba(0, 0, 0, 0.62) 42%,
+    rgba(0, 0, 0, 0.34) 100%
   );
 }
 
@@ -157,6 +174,12 @@ body {
 
 .animate-hero-ken-burns {
   animation: hero-ken-burns 18s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .animate-hero-ken-burns {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

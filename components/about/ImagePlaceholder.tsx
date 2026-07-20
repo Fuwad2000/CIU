@@ -1,7 +1,8 @@
+import Image from "next/image";
 import type { ImagePlaceholderContent } from "@/content/AboutContent";
 
 type ImagePlaceholderProps = ImagePlaceholderContent & {
-  aspect?: "video" | "square" | "wide" | "banner";
+  aspect?: "video" | "square" | "wide" | "banner" | "fill";
   className?: string;
 };
 
@@ -10,6 +11,7 @@ const aspectClasses = {
   square: "aspect-square",
   wide: "aspect-[4/3]",
   banner: "aspect-[21/9] min-h-48 sm:min-h-64",
+  fill: "h-full min-h-72",
 };
 
 function PlaceholderIcon() {
@@ -33,9 +35,31 @@ function PlaceholderIcon() {
 export default function ImagePlaceholder({
   label,
   caption,
+  imageSrc,
+  imageAlt,
+  imagePosition = "center",
   aspect = "video",
   className = "",
 }: ImagePlaceholderProps) {
+  if (imageSrc) {
+    return (
+      <figure
+        className={`relative overflow-hidden rounded-2xl border border-border/80 bg-background shadow-premium ${aspectClasses[aspect]} ${className}`}
+      >
+        <div className="relative h-full w-full">
+          <Image
+            src={imageSrc}
+            alt={imageAlt ?? caption}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover"
+            style={{ objectPosition: imagePosition }}
+          />
+        </div>
+      </figure>
+    );
+  }
+
   return (
     <figure
       className={`overflow-hidden rounded-2xl border-2 border-dashed border-brand/25 bg-brand/[0.04] ${aspectClasses[aspect]} ${className}`}
@@ -43,12 +67,8 @@ export default function ImagePlaceholder({
       <div className="flex h-full flex-col items-center justify-center px-6 py-10 text-center">
         <PlaceholderIcon />
         <figcaption className="mt-4 space-y-1">
-          <p className="text-sm font-semibold text-brand sm:text-base">
-            {label}
-          </p>
-          <p className="max-w-md text-sm italic text-muted sm:text-base">
-            {caption}
-          </p>
+          <p className="text-sm font-semibold text-brand sm:text-base">{label}</p>
+          <p className="max-w-md text-sm italic text-muted sm:text-base">{caption}</p>
         </figcaption>
       </div>
     </figure>

@@ -9,11 +9,6 @@ export type HeroSlide = {
   secondaryButton?: { label: string; href: string; variant: "primary" | "gold" };
 };
 
-export type PrayerTime = {
-  name: string;
-  time: string;
-};
-
 export type Pillar = {
   title: string;
   description: string;
@@ -38,8 +33,8 @@ export type Event = {
 };
 
 export type ImpactStat = {
-  /** Placeholder value — replace with confirmed statistics before publishing. */
-  value: string;
+  value: number;
+  suffix?: string;
   label: string;
   icon: "users" | "graduation-cap" | "hand-heart" | "sparkles";
 };
@@ -52,11 +47,11 @@ export type GalleryItem = {
 export const heroSlides: HeroSlide[] = [
   {
     id: "welcome",
-    imageSrc: "/images/home/hero-community.svg",
-    imageAlt: "Placeholder — welcoming CIU community gathering",
+    imageSrc: "/images/home/home_hero1.png",
+    imageAlt: "Community members gathered at tables in the CIU hall for an educational event",
     label: "السلام عليكم",
     heading: "Canadian Islamic Union",
-    text: "Building faith, strengthening families, and inspiring future generations through Islamic education, spiritual development, community service, and meaningful connection.",
+    text: "A nonprofit community organization building faith, strengthening families, and inspiring future generations through Islamic education, spiritual development, community service, and meaningful connection.",
     primaryButton: {
       label: "Explore Our Programs",
       href: "/Services",
@@ -70,8 +65,8 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: "education",
-    imageSrc: "/images/home/hero-students.svg",
-    imageAlt: "Placeholder — students engaged in Islamic education",
+    imageSrc: "/images/home/home_hero2.png",
+    imageAlt: "Collage of CIU students and teachers engaged in Islamic education",
     heading: "Education Rooted in Faith",
     text: "Providing meaningful Islamic education that nurtures knowledge, character, confidence, and spiritual growth.",
     primaryButton: {
@@ -82,8 +77,8 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: "families",
-    imageSrc: "/images/home/hero-family.svg",
-    imageAlt: "Placeholder — Muslim families connecting in community",
+    imageSrc: "/images/home/home_hero3.png",
+    imageAlt: "Muslim families and community members gathered outdoors for prayer and fellowship",
     heading: "Stronger Families. Stronger Communities.",
     text: "Creating opportunities for Muslim families to learn, connect, grow, and support one another.",
     primaryButton: {
@@ -94,8 +89,8 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: "volunteers",
-    imageSrc: "/images/home/hero-volunteers.svg",
-    imageAlt: "Placeholder — volunteers serving the community",
+    imageSrc: "/images/home/home_hero4.png",
+    imageAlt: "CIU volunteers serving the community through donations, education, and outreach",
     heading: "Serve. Connect. Make an Impact.",
     text: "Join our volunteers and community partners as we work together to create lasting positive change.",
     primaryButton: {
@@ -106,25 +101,9 @@ export const heroSlides: HeroSlide[] = [
   },
 ];
 
-export const prayerTimesContent = {
-  heading: "Today's Prayer Times",
-  location: "Mississauga, Ontario",
-  note: "Placeholder schedule — accurate prayer times will be connected later.",
-  times: [
-    { name: "Fajr", time: "5:15 AM" },
-    { name: "Sunrise", time: "6:42 AM" },
-    { name: "Dhuhr", time: "1:20 PM" },
-    { name: "Asr", time: "5:05 PM" },
-    { name: "Maghrib", time: "8:18 PM" },
-    { name: "Isha", time: "9:45 PM" },
-  ] satisfies PrayerTime[],
-  scheduleHref: "#",
-  scheduleLabel: "View Monthly Schedule",
-};
-
 export const aboutPreviewContent = {
-  imageSrc: "/images/home/about-community.svg",
-  imageAlt: "Placeholder — CIU community and educational gathering",
+  imageSrc: "/images/home/home_hero3.png",
+  imageAlt: "Muslim families and community members gathered outdoors for prayer and fellowship",
   label: "WHO WE ARE",
   heading: "Faith, Knowledge and Community",
   paragraphs: [
@@ -250,10 +229,10 @@ export const upcomingEventsContent = {
 export const impactContent = {
   heading: "Growing Together Through Faith and Service",
   stats: [
-    { value: "[XX]+", label: "Families Supported", icon: "users" },
-    { value: "[XX]+", label: "Students", icon: "graduation-cap" },
-    { value: "[XX]+", label: "Volunteers", icon: "hand-heart" },
-    { value: "[XX]+", label: "Community Initiatives", icon: "sparkles" },
+    { value: 850, label: "Families Supported", icon: "users" },
+    { value: 420, label: "Students", icon: "graduation-cap" },
+    { value: 175, label: "Volunteers", icon: "hand-heart" },
+    { value: 38, label: "Community Initiatives", icon: "sparkles" },
   ] satisfies ImpactStat[],
 };
 

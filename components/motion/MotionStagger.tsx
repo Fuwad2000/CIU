@@ -5,8 +5,10 @@ import {
   fadeUpVariants,
   itemTransition,
   staggerContainerVariants,
+  subtleFadeVariants,
   viewport,
 } from "@/components/motion/variants";
+import { useIsMobile } from "@/components/motion/useSubtleMotion";
 
 export function MotionStagger({
   children,
@@ -16,6 +18,7 @@ export function MotionStagger({
   className?: string;
 }) {
   const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
@@ -42,6 +45,7 @@ export function MotionItem({
   className?: string;
 }) {
   const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
@@ -50,8 +54,10 @@ export function MotionItem({
   return (
     <motion.div
       className={className}
-      variants={fadeUpVariants}
-      transition={itemTransition}
+      variants={isMobile ? subtleFadeVariants : fadeUpVariants}
+      transition={
+        isMobile ? { duration: 0.45, ease: itemTransition.ease } : itemTransition
+      }
     >
       {children}
     </motion.div>

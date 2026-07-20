@@ -7,6 +7,7 @@ export const navLinks: NavItem[] = [
     href: "/Services",
     label: "Services",
     children: [
+      { href: "/Services/prayer-times", label: "Prayer Times" },
       { href: "/Services#spiritual-guidance", label: "Spiritual Guidance" },
       { href: "/Services/family-counseling", label: "Family Services" },
       { href: "/Events/youth-gathering", label: "Youth Development" },
@@ -24,6 +25,14 @@ export const navLinks: NavItem[] = [
       { href: "/Events#event-calendar", label: "Event Calendar" },
       { href: "/Events#past-events", label: "Past Events" },
       { href: "/Events#host-event", label: "Host an Event" },
+    ],
+  },
+  {
+    href: "/Media",
+    label: "Media",
+    children: [
+      { href: "/Media/images", label: "CIU Images" },
+      { href: "/Media/lectures", label: "CIU Lectures" },
     ],
   },
   { href: "/Projects", label: "Project" },

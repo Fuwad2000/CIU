@@ -1,6 +1,9 @@
 export type ImagePlaceholderContent = {
   label: string;
   caption: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  imagePosition?: string;
 };
 
 export type ValueItem = {
@@ -26,12 +29,12 @@ export const aboutContent = {
   hero: {
     label: "ABOUT CIU",
     organization: "Canadian Islamic Union (CIU)",
-    headline:
-      "Building Stronger Muslim Families, Inspiring Future Leaders, Serving Our Communities",
+    headline: "Faith, Families, and Community",
+    badge: "Nonprofit Organization",
     intro:
-      "The Canadian Islamic Union (CIU) is a nonprofit community organization dedicated to strengthening faith, nurturing character, and empowering Muslim families across Canada. Through authentic Islamic education, mentorship, family services, and community initiatives, we strive to build a generation that is spiritually grounded, socially responsible, and positively engaged in Canadian society.",
-    imageSrc: "/images/about/about-hero.svg",
-    imageAlt: "Placeholder — CIU community, families, and educational gathering",
+      "The Canadian Islamic Union is a nonprofit organization serving Muslim families across Canada through education, mentorship, and community support. Our work is guided by faith and dedicated to the benefit of our community.",
+    imageSrc: "/images/about/about-hero.png",
+    imageAlt: "CIU community collage featuring Islamic education, youth engagement, and outdoor gathering",
     image: {
       label: "Hero Image Placeholder",
       caption:
@@ -40,35 +43,50 @@ export const aboutContent = {
   },
   story: {
     title: "Our Story",
-    paragraphs: [
-      "Every thriving community begins with a shared vision.",
-      "The Canadian Islamic Union was established to provide a balanced and welcoming environment where individuals and families can grow in their understanding of Islam while developing meaningful connections with one another. We believe that knowledge, when combined with sincere worship, strong character, and community service, creates individuals who benefit both their faith and society.",
-      "Inspired by the rich scholarly tradition of Islam and committed to serving the needs of Muslim Canadians, CIU brings together education, mentorship, and community support under one mission: helping individuals become the best version of themselves while contributing positively to the communities around them.",
+    lead: "Every thriving community begins with a shared vision.",
+    intro:
+      "The Canadian Islamic Union was established as a nonprofit to provide a welcoming environment where individuals and families can grow in faith, knowledge, and connection.",
+    highlights: [
+      "We combine sincere worship, strong character, and community service.",
+      "Education, mentorship, and support come together under one shared mission.",
+      "We help people grow in Islam while contributing positively to Canadian society.",
     ],
     image: {
-      label: "Image Placeholder",
-      caption:
-        "Students learning, community discussion, or educational setting.",
+      label: "Our Story",
+      caption: "CIU scholars and community leaders serving together.",
+      imageSrc: "/images/about/story.png",
+      imageAlt: "CIU scholars and community leaders serving together.",
     },
   },
   vision: {
     title: "Our Vision",
-    text: "To cultivate a united and well-organized Muslim community striving for personal excellence, collective growth, and meaningful service while building a brighter future for Muslim Canadians.",
+    intro:
+      "To cultivate a united and well-organized Muslim community striving for personal excellence, collective growth, and meaningful service. We serve as a nonprofit for the benefit of all.",
+    highlights: [
+      "A community united in faith, purpose, and cooperation.",
+      "Personal excellence rooted in Islamic values and character.",
+      "Strong families supported through knowledge and connection.",
+      "Meaningful service that uplifts Muslims and wider society.",
+      "A brighter future for Muslim Canadians across Canada.",
+    ],
   },
   mission: {
     title: "Our Mission",
     intro:
-      "Our mission is to strengthen individuals, families, and communities by providing accessible Islamic education, spiritual mentorship, and community-focused services grounded in the balanced teachings of Islam.",
+      "As a nonprofit organization, we strengthen individuals, families, and communities through accessible Islamic education, spiritual mentorship, and community-focused services.",
     commitments: [
-      "Providing authentic Islamic education for all age groups.",
-      "Developing future leaders through mentorship and character building.",
-      "Supporting families with practical spiritual and community services.",
-      "Creating an inclusive environment where faith, knowledge, and compassion flourish.",
-      "Encouraging active participation in building stronger communities across Canada.",
+      "Authentic Islamic education for all age groups.",
+      "Leadership and character development through mentorship.",
+      "Practical spiritual and family support services.",
+      "An inclusive environment where faith and compassion flourish.",
+      "Active participation in building stronger communities.",
     ],
     image: {
-      label: "Image Placeholder",
+      label: "Community Service",
       caption: "Volunteers serving the community.",
+      imageSrc: "/images/about/about-story.png",
+      imageAlt: "CIU community members greeting one another in service and fellowship",
+      imagePosition: "right center",
     },
   },
   values: {
@@ -182,7 +200,7 @@ export const aboutContent = {
   community: {
     title: "Our Community",
     paragraphs: [
-      "CIU is more than an organization—it is a growing family.",
+      "CIU is more than an organization. It is a growing family.",
       "Our community includes students, parents, educators, volunteers, mentors, professionals, and community leaders who work together to create meaningful opportunities for growth and service.",
       "Together, we strive to create an environment where every individual feels welcomed, supported, and inspired to contribute their talents for the benefit of others.",
     ],

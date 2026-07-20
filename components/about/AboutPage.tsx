@@ -1,4 +1,5 @@
 import AboutHero from "@/components/about/AboutHero";
+import LeadershipSection from "@/components/about/LeadershipSection";
 import ImagePlaceholder from "@/components/about/ImagePlaceholder";
 import {
   AcademyIcon,
@@ -100,6 +101,122 @@ function SectionTitle({
   );
 }
 
+function StorySection({
+  title,
+  lead,
+  intro,
+  highlights,
+  image,
+}: {
+  title: string;
+  lead: string;
+  intro: string;
+  highlights: string[];
+  image: (typeof aboutContent)["story"]["image"];
+}) {
+  return (
+    <div className="relative overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-premium">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-brand/[0.06] to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute left-0 top-0 h-16 w-16 rounded-tl-3xl border-l-[3px] border-t-[3px] border-gold/70"
+        aria-hidden="true"
+      />
+
+      <div className="relative grid items-center lg:grid-cols-2">
+        <div className="p-7 sm:p-9 lg:py-10">
+          <div className="inline-flex rounded-2xl bg-brand-gradient p-[2px] shadow-premium">
+            <div className="rounded-[14px] bg-surface p-3">
+              <StoryIcon />
+            </div>
+          </div>
+          <div className="gold-accent-bar mt-5 w-10" aria-hidden="true" />
+          <h2 className="mt-4 text-xl font-semibold tracking-tight text-foreground sm:text-2xl lg:text-3xl">
+            {title}
+          </h2>
+          <p className="mt-5 text-base font-medium leading-relaxed text-foreground sm:text-lg">
+            {lead}
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base lg:leading-7">
+            {intro}
+          </p>
+          <ul className="mt-6 space-y-3">
+            {highlights.map((item) => (
+              <li
+                key={item}
+                className="flex gap-3 rounded-xl border border-border/60 bg-background/80 px-3.5 py-3 text-sm leading-relaxed text-muted sm:text-base"
+              >
+                <CheckIcon className="mt-0.5 shrink-0 text-gold" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="border-t border-border/80 p-4 sm:p-5 lg:border-t-0 lg:border-l lg:p-5 lg:pl-0">
+          <ImagePlaceholder {...image} aspect="wide" className="rounded-2xl border-0 shadow-none" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VisionMissionCard({
+  icon,
+  title,
+  intro,
+  listLabel,
+  items,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  intro: string;
+  listLabel: string;
+  items: string[];
+}) {
+  return (
+    <div className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-surface p-7 shadow-premium sm:p-9">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand/[0.06] to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute left-0 top-0 h-16 w-16 rounded-tl-3xl border-l-[3px] border-t-[3px] border-gold/70"
+        aria-hidden="true"
+      />
+
+      <div className="relative">
+        <div className="inline-flex rounded-2xl bg-brand-gradient p-[2px] shadow-premium">
+          <div className="rounded-[14px] bg-surface p-3">{icon}</div>
+        </div>
+        <div className="gold-accent-bar mt-5 w-10" aria-hidden="true" />
+        <h2 className="mt-4 text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+          {title}
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base lg:leading-7">
+          {intro}
+        </p>
+        <p className="mt-6 text-xs font-semibold tracking-[0.16em] text-brand uppercase sm:text-sm">
+          {listLabel}
+        </p>
+        <ul className="mt-4 flex-1 space-y-3">
+          {items.map((item) => (
+            <li
+              key={item}
+              className="flex gap-3 rounded-xl border border-border/60 bg-background/80 px-3.5 py-3 text-sm leading-relaxed text-muted sm:text-base"
+            >
+              <CheckIcon className="mt-0.5 shrink-0 text-gold" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 export default function AboutPage() {
   const {
     story,
@@ -119,61 +236,45 @@ export default function AboutPage() {
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <MotionSection>
-        <MotionStagger className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <MotionItem>
-            <SectionTitle icon={<StoryIcon />} title={story.title} />
-            <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base lg:text-lg">
-              {story.paragraphs.map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </div>
-          </MotionItem>
-          <MotionItem>
-          <ImagePlaceholder {...story.image} aspect="wide" />
-          </MotionItem>
-        </MotionStagger>
+          <StorySection
+            title={story.title}
+            lead={story.lead}
+            intro={story.intro}
+            highlights={story.highlights}
+            image={story.image}
+          />
         </MotionSection>
       </section>
 
-      <section className="border-y border-border bg-surface">
-        <div className="mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <section className="relative overflow-hidden border-y border-border/80 bg-section-warm">
+        <div
+          className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-brand/6 blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-gold/8 blur-3xl"
+          aria-hidden="true"
+        />
+        <div className="relative mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
           <MotionSection>
-          <MotionStagger className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-            <MotionItem className="rounded-2xl border border-border bg-background p-6 shadow-sm sm:p-8">
-              <div className="inline-flex rounded-xl bg-brand/10 p-3">
-                <VisionIcon />
-              </div>
-              <h2 className="mt-4 text-xl font-semibold text-brand sm:text-2xl">
-                {vision.title}
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base lg:text-lg">
-                {vision.text}
-              </p>
+          <MotionStagger className="grid items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
+            <MotionItem className="h-full">
+              <VisionMissionCard
+                icon={<VisionIcon />}
+                title={vision.title}
+                intro={vision.intro}
+                listLabel="We envision"
+                items={vision.highlights}
+              />
             </MotionItem>
-            <MotionItem className="rounded-2xl border border-border bg-background p-6 shadow-sm sm:p-8">
-              <div className="inline-flex rounded-xl bg-brand/10 p-3">
-                <MissionIcon />
-              </div>
-              <h2 className="mt-4 text-xl font-semibold text-brand sm:text-2xl">
-                {mission.title}
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base lg:text-lg">
-                {mission.intro}
-              </p>
-              <p className="mt-4 text-sm font-medium text-foreground sm:text-base">
-                We are committed to:
-              </p>
-              <ul className="mt-3 space-y-2">
-                {mission.commitments.map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-2 text-sm leading-relaxed text-muted sm:text-base"
-                  >
-                    <CheckIcon className="mt-0.5 shrink-0 text-brand" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+            <MotionItem className="h-full">
+              <VisionMissionCard
+                icon={<MissionIcon />}
+                title={mission.title}
+                intro={mission.intro}
+                listLabel="We are committed to"
+                items={mission.commitments}
+              />
             </MotionItem>
           </MotionStagger>
           <div className="mx-auto mt-10 max-w-3xl">
@@ -271,6 +372,10 @@ export default function AboutPage() {
           </MotionStagger>
           </MotionSection>
         </div>
+      </section>
+
+      <section className="border-y border-border bg-surface">
+        <LeadershipSection />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">

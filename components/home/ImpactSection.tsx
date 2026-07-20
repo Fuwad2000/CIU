@@ -1,5 +1,6 @@
 "use client";
 
+import CountUpStat from "@/components/home/CountUpStat";
 import SectionContainer from "@/components/home/SectionContainer";
 import SectionHeading from "@/components/home/SectionHeading";
 import {
@@ -40,9 +41,8 @@ export default function ImpactSection() {
       <SectionContainer className="relative">
         <SectionHeading heading={impactContent.heading} light />
 
-        {/* Placeholder statistics — replace with confirmed organizational data before publishing. */}
         <MotionStagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {impactContent.stats.map((stat) => (
+          {impactContent.stats.map((stat, index) => (
             <MotionItem
               key={stat.label}
               className="group rounded-2xl border border-white/15 bg-white/10 px-6 py-8 text-center shadow-premium backdrop-blur-md transition duration-300 hover:border-white/30 hover:bg-white/15"
@@ -50,8 +50,8 @@ export default function ImpactSection() {
               <div className="mx-auto mb-4 inline-flex rounded-full bg-white/10 p-3.5 ring-1 ring-white/15 transition group-hover:bg-white/15">
                 <ImpactIcon icon={stat.icon} />
               </div>
-              <p className="text-3xl font-semibold text-white sm:text-4xl lg:text-[2.5rem]">
-                {stat.value}
+              <p className="text-3xl font-semibold tabular-nums text-white sm:text-4xl lg:text-[2.5rem]">
+                <CountUpStat value={stat.value} suffix="+" delay={index * 120} />
               </p>
               <p className="mt-2 text-sm font-medium text-white/90 sm:text-base">
                 {stat.label}

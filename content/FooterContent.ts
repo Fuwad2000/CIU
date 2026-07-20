@@ -36,7 +36,7 @@ export const footerContent = {
     name: "CIU",
     tagline: "The One Big Family",
     description:
-      "Canadian Islamic Union serves families across the GTA through faith, education, and community support.",
+      "Canadian Islamic Union is a nonprofit organization serving families across the GTA through faith, education, and community support.",
     logoSrc: "/images/logo.png",
     logoAlt: "Canadian Islamic Union logo",
   },

@@ -6,15 +6,11 @@ import { MotionSection } from "@/components/motion";
 import { aboutContent } from "@/content/AboutContent";
 
 export default function AboutHero() {
-  const { label, organization, headline, intro, imageSrc, imageAlt } = aboutContent.hero;
+  const { label, headline, badge, intro, imageSrc, imageAlt } = aboutContent.hero;
 
   return (
     <section className="relative h-[420px] overflow-hidden sm:h-[480px] lg:h-[580px]">
-      {/*
-        TODO: Replace /images/about/about-hero.svg with an approved CIU community
-        photograph (e.g. about-hero.jpg) before publishing.
-      */}
-      <Image src={imageSrc} alt={imageAlt} fill priority sizes="100vw" className="object-cover" />
+      <Image src={imageSrc} alt={imageAlt} fill priority sizes="100vw" className="object-cover object-center" />
       <div className="absolute inset-0 bg-hero-overlay" />
       <div className="absolute inset-0 bg-brand/35 mix-blend-multiply" />
 
@@ -25,11 +21,18 @@ export default function AboutHero() {
             {label}
           </p>
           <div className="gold-accent-bar mt-4" aria-hidden="true" />
-          <p className="mt-4 text-sm font-medium text-white/90 sm:text-base">{organization}</p>
-          <h1 className="mt-3 text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+          <h1 className="mt-5 text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
             {headline}
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/92 sm:text-base lg:text-lg">
+          {badge ? (
+            <p className="mt-5 inline-flex items-center gap-2.5 rounded-full border border-gold/35 bg-white/8 px-4 py-1.5 backdrop-blur-sm">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-light" aria-hidden="true" />
+              <span className="text-[11px] font-medium tracking-[0.18em] text-white/95 uppercase sm:text-xs">
+                {badge}
+              </span>
+            </p>
+          ) : null}
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/92 sm:text-base lg:text-lg">
             {intro}
           </p>
         </MotionSection>

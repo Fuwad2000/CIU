@@ -14,38 +14,36 @@ import {
 import SectionContainer from "@/components/home/SectionContainer";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/home/icons";
 import { easeOut } from "@/components/motion/variants";
+import { useSubtleMotion } from "@/components/motion/useSubtleMotion";
 import { heroSlides, type HeroSlide } from "@/content/HomeContent";
 
 const AUTOPLAY_MS = 6000;
-const SWIPE_THRESHOLD = 50;
+const SWIPE_THRESHOLD = 56;
 
-const heroSpring = { type: "spring" as const, stiffness: 120, damping: 18 };
-const heroSpringSnappy = { type: "spring" as const, stiffness: 160, damping: 20 };
+const heroSpring = { type: "spring" as const, stiffness: 110, damping: 22 };
 
 const slideContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.11,
-      delayChildren: 0.08,
+      staggerChildren: 0.07,
+      delayChildren: 0.04,
     },
   },
   exit: {
     opacity: 0,
-    x: -48,
-    filter: "blur(8px)",
-    transition: { duration: 0.32, ease: easeOut },
+    y: -10,
+    transition: { duration: 0.24, ease: easeOut },
   },
 };
 
 const labelVariants = {
-  hidden: { opacity: 0, x: -56, filter: "blur(10px)" },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
-    x: 0,
-    filter: "blur(0px)",
-    transition: heroSpringSnappy,
+    y: 0,
+    transition: { duration: 0.45, ease: easeOut },
   },
 };
 
@@ -53,28 +51,25 @@ const headingContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.09, delayChildren: 0.06 },
+    transition: { staggerChildren: 0.05, delayChildren: 0.02 },
   },
 };
 
 const headingWordVariants = {
-  hidden: { opacity: 0, y: 56, rotateX: -55, scale: 0.88 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    rotateX: 0,
-    scale: 1,
     transition: heroSpring,
   },
 };
 
 const textVariants = {
-  hidden: { opacity: 0, y: 32, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 14 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: { ...heroSpring, stiffness: 100 },
+    transition: { duration: 0.5, ease: easeOut },
   },
 };
 
@@ -82,17 +77,16 @@ const buttonsContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+    transition: { staggerChildren: 0.07, delayChildren: 0.02 },
   },
 };
 
 const buttonVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.86 },
+  hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: heroSpringSnappy,
+    transition: { duration: 0.4, ease: easeOut },
   },
 };
 
@@ -114,16 +108,16 @@ function slideButtonClass(variant: "primary" | "gold") {
 
 function SlideContent({
   slide,
-  reduceMotion,
+  simpleMotion,
 }: {
   slide: HeroSlide;
-  reduceMotion: boolean;
+  simpleMotion: boolean;
 }) {
   const headingWords = slide.heading.split(" ");
   const arabicLabel = slide.label ? isArabicText(slide.label) : false;
 
   const content = (
-    <div className="max-w-2xl [perspective:1200px]">
+    <div className="max-w-2xl">
       {slide.label ? (
         <p
           dir={arabicLabel ? "rtl" : "ltr"}
@@ -144,8 +138,8 @@ function SlideContent({
         className={`${slide.label ? "mt-5" : ""} text-3xl font-semibold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-6xl`}
       >
         {headingWords.map((word, index) => (
-          <span key={`${word}-${index}`} className="inline-block overflow-hidden">
-            <span className="mr-[0.28em] inline-block">{word}</span>
+          <span key={`${word}-${index}`} className="mr-[0.28em] inline-block">
+            {word}
           </span>
         ))}
       </h1>
@@ -168,7 +162,7 @@ function SlideContent({
     </div>
   );
 
-  if (reduceMotion) {
+  if (simpleMotion) {
     return content;
   }
 
@@ -205,7 +199,7 @@ function SlideContent({
           <motion.span
             key={`${word}-${index}`}
             variants={headingWordVariants}
-            className="mr-[0.28em] inline-block origin-bottom"
+            className="mr-[0.28em] inline-block"
           >
             {word}
           </motion.span>
@@ -249,8 +243,8 @@ function SlideContent({
 export default function HeroCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  const simpleMotion = useSubtleMotion();
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const totalSlides = heroSlides.length;
 
   const goToSlide = useCallback((index: number) => {
@@ -266,19 +260,11 @@ export default function HeroCarousel() {
   }, [activeIndex, goToSlide]);
 
   useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduceMotion(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    if (isPaused || reduceMotion) return;
+    if (isPaused || simpleMotion) return;
 
     const timer = window.setInterval(nextSlide, AUTOPLAY_MS);
     return () => window.clearInterval(timer);
-  }, [activeIndex, isPaused, reduceMotion, nextSlide]);
+  }, [activeIndex, isPaused, simpleMotion, nextSlide]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key === "ArrowLeft") {
@@ -292,17 +278,28 @@ export default function HeroCarousel() {
   };
 
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
-    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+    const touch = event.targetTouches[0];
+    if (!touch) return;
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
   };
 
   const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
-    if (touchStartX.current === null) return;
+    if (!touchStart.current) return;
 
-    const delta = touchStartX.current - event.changedTouches[0].clientX;
-    touchStartX.current = null;
+    const touch = event.changedTouches[0];
+    if (!touch) {
+      touchStart.current = null;
+      return;
+    }
 
-    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
-    if (delta > 0) nextSlide();
+    const deltaX = touchStart.current.x - touch.clientX;
+    const deltaY = touchStart.current.y - touch.clientY;
+    touchStart.current = null;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
+    if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    if (deltaX > 0) nextSlide();
     else previousSlide();
   };
 
@@ -312,13 +309,12 @@ export default function HeroCarousel() {
     <section
       aria-roledescription="carousel"
       aria-label="Featured highlights"
-      className="relative h-[560px] overflow-hidden sm:h-[620px] lg:h-[700px]"
+      className="relative h-[560px] touch-pan-y overflow-hidden sm:h-[620px] lg:h-[700px]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      tabIndex={0}
     >
       {heroSlides.map((slide, index) => (
         <div
@@ -326,7 +322,7 @@ export default function HeroCarousel() {
           aria-hidden={index !== activeIndex}
           className={`absolute inset-0 transition-opacity duration-700 ${
             index === activeIndex ? "opacity-100" : "pointer-events-none opacity-0"
-          } ${reduceMotion ? "transition-none" : "ease-in-out"}`}
+          } ${simpleMotion ? "transition-none" : "ease-in-out"}`}
         >
           <Image
             src={slide.imageSrc}
@@ -335,27 +331,31 @@ export default function HeroCarousel() {
             priority={index === 0}
             sizes="100vw"
             className={`object-cover ${
-              index === activeIndex && !reduceMotion ? "animate-hero-ken-burns" : ""
+              index === activeIndex && !simpleMotion ? "animate-hero-ken-burns" : ""
             }`}
           />
-          <div className="absolute inset-0 bg-hero-overlay" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-hero-carousel-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
         </div>
       ))}
 
       <SectionContainer className="relative z-10 flex h-full items-center py-10">
         <div aria-live="polite">
-          <AnimatePresence mode="wait">
-            <SlideContent
-              key={activeIndex}
-              slide={currentSlide}
-              reduceMotion={reduceMotion}
-            />
-          </AnimatePresence>
+          {simpleMotion ? (
+            <SlideContent slide={currentSlide} simpleMotion />
+          ) : (
+            <AnimatePresence initial={false} mode="sync">
+              <SlideContent
+                key={activeIndex}
+                slide={currentSlide}
+                simpleMotion={false}
+              />
+            </AnimatePresence>
+          )}
         </div>
       </SectionContainer>
 
-      {!reduceMotion ? (
+      {!simpleMotion ? (
         <div
           className="absolute inset-x-0 bottom-0 z-10 h-1 bg-white/10"
           aria-hidden="true"
