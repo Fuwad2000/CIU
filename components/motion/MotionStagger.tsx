@@ -1,65 +1,72 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { Children, createContext, useContext, type ReactNode } from "react";
 import {
-  fadeUpVariants,
-  itemTransition,
-  staggerContainerVariants,
-  subtleFadeVariants,
-  viewport,
-} from "@/components/motion/variants";
-import { useIsMobile } from "@/components/motion/useSubtleMotion";
+  aosDefaults,
+  pickScrollAnimation,
+  type AosScrollAnimation,
+} from "@/components/aos/config";
+import { useReducedScrollMotion } from "@/components/motion/useReducedScrollMotion";
+import { useAosRefresh } from "@/components/aos/useAosRefresh";
+
+const StaggerIndexContext = createContext(0);
 
 export function MotionStagger({
   children,
   className = "",
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
-  const isMobile = useIsMobile();
+  const reduceMotion = useReducedScrollMotion();
+  useAosRefresh();
+  const items = Children.toArray(children);
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-      variants={staggerContainerVariants}
-    >
-      {children}
-    </motion.div>
+    <div className={className}>
+      {items.map((child, index) => (
+        <StaggerIndexContext.Provider key={index} value={index}>
+          {child}
+        </StaggerIndexContext.Provider>
+      ))}
+    </div>
   );
 }
 
 export function MotionItem({
   children,
   className = "",
+  animation,
+  delay,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
+  animation?: AosScrollAnimation;
+  delay?: number;
 }) {
-  const reduceMotion = useReducedMotion();
-  const isMobile = useIsMobile();
+  const reduceMotion = useReducedScrollMotion();
+  const staggerIndex = useContext(StaggerIndexContext);
+  const resolvedAnimation = animation ?? pickScrollAnimation(staggerIndex);
+  const resolvedDelay = delay ?? staggerIndex * aosDefaults.staggerStep;
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;
   }
 
   return (
-    <motion.div
+    <div
       className={className}
-      variants={isMobile ? subtleFadeVariants : fadeUpVariants}
-      transition={
-        isMobile ? { duration: 0.45, ease: itemTransition.ease } : itemTransition
-      }
+      data-aos={resolvedAnimation}
+      data-aos-duration={aosDefaults.duration}
+      data-aos-delay={resolvedDelay}
+      data-aos-easing={aosDefaults.easing}
+      data-aos-once="true"
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

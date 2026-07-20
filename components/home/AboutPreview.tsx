@@ -16,13 +16,13 @@ export default function AboutPreview() {
   return (
     <section className={`${homeSectionClass} bg-section-warm`}>
       <SectionContainer>
-        <MotionStagger className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <MotionStagger className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20 xl:gap-24">
           <MotionItem className="relative">
             <div
-              className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-brand/10 via-transparent to-gold/10 blur-2xl"
+              className="absolute -inset-5 rounded-[2.25rem] bg-gradient-to-br from-brand/10 via-transparent to-gold/10 blur-2xl"
               aria-hidden="true"
             />
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border/80 shadow-premium-lg">
+            <div className="relative aspect-[5/4] overflow-hidden rounded-[2rem] border border-border/80 shadow-premium-xl sm:aspect-[4/3]">
               <div className="absolute left-0 top-0 z-10 h-16 w-16 border-l-4 border-t-4 border-gold/80 rounded-tl-3xl" aria-hidden="true" />
               <Image
                 src={aboutPreviewContent.imageSrc}
@@ -41,12 +41,12 @@ export default function AboutPreview() {
               label={aboutPreviewContent.label}
               heading={aboutPreviewContent.heading}
             />
-            <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base lg:text-lg">
+            <div className="mt-8 space-y-5 text-base leading-relaxed text-muted sm:text-lg lg:text-xl">
               {aboutPreviewContent.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
-            <Link href={aboutPreviewContent.button.href} className={`${homeBtnPrimaryClass} mt-8`}>
+            <Link href={aboutPreviewContent.button.href} className={`${homeBtnPrimaryClass} mt-10`}>
               {aboutPreviewContent.button.label}
               <ArrowRightIcon />
             </Link>

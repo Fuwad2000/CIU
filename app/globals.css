@@ -28,30 +28,28 @@
   --color-gold-light: var(--gold-light);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --text-xs: 0.8125rem;
-  --text-sm: 0.9375rem;
-  --text-base: 1.0625rem;
-  --text-lg: 1.1875rem;
-  --text-xl: 1.3125rem;
-}
-
-html {
-  font-size: 17px;
-}
-
-@media (min-width: 1024px) {
-  html {
-    font-size: 18px;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  line-height: 1.65;
+  line-height: 1.6;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+[data-aos] {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 .bg-gold-gradient {
@@ -106,6 +104,12 @@ body {
     0 20px 48px rgba(28, 25, 23, 0.12);
 }
 
+.shadow-premium-xl {
+  box-shadow:
+    0 8px 16px rgba(28, 25, 23, 0.06),
+    0 28px 64px rgba(28, 25, 23, 0.14);
+}
+
 .card-premium {
   border: 1px solid color-mix(in srgb, var(--border) 85%, white);
   background: var(--surface);
@@ -115,18 +119,18 @@ body {
 }
 
 .home-section {
-  padding-block: 3.5rem;
+  padding-block: 4.5rem;
 }
 
 @media (min-width: 640px) {
   .home-section {
-    padding-block: 4rem;
+    padding-block: 5.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .home-section {
-    padding-block: 5rem;
+    padding-block: 6.5rem;
   }
 }
 
@@ -140,6 +144,17 @@ body {
     var(--gold) 55%,
     var(--gold-dark) 100%
   );
+}
+
+.gold-accent-bar-lg {
+  height: 4px;
+  width: 4.5rem;
+}
+
+@media (min-width: 1024px) {
+  .gold-accent-bar-lg {
+    width: 5.5rem;
+  }
 }
 
 @keyframes hero-progress {

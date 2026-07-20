@@ -1,44 +1,40 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import {
-  fadeUpVariants,
-  sectionTransition,
-  subtleFadeVariants,
-  viewport,
-} from "@/components/motion/variants";
-import { useIsMobile } from "@/components/motion/useSubtleMotion";
+  aosDefaults,
+  type AosScrollAnimation,
+} from "@/components/aos/config";
+import { useReducedScrollMotion } from "@/components/motion/useReducedScrollMotion";
+import { useAosRefresh } from "@/components/aos/useAosRefresh";
 
 export default function MotionSection({
   children,
   className = "",
   delay = 0,
+  animation = "fade-up",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  animation?: AosScrollAnimation;
 }) {
-  const reduceMotion = useReducedMotion();
-  const isMobile = useIsMobile();
+  const reduceMotion = useReducedScrollMotion();
+  useAosRefresh();
 
   if (reduceMotion) {
     return className ? <div className={className}>{children}</div> : children;
   }
 
   return (
-    <motion.div
+    <div
       className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-      variants={isMobile ? subtleFadeVariants : fadeUpVariants}
-      transition={
-        isMobile
-          ? { duration: 0.5, ease: sectionTransition.ease, delay }
-          : { ...sectionTransition, delay }
-      }
+      data-aos={animation}
+      data-aos-duration={aosDefaults.duration}
+      data-aos-delay={delay}
+      data-aos-easing={aosDefaults.easing}
+      data-aos-once="true"
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

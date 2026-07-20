@@ -52,7 +52,7 @@ export default function MissionPillars() {
           subheading={missionPillarsContent.subheading}
         />
 
-        <MotionStagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
+        <MotionStagger className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {missionPillarsContent.pillars.map((pillar) => (
             <MotionItem
               key={pillar.title}

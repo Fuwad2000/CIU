@@ -39,21 +39,25 @@ export default function ImpactSection() {
       />
 
       <SectionContainer className="relative">
-        <SectionHeading heading={impactContent.heading} light />
+        <SectionHeading
+          heading={impactContent.heading}
+          subheading={impactContent.subheading}
+          light
+        />
 
-        <MotionStagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <MotionStagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
           {impactContent.stats.map((stat, index) => (
             <MotionItem
               key={stat.label}
-              className="group rounded-2xl border border-white/15 bg-white/10 px-6 py-8 text-center shadow-premium backdrop-blur-md transition duration-300 hover:border-white/30 hover:bg-white/15"
+              className="group rounded-3xl border border-white/15 bg-white/10 px-7 py-10 text-center shadow-premium backdrop-blur-md transition duration-300 hover:border-white/30 hover:bg-white/15 hover:shadow-premium-lg"
             >
-              <div className="mx-auto mb-4 inline-flex rounded-full bg-white/10 p-3.5 ring-1 ring-white/15 transition group-hover:bg-white/15">
+              <div className="mx-auto mb-5 inline-flex rounded-full bg-white/10 p-4 ring-1 ring-white/15 transition group-hover:bg-white/15">
                 <ImpactIcon icon={stat.icon} />
               </div>
-              <p className="text-3xl font-semibold tabular-nums text-white sm:text-4xl lg:text-[2.5rem]">
+              <p className="text-4xl font-semibold tabular-nums text-white sm:text-5xl lg:text-[3.25rem]">
                 <CountUpStat value={stat.value} suffix="+" delay={index * 120} />
               </p>
-              <p className="mt-2 text-sm font-medium text-white/90 sm:text-base">
+              <p className="mt-3 text-base font-medium text-white/90 sm:text-lg">
                 {stat.label}
               </p>
             </MotionItem>

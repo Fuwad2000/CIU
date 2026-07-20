@@ -22,11 +22,11 @@ export default function GalleryPreview() {
           subheading={galleryContent.subheading}
         />
 
-        <MotionStagger className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+        <MotionStagger className="mt-14 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6">
           {galleryContent.items.map((item, index) => (
             <MotionItem
               key={item.imageSrc}
-              className={`group relative overflow-hidden rounded-2xl border border-border/80 shadow-premium transition duration-500 hover:shadow-premium-lg ${
+              className={`group relative overflow-hidden rounded-3xl border border-border/80 shadow-premium transition duration-500 hover:shadow-premium-xl ${
                 index === 0
                   ? "col-span-2 row-span-2 aspect-[16/10] lg:col-span-2 lg:row-span-2"
                   : "aspect-square"

@@ -43,50 +43,12 @@ export default function TopBar({ compact = false }: { compact?: boolean }) {
 
   return (
     <div
-      className={`bg-brand text-white transition-all duration-300 ease-out ${
+      className={`hidden bg-brand text-white transition-all duration-300 ease-out lg:block ${
         compact ? "lg:shadow-none" : ""
       }`}
     >
       <div
-        className={`overflow-hidden transition-all duration-300 ease-out lg:hidden ${
-          compact ? "max-h-0 opacity-0" : "max-h-80 opacity-100"
-        }`}
-        aria-hidden={compact}
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 text-sm leading-relaxed sm:px-6 sm:text-base">
-          <div className="flex flex-col gap-3">
-            <a
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-start gap-2 transition-opacity hover:opacity-90 sm:items-center"
-            >
-              <MapIcon />
-              <span>{address}</span>
-            </a>
-
-            <a
-              href={phoneHref}
-              className="inline-flex items-center gap-2 transition-opacity hover:opacity-90"
-            >
-              <PhoneIcon />
-              <span>
-                {phoneLabel} <span className="font-medium">{phone}</span>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={`bg-brand-dark transition-all duration-300 lg:hidden ${
-          compact ? "h-1" : "h-0"
-        }`}
-        aria-hidden={!compact}
-      />
-
-      <div
-        className={`hidden overflow-hidden transition-all duration-300 ease-out lg:block ${
+        className={`overflow-hidden transition-all duration-300 ease-out ${
           compact ? "max-h-12 opacity-95" : "max-h-24 opacity-100"
         }`}
       >

@@ -51,7 +51,7 @@ export const heroSlides: HeroSlide[] = [
     imageAlt: "Community members gathered at tables in the CIU hall for an educational event",
     label: "السلام عليكم",
     heading: "Canadian Islamic Union",
-    text: "A nonprofit community organization building faith, strengthening families, and inspiring future generations through Islamic education, spiritual development, community service, and meaningful connection.",
+    text: "A nonprofit dedicated to faith, family, and community across Canada.",
     primaryButton: {
       label: "Explore Our Programs",
       href: "/Services",
@@ -67,6 +67,7 @@ export const heroSlides: HeroSlide[] = [
     id: "education",
     imageSrc: "/images/home/home_hero2.png",
     imageAlt: "Collage of CIU students and teachers engaged in Islamic education",
+    label: "EDUCATION",
     heading: "Education Rooted in Faith",
     text: "Providing meaningful Islamic education that nurtures knowledge, character, confidence, and spiritual growth.",
     primaryButton: {
@@ -79,6 +80,7 @@ export const heroSlides: HeroSlide[] = [
     id: "families",
     imageSrc: "/images/home/home_hero3.png",
     imageAlt: "Muslim families and community members gathered outdoors for prayer and fellowship",
+    label: "COMMUNITY",
     heading: "Stronger Families. Stronger Communities.",
     text: "Creating opportunities for Muslim families to learn, connect, grow, and support one another.",
     primaryButton: {
@@ -91,6 +93,7 @@ export const heroSlides: HeroSlide[] = [
     id: "volunteers",
     imageSrc: "/images/home/home_hero4.png",
     imageAlt: "CIU volunteers serving the community through donations, education, and outreach",
+    label: "VOLUNTEER",
     heading: "Serve. Connect. Make an Impact.",
     text: "Join our volunteers and community partners as we work together to create lasting positive change.",
     primaryButton: {
@@ -228,12 +231,31 @@ export const upcomingEventsContent = {
 /** Placeholder statistics — replace with confirmed organizational data before publishing. */
 export const impactContent = {
   heading: "Growing Together Through Faith and Service",
+  subheading: "Numbers that reflect a community committed to learning, service, and connection.",
   stats: [
     { value: 850, label: "Families Supported", icon: "users" },
     { value: 420, label: "Students", icon: "graduation-cap" },
     { value: 175, label: "Volunteers", icon: "hand-heart" },
     { value: 38, label: "Community Initiatives", icon: "sparkles" },
   ] satisfies ImpactStat[],
+};
+
+export const homeTrustStripContent = {
+  items: [
+    "Nonprofit Organization",
+    "Faith & Family",
+    "Community Service",
+    "Islamic Education",
+  ],
+};
+
+export const homeCtaContent = {
+  label: "GET INVOLVED",
+  heading: "Help Us Build a Stronger Community",
+  subheading:
+    "Support our programs, volunteer your time, or stay connected with CIU.",
+  primary: { label: "Donate Today", href: "/Donate" },
+  secondary: { label: "Contact Us", href: "/Contact" },
 };
 
 export const galleryContent = {

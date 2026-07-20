@@ -23,11 +23,11 @@ export default function UpcomingEvents() {
           subheading={upcomingEventsContent.subheading}
         />
 
-        <MotionStagger className="mt-12 grid gap-6 lg:grid-cols-3">
+        <MotionStagger className="mt-14 grid gap-7 lg:grid-cols-3">
           {upcomingEventsContent.events.map((event) => (
             <MotionItem key={event.name}>
               <article
-                className={`group relative h-full overflow-hidden ${homeCardInteractiveClass} border-l-4 border-l-gold/70 p-6 sm:p-7`}
+                className={`group relative h-full overflow-hidden ${homeCardInteractiveClass} border-l-[5px] border-l-gold/75 p-7 sm:p-8`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="rounded-2xl bg-brand/10 p-3 text-brand shadow-sm">
@@ -43,7 +43,7 @@ export default function UpcomingEvents() {
                   {event.time}
                 </p>
 
-                <h3 className="mt-3 text-lg font-semibold text-foreground sm:text-xl">
+                <h3 className="mt-4 text-xl font-semibold text-foreground sm:text-2xl">
                   {event.name}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">

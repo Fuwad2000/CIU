@@ -18,7 +18,7 @@ export default function LeadershipPreview() {
       <SectionContainer>
         <SectionHeading label={label} heading={heading} subheading={subheading} />
 
-        <MotionStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
+        <MotionStagger className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {members.map((member) => (
             <MotionItem key={member.id}>
               <TeamMemberCard member={member} compact />
