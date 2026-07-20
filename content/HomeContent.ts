@@ -289,5 +289,5 @@ export const galleryContent = {
     },
   ] satisfies GalleryItem[],
   viewAllLabel: "View Full Gallery",
-  viewAllHref: "#",
+  viewAllHref: "/Media/images",
 };

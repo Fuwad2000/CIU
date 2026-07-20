@@ -1,10 +1,13 @@
-export default function CiuLecturesPage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-semibold text-foreground">CIU Lectures</h1>
-      <p className="mt-4 max-w-2xl text-muted">
-        Recorded lectures and talks from CIU scholars will appear here.
-      </p>
-    </div>
-  );
+import type { Metadata } from "next";
+import MediaLecturesPage from "@/components/media/MediaLecturesPage";
+import { siteContent } from "@/content/SiteContent";
+
+export const metadata: Metadata = {
+  title: `CIU Lectures | ${siteContent.shortName}`,
+  description:
+    "Sample lecture library layout for CIU recorded talks, reminders, and educational sessions.",
+};
+
+export default function Page() {
+  return <MediaLecturesPage />;
 }

@@ -6,9 +6,9 @@
   --surface: #ffffff;
   --muted: #78716c;
   --border: #e7e5e4;
-  --brand: #0f766e;
-  --brand-dark: #0d5f58;
-  --brand-light: #ccfbf1;
+  --brand: #174d32;
+  --brand-dark: #0a3220;
+  --brand-light: #d5e8dd;
   --gold: #b8891f;
   --gold-dark: #966f18;
   --gold-light: #d4ad4a;
@@ -66,7 +66,7 @@ body {
     135deg,
     var(--brand-dark) 0%,
     var(--brand) 52%,
-    #11857a 100%
+    color-mix(in srgb, var(--brand) 72%, #2d7a4f 28%) 100%
   );
 }
 

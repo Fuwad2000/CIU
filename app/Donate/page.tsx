@@ -1,7 +1,13 @@
-export default function DonatePage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-semibold text-zinc-900">Donate</h1>
-    </div>
-  );
+import type { Metadata } from "next";
+import DonatePage from "@/components/donate/DonatePage";
+import { siteContent } from "@/content/SiteContent";
+
+export const metadata: Metadata = {
+  title: `Donate | ${siteContent.shortName}`,
+  description:
+    "Support the Canadian Islamic Union through Interac e-Transfer, PayPal, cheque, or in-person giving.",
+};
+
+export default function Page() {
+  return <DonatePage />;
 }
