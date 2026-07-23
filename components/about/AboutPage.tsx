@@ -1,6 +1,11 @@
 import AboutHero from "@/components/about/AboutHero";
+import CharityRegistrationBanner from "@/components/about/CharityRegistrationBanner";
 import LeadershipSection from "@/components/about/LeadershipSection";
 import ImagePlaceholder from "@/components/about/ImagePlaceholder";
+import {
+  homeBtnOutlineClass,
+  homeBtnPrimaryClass,
+} from "@/components/home/homeUi";
 import {
   AcademyIcon,
   CheckIcon,
@@ -15,6 +20,7 @@ import {
 } from "@/components/about/icons";
 import { MotionItem, MotionSection, MotionStagger } from "@/components/motion";
 import { aboutContent, type ServiceItem, type StatItem, type ValueItem } from "@/content/AboutContent";
+import Link from "next/link";
 
 function SectionHeading({
   title,
@@ -234,6 +240,8 @@ export default function AboutPage() {
     <div className="overflow-x-hidden bg-background">
       <AboutHero />
 
+      <CharityRegistrationBanner />
+
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <MotionSection>
           <StorySection
@@ -343,6 +351,19 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <a
+                href={alAzhar.portalHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={homeBtnPrimaryClass}
+              >
+                Student Portal — Log In
+              </a>
+              <Link href="/Education" className={homeBtnOutlineClass}>
+                Explore Azhar Canada
+              </Link>
+            </div>
           </MotionItem>
           <MotionItem>
           <ImagePlaceholder {...alAzhar.image} aspect="wide" />

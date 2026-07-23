@@ -11,7 +11,7 @@ export const navLinks: NavItem[] = [
       { href: "/Services#spiritual-guidance", label: "Spiritual Guidance" },
       { href: "/Services/family-counseling", label: "Family Services" },
       { href: "/Events/youth-gathering", label: "Youth Development" },
-      { href: "/Education", label: "Islamic Education" },
+      { href: "/Education", label: "Azhar Canada" },
       { href: "/Events", label: "Community Programs" },
       { href: "/Projects", label: "Charitable Initiatives" },
     ],

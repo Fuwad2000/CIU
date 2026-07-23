@@ -23,10 +23,6 @@ export default function EventsHero() {
 
   return (
     <section className="relative h-[420px] overflow-hidden sm:h-[480px] lg:h-[580px]">
-      {/*
-        TODO: Replace /images/events/events-hero.svg with an approved CIU community
-        photograph (e.g. events-hero.jpg) before publishing.
-      */}
       <Image src={imageSrc} alt={imageAlt} fill priority sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-hero-overlay" />
       <div className="absolute inset-0 bg-brand/35 mix-blend-multiply" />

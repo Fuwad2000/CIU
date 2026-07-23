@@ -15,10 +15,6 @@ export default function ServicesHero() {
 
   return (
     <section className="relative h-[450px] overflow-hidden sm:h-[520px] lg:h-[620px]">
-      {/*
-        TODO: Replace /images/services/services-hero.svg with an approved CIU community
-        photograph (e.g. services-hero.jpg) before publishing.
-      */}
       <Image
         src={imageSrc}
         alt={imageAlt}

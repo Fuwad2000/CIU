@@ -14,6 +14,8 @@ export type DonationMethod = {
   featured?: boolean;
 };
 
+export const donationEmail = "Canadianislamicunion@gmail.com";
+
 export const donateContent = {
   hero: {
     label: "SUPPORT CIU",
@@ -55,7 +57,7 @@ export const donateContent = {
     description:
       "The fastest way to support CIU from any Canadian bank. Send your gift securely using the details below.",
     emailLabel: "Send to",
-    email: "donations@ciucanada.ca",
+    email: donationEmail,
     memoPrefix: "CIU Donation",
     memoHint:
       "Use the message below so we can identify and acknowledge your gift. The CIU Donation prefix stays the same for every transfer.",
@@ -82,12 +84,16 @@ export const donateContent = {
   paypal: {
     title: "PayPal",
     description:
-      "Donate online by card or PayPal balance through our secure PayPal link.",
+      "Donate online by card or PayPal balance. Send your gift to the CIU PayPal email below.",
+    emailLabel: "Send to",
+    email: donationEmail,
     buttonLabel: "Donate with PayPal",
     href:
       process.env.NEXT_PUBLIC_PAYPAL_DONATE_URL ??
-      "https://www.paypal.com/donate/?hosted_button_id=REPLACE_ME",
-    note: "Replace the PayPal link in your environment settings when your hosted button is ready.",
+      "https://www.paypal.com/myaccount/transfer/send",
+    note: "Use PayPal Send Money and enter the CIU email above, or your configured PayPal donate link when available.",
+    copyEmailLabel: "Copy email",
+    copiedLabel: "Copied",
   },
   otherMethods: [
     {

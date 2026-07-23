@@ -5,7 +5,7 @@ import Link from "next/link";
 import SectionContainer from "@/components/home/SectionContainer";
 import { homeBtnOutlineClass, homeBtnPrimaryClass, homeSectionClass } from "@/components/home/homeUi";
 import { MotionItem, MotionStagger } from "@/components/motion";
-import { mediaHubContent } from "@/content/MediaContent";
+import { mediaGalleryItems, mediaHubContent } from "@/content/MediaContent";
 import { ArrowUpRight } from "lucide-react";
 
 export default function MediaHubCards() {
@@ -57,6 +57,12 @@ export default function MediaHubCards() {
 
 export function MediaFeaturedStrip() {
   const { featuredHeading, featuredSubheading } = mediaHubContent;
+  const seenAlbums = new Set<string>();
+  const highlightPhotos = mediaGalleryItems.filter((item) => {
+    if (seenAlbums.has(item.album)) return false;
+    seenAlbums.add(item.album);
+    return true;
+  }).slice(0, 3);
 
   return (
     <section className={`${homeSectionClass} bg-surface`}>
@@ -69,17 +75,28 @@ export function MediaFeaturedStrip() {
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {mediaHubContent.cards.map((card) => (
+          {highlightPhotos.map((item) => (
             <Link
-              key={card.id}
-              href={card.href}
-              className="rounded-2xl border border-border/80 bg-background/70 p-5 transition hover:border-brand/20 hover:shadow-premium"
+              key={item.id}
+              href="/Media/images"
+              className="group overflow-hidden rounded-2xl border border-border/80 bg-background/70 transition hover:border-brand/20 hover:shadow-premium"
             >
-              <p className="text-xs font-semibold tracking-[0.14em] text-brand uppercase">
-                Sample Layout
-              </p>
-              <p className="mt-2 text-base font-semibold text-foreground">{card.title}</p>
-              <p className="mt-2 text-sm text-muted">Ready for CIU media content</p>
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={item.imageSrc}
+                  alt={item.imageAlt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 25vw"
+                  className="object-cover transition duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-5">
+                <p className="text-xs font-semibold tracking-[0.14em] text-brand uppercase">
+                  {item.album}
+                </p>
+                <p className="mt-2 text-base font-semibold text-foreground">{item.title}</p>
+                <p className="mt-2 text-sm text-muted">{item.dateLabel}</p>
+              </div>
             </Link>
           ))}
           <Link
@@ -87,10 +104,10 @@ export function MediaFeaturedStrip() {
             className="rounded-2xl border border-dashed border-brand/25 bg-brand/5 p-5 transition hover:border-brand/35 hover:bg-brand/8"
           >
             <p className="text-xs font-semibold tracking-[0.14em] text-brand uppercase">
-              Add More
+              View All
             </p>
-            <p className="mt-2 text-base font-semibold text-foreground">New Albums & Series</p>
-            <p className="mt-2 text-sm text-muted">Expand galleries and lecture collections</p>
+            <p className="mt-2 text-base font-semibold text-foreground">Browse Photo Galleries</p>
+            <p className="mt-2 text-sm text-muted">See all {mediaGalleryItems.length} photos from CIU</p>
           </Link>
         </div>
 

@@ -55,24 +55,35 @@ function FooterNavLink({
   label: string;
   compact?: boolean;
 }) {
-  return (
-    <Link
-      href={href}
-      className={`group flex items-center justify-between rounded-lg text-white no-underline transition-all hover:underline hover:underline-offset-4 ${
-        compact
-          ? "gap-2 border border-white/20 bg-white/10 px-2.5 py-2.5 text-sm hover:border-white/35 hover:bg-white/15 sm:text-base lg:gap-3 lg:px-3 lg:py-2.5 lg:text-lg"
-          : "gap-4 px-2 py-2.5 text-base sm:text-lg"
+  const className = `group flex items-center justify-between rounded-lg text-white no-underline transition-all hover:underline hover:underline-offset-4 ${
+    compact
+      ? "gap-2 border border-white/20 bg-white/10 px-2.5 py-2.5 text-sm hover:border-white/35 hover:bg-white/15 sm:text-base lg:gap-3 lg:px-3 lg:py-2.5 lg:text-lg"
+      : "gap-4 px-2 py-2.5 text-base sm:text-lg"
+  }`;
+  const trailing = (
+    <span
+      className={`shrink-0 text-brand-light transition-all group-hover:translate-x-0.5 group-hover:text-white ${
+        compact ? "ml-1" : ""
       }`}
+      aria-hidden="true"
     >
+      →
+    </span>
+  );
+
+  if (href.startsWith("http")) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        <span className="min-w-0 truncate">{label}</span>
+        {trailing}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className={className}>
       <span className="min-w-0 truncate">{label}</span>
-      <span
-        className={`shrink-0 text-brand-light transition-all group-hover:translate-x-0.5 group-hover:text-white ${
-          compact ? "ml-1" : ""
-        }`}
-        aria-hidden="true"
-      >
-        →
-      </span>
+      {trailing}
     </Link>
   );
 }

@@ -13,8 +13,8 @@ export type ProjectItem = {
 };
 
 export const projectsImages = {
-  hero: "/images/home/home_hero4.png",
-  featured: "/images/home/home_hero3.png",
+  hero: "/images/projects/projects-hero.png",
+  featured: "/images/projects/featured.png",
 } as const;
 
 export const projectsHeroContent = {
@@ -63,8 +63,8 @@ export const projects: ProjectItem[] = [
     summary:
       "Supports families facing hardship and helps CIU deliver timely community assistance.",
     goalLabel: "Ongoing community need",
-    imageSrc: "/images/home/home_hero3.png",
-    imageAlt: "Community gathering and family support",
+    imageSrc: "/images/projects/outreach.jpg",
+    imageAlt: "Community gathering supporting family outreach",
     href: "/Donate",
   },
   {
@@ -75,8 +75,8 @@ export const projects: ProjectItem[] = [
     summary:
       "Expanding mentorship, leadership, and character-building opportunities for youth.",
     goalLabel: "Program growth phase",
-    imageSrc: "/images/home/home_hero2.png",
-    imageAlt: "Youth education and mentorship",
+    imageSrc: "/images/projects/youth-mentorship.png",
+    imageAlt: "Students and teachers engaged in Islamic education",
     href: "/Contact",
   },
   {
@@ -87,8 +87,8 @@ export const projects: ProjectItem[] = [
     summary:
       "A structured food support effort to assist families and community members in need.",
     goalLabel: "Launch preparation",
-    imageSrc: "/images/events/community-partnership.svg",
-    imageAlt: "Community partnership and support",
+    imageSrc: "/images/projects/food-support.jpg",
+    imageAlt: "Community members gathered during a CIU seminar",
     href: "/Contact",
   },
   {
@@ -99,8 +99,8 @@ export const projects: ProjectItem[] = [
     summary:
       "Resources, guidance, and welcoming support for individuals new to the Muslim community.",
     goalLabel: "Welcoming newcomers",
-    imageSrc: "/images/home/program-community.svg",
-    imageAlt: "Community welcome program",
+    imageSrc: "/images/projects/new-muslim.jpg",
+    imageAlt: "Community member beside the Al-Azhar University welcome banner",
     href: "/Services",
   },
   {
@@ -111,8 +111,8 @@ export const projects: ProjectItem[] = [
     summary:
       "Books, learning materials, and classroom resources for CIU educational programs.",
     goalLabel: "Resource planning",
-    imageSrc: "/images/home/program-academy.svg",
-    imageAlt: "Islamic education resources",
+    imageSrc: "/images/projects/education-resources.jpg",
+    imageAlt: "Teacher instructing students in an Arabic language class",
     href: "/Education",
   },
   {
@@ -123,8 +123,8 @@ export const projects: ProjectItem[] = [
     summary:
       "Maintenance and improvement work that keeps CIU's shared spaces welcoming and functional.",
     goalLabel: "Recently completed phase",
-    imageSrc: "/images/home/home_hero1.png",
-    imageAlt: "CIU community space",
+    imageSrc: "/images/projects/facility-care.jpg",
+    imageAlt: "Interior view of the main prayer hall at CIU",
     href: "/Contact",
   },
 ];

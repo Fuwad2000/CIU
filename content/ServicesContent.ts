@@ -39,11 +39,11 @@ export type YouthPillar = {
 
 // TODO: Replace placeholder image paths with approved CIU community photography (.jpg) when available.
 export const servicesImages = {
-  hero: "/images/services/services-hero.svg",
-  communitySupport: "/images/services/community-support.svg",
-  familyServices: "/images/services/family-services.svg",
-  youthProgram: "/images/services/youth-program.svg",
-  alAzharAcademy: "/images/services/al-azhar-academy.svg",
+  hero: "/images/services/services-hero.jpg",
+  communitySupport: "/images/services/community-support.jpg",
+  familyServices: "/images/services/family-services.jpg",
+  youthProgram: "/images/services/youth-program.jpg",
+  alAzharAcademy: "/media/pictures/posters/azhar-programs-overview.jpg",
 } as const;
 
 export const servicesHeroContent = {
@@ -54,7 +54,7 @@ export const servicesHeroContent = {
   primaryButton: { label: "Explore Our Services", href: "#core-services" },
   secondaryButton: { label: "Contact Us", href: "/Contact" },
   imageSrc: servicesImages.hero,
-  imageAlt: "Placeholder — CIU community services and programs",
+  imageAlt: "Community members gathered during a seminar at the CIU centre",
 };
 
 export const servicesIntroContent = {
@@ -67,7 +67,7 @@ export const servicesIntroContent = {
   highlight:
     "Our services are designed to strengthen the individual, support the family, and uplift the community.",
   imageSrc: servicesImages.communitySupport,
-  imageAlt: "Placeholder — CIU community support and outreach",
+  imageAlt: "Diverse community members attending a learning workshop at CIU",
 };
 
 export const coreServicesContent = {
@@ -143,7 +143,7 @@ export const coreServicesContent = {
         "Online and in-person learning",
         "Family learning programs",
         "Critical thinking and open discussion",
-        "Al-Azhar Academy — a CIU educational initiative",
+        "Al-Azhar accredited programs through Azhar Canada — a CIU educational initiative",
       ],
       buttonLabel: "Explore Education",
       href: "/Education",
@@ -216,7 +216,7 @@ export const familyServicesContent = {
   ] satisfies FeatureBlock[],
   button: { label: "Contact Family Services", href: "/Contact" },
   imageSrc: servicesImages.familyServices,
-  imageAlt: "Placeholder — CIU family services and support",
+  imageAlt: "Families and children gathered in the CIU community centre",
 };
 
 export const youthServicesContent = {
@@ -232,38 +232,45 @@ export const youthServicesContent = {
   ] satisfies YouthPillar[],
   button: { label: "Explore Youth Programs", href: "/Events/youth-gathering" },
   imageSrc: servicesImages.youthProgram,
-  imageAlt: "Placeholder — CIU youth programs and mentorship",
+  imageAlt: "Young student smiling at a CIU community celebration",
 };
 
 export const educationServicesContent = {
   heading: "Education Rooted in Knowledge and Character",
   intro:
-    "CIU's educational services aim to make Islamic knowledge practical, engaging, and accessible for learners of different ages.",
+    "CIU delivers Islamic education through Azhar Canada — the only institute in Canada following the Al-Azhar University curriculum, with programs for children, youth, adults, and families.",
   academy: {
-    title: "Al-Azhar Academy",
-    body: "Al-Azhar Academy is a CIU educational initiative providing quality Islamic education in an online environment for children, youth, adults, and families.",
+    title: "Azhar Canada",
+    body: "Azhar Canada is a proud CIU initiative making high-quality, Al-Azhar accredited Islamic education accessible across Canada through in-person and online learning.",
     description:
-      "Inspired by the rich educational legacy of Al-Azhar, the academy combines traditional Islamic learning, mentorship, spiritual development, modern teaching methods, and technology.",
+      "Programs are inspired by the educational legacy of Al-Azhar University in Egypt, combining authentic scholarship, modern technology, mentorship, and community-rooted learning for every age group.",
     goals: [
-      "Instill Islamic values across all age groups",
-      "Nurture hearts and minds",
-      "Develop future community leaders",
-      "Build confidence in Muslim identity",
-      "Encourage critical thinking and understanding",
-      "Create an environment where students feel comfortable asking questions",
+      "Share balanced Islamic teachings rooted in the Al-Azhar tradition",
+      "Nurture faith, character, and confident Muslim identity",
+      "Develop future community leaders through mentorship",
+      "Make education practical, engaging, and accessible",
+      "Build a supportive learning community for lifelong growth",
     ],
     strategy: [
-      "Begin with love for Allah and His Messenger",
-      "Focus on understanding, not memorization alone",
-      "Promote open and respectful dialogue",
-      "Use modern tools to keep students engaged",
-      "Connect knowledge with practical application",
+      "Al-Azhar accredited curriculum and trained educators",
+      "Blend tradition with modern teaching methods",
+      "Hands-on workshops and real-life application",
+      "Programs for children, youth, adults, and families",
+      "Online student portal for enrolled learners",
     ],
-    primaryButton: { label: "Learn About Al-Azhar Academy", href: "/Education" },
-    secondaryButton: { label: "View Educational Programs", href: "/Education" },
+    primaryButton: {
+      label: "Student Portal — Log In",
+      href: "https://azharcanada.groovemember.net/home",
+      external: true,
+    },
+    secondaryButton: {
+      label: "Explore Azhar Canada",
+      href: "/Education",
+      external: false,
+    },
   },
   imageSrc: servicesImages.alAzharAcademy,
-  imageAlt: "Placeholder — Al-Azhar Academy learning environment",
+  imageAlt: "Azhar Canada programs overview for the Canadian Islamic Centre",
 };
 
 export const membershipPreviewContent = {

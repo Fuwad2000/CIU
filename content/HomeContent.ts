@@ -105,8 +105,8 @@ export const heroSlides: HeroSlide[] = [
 ];
 
 export const aboutPreviewContent = {
-  imageSrc: "/images/home/home_hero3.png",
-  imageAlt: "Muslim families and community members gathered outdoors for prayer and fellowship",
+  imageSrc: "/images/home/about-community.jpg",
+  imageAlt: "Diverse community members attending a learning workshop at CIU",
   label: "WHO WE ARE",
   heading: "Faith, Knowledge and Community",
   paragraphs: [
@@ -154,35 +154,35 @@ export const featuredProgramsContent = {
     "Programs designed to support learning, spiritual growth, family development, and community engagement.",
   programs: [
     {
-      title: "Al-Azhar Academy",
+      title: "Azhar Canada",
       description:
-        "Quality Islamic education inspired by a rich tradition of scholarship and adapted for modern learners.",
-      imageSrc: "/images/home/program-academy.svg",
-      imageAlt: "Placeholder — Al-Azhar Academy learning environment",
+        "Al-Azhar accredited Islamic education for children, youth, adults, and families — online and in person.",
+      imageSrc: "/images/home/program-academy.jpg",
+      imageAlt: "Teacher instructing students in an Arabic language and Islamic studies session",
       href: "/Education",
     },
     {
       title: "Youth Development",
       description:
         "Helping young Muslims develop confidence, leadership skills, knowledge, and a strong Islamic identity.",
-      imageSrc: "/images/home/program-youth.svg",
-      imageAlt: "Placeholder — youth development program",
+      imageSrc: "/images/home/program-youth.jpg",
+      imageAlt: "Young student smiling at a CIU community celebration",
       href: "/Events/youth-gathering",
     },
     {
       title: "Family Services",
       description:
         "Supporting families through education, religious consultation, marriage guidance, and community resources.",
-      imageSrc: "/images/home/program-family.svg",
-      imageAlt: "Placeholder — family services and support",
+      imageSrc: "/images/home/program-family.jpg",
+      imageAlt: "Families and children gathered in the CIU community centre",
       href: "/Services/family-counseling",
     },
     {
       title: "Community Projects",
       description:
         "Bringing people together through charitable activities, outreach, volunteering, and collaborative initiatives.",
-      imageSrc: "/images/home/program-community.svg",
-      imageAlt: "Placeholder — community projects and outreach",
+      imageSrc: "/images/home/program-community.jpg",
+      imageAlt: "Guest speaker addressing the community at a CIU lecture event",
       href: "/Projects",
     },
   ] satisfies Program[],
@@ -264,28 +264,28 @@ export const galleryContent = {
     "A glimpse into our classes, programs, gatherings, volunteer initiatives, and community events.",
   items: [
     {
-      imageSrc: "/images/home/gallery-1.svg",
-      imageAlt: "Placeholder — community educational program",
+      imageSrc: "/images/home/gallery-featured.jpg",
+      imageAlt: "Ornate mihrab and minbar with Arabic calligraphy in the CIU prayer hall",
     },
     {
-      imageSrc: "/images/home/gallery-2.svg",
-      imageAlt: "Placeholder — volunteer outreach initiative",
+      imageSrc: "/images/home/gallery-1.jpg",
+      imageAlt: "Islamic education classroom with students learning at CIU",
     },
     {
-      imageSrc: "/images/home/gallery-3.svg",
-      imageAlt: "Placeholder — community gathering event",
+      imageSrc: "/images/home/gallery-2.jpg",
+      imageAlt: "Guest speaker delivering a lecture at the Islamic centre",
     },
     {
-      imageSrc: "/images/home/gallery-4.svg",
-      imageAlt: "Placeholder — adult learning session",
+      imageSrc: "/images/home/gallery-3.jpg",
+      imageAlt: "Sisters from the community gathered at the CIU centre",
     },
     {
-      imageSrc: "/images/home/gallery-5.svg",
-      imageAlt: "Placeholder — family community activity",
+      imageSrc: "/images/home/gallery-4.jpg",
+      imageAlt: "Interior view of the main prayer hall at CIU",
     },
     {
-      imageSrc: "/images/home/gallery-6.svg",
-      imageAlt: "Placeholder — charitable community project",
+      imageSrc: "/images/home/gallery-5.jpg",
+      imageAlt: "Young student at a festive community event at the Islamic centre",
     },
   ] satisfies GalleryItem[],
   viewAllLabel: "View Full Gallery",

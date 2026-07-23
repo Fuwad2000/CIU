@@ -65,12 +65,34 @@ export default function EducationServices() {
               </div>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link href={academy.primaryButton.href} className={homeBtnPrimaryClass}>
-                  {academy.primaryButton.label}
-                </Link>
-                <Link href={academy.secondaryButton.href} className={homeBtnOutlineClass}>
-                  {academy.secondaryButton.label}
-                </Link>
+                {academy.primaryButton.external ? (
+                  <a
+                    href={academy.primaryButton.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={homeBtnPrimaryClass}
+                  >
+                    {academy.primaryButton.label}
+                  </a>
+                ) : (
+                  <Link href={academy.primaryButton.href} className={homeBtnPrimaryClass}>
+                    {academy.primaryButton.label}
+                  </Link>
+                )}
+                {academy.secondaryButton.external ? (
+                  <a
+                    href={academy.secondaryButton.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={homeBtnOutlineClass}
+                  >
+                    {academy.secondaryButton.label}
+                  </a>
+                ) : (
+                  <Link href={academy.secondaryButton.href} className={homeBtnOutlineClass}>
+                    {academy.secondaryButton.label}
+                  </Link>
+                )}
               </div>
             </div>
           </MotionItem>

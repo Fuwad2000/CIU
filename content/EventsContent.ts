@@ -57,9 +57,9 @@ export type CalendarDemoEvent = {
 
 // TODO: Replace all placeholder dates, times, locations, and images with confirmed event data before publishing.
 export const eventsImages = {
-  hero: "/images/events/events-hero.svg",
-  featured: "/images/events/featured-event.svg",
-  partnership: "/images/events/community-partnership.svg",
+  hero: "/images/events/events-hero.png",
+  featured: "/images/events/featured-event.jpg",
+  partnership: "/images/events/community-partnership.jpg",
 } as const;
 
 export const eventsHeroContent = {
@@ -71,7 +71,7 @@ export const eventsHeroContent = {
   primaryButton: { label: "View Upcoming Events", href: "#upcoming-events" },
   secondaryButton: { label: "Contact the Events Team", href: "/Contact" },
   imageSrc: eventsImages.hero,
-  imageAlt: "Placeholder — CIU community events and gatherings",
+  imageAlt: "Muslim families and community members gathered for fellowship",
 };
 
 export const eventAnnouncementContent = {
@@ -93,7 +93,7 @@ export const featuredEventContent = {
   secondaryButton: { label: "View Details", href: "/Events/family-picnic" },
   note: "Date, location, and registration information are placeholders until confirmed.",
   imageSrc: eventsImages.featured,
-  imageAlt: "Placeholder — CIU family community gathering",
+  imageAlt: "Families and children gathered at the CIU community centre",
 };
 
 export const eventFilterCategories = [
@@ -139,7 +139,7 @@ export const upcomingEvents: EventItem[] = [
     tags: ["Recurring", "All Adults"],
     href: "/Events",
     buttonLabel: "View Event",
-    image: "/images/events/card-halaqah.svg",
+    image: "/images/events/card-halaqah.jpg",
     recurring: true,
   },
   {
@@ -155,7 +155,7 @@ export const upcomingEvents: EventItem[] = [
     tags: ["Youth", "Registration Required"],
     href: "/Events/youth-gathering",
     buttonLabel: "Register",
-    image: "/images/events/card-youth.svg",
+    image: "/images/events/card-youth.jpg",
   },
   {
     id: "family-community-gathering",
@@ -170,7 +170,7 @@ export const upcomingEvents: EventItem[] = [
     tags: ["Family Friendly", "In Person"],
     href: "/Events/family-picnic",
     buttonLabel: "View Details",
-    image: "/images/events/card-family.svg",
+    image: "/images/events/card-family.jpg",
   },
   {
     id: "parenting-workshop",
@@ -185,6 +185,7 @@ export const upcomingEvents: EventItem[] = [
     tags: ["Online", "Parents"],
     href: "/Contact",
     buttonLabel: "Register",
+    image: "/images/events/event-parenting-workshop.jpg",
   },
   {
     id: "volunteer-day",
@@ -199,20 +200,22 @@ export const upcomingEvents: EventItem[] = [
     tags: ["Volunteer", "Community Service"],
     href: "/Services/volunteer",
     buttonLabel: "Volunteer",
+    image: "/images/events/event-volunteer-day.jpg",
   },
   {
     id: "academy-open-house",
-    title: "Al-Azhar Academy Open House",
+    title: "Azhar Canada Open House",
     category: "education",
     dateLabel: "Sunday, September 21",
     date: "2026-09-21",
     time: "2:00 PM",
     location: "Online",
     description:
-      "Learn about Al-Azhar Academy, its educational approach, available classes, and registration process.",
+      "Learn about Azhar Canada, its Al-Azhar accredited approach, available classes, and registration process.",
     tags: ["Online", "Education"],
     href: "/Education",
     buttonLabel: "Learn More",
+    image: "/images/events/event-academy-open-house.jpg",
   },
   {
     id: "community-iftar-preview",
@@ -227,6 +230,7 @@ export const upcomingEvents: EventItem[] = [
     tags: ["Community", "In Person"],
     href: "/Contact",
     buttonLabel: "View Event",
+    image: "/images/events/event-community-session.jpg",
   },
   {
     id: "sisters-study-circle",
@@ -241,6 +245,7 @@ export const upcomingEvents: EventItem[] = [
     href: "/Events",
     buttonLabel: "View Schedule",
     recurring: true,
+    image: "/images/events/event-sisters-circle.jpg",
   },
 ];
 
@@ -297,7 +302,7 @@ export const eventCalendarContent = {
     { date: "2026-08-24", title: "Family Community Gathering", time: "1:00 PM" },
     { date: "2026-09-06", title: "Islamic Parenting Workshop", time: "11:00 AM" },
     { date: "2026-09-13", title: "Community Volunteer Day", time: "10:00 AM" },
-    { date: "2026-09-21", title: "Al-Azhar Academy Open House", time: "2:00 PM" },
+    { date: "2026-09-21", title: "Azhar Canada Open House", time: "2:00 PM" },
   ] satisfies CalendarDemoEvent[],
 };
 
@@ -362,48 +367,48 @@ export const pastEventsContent = {
       title: "Community Welcome Gathering",
       dateLabel: "Spring 2026",
       category: "Community",
-      imageSrc: "/images/events/past-event-1.svg",
-      imageAlt: "Placeholder — past CIU community gathering",
+      imageSrc: "/images/events/past-event-1.jpg",
+      imageAlt: "Community members seated during a seminar at CIU",
     },
     {
       id: "past-2",
       title: "Youth Leadership Session",
       dateLabel: "Summer 2026",
       category: "Youth",
-      imageSrc: "/images/events/past-event-2.svg",
-      imageAlt: "Placeholder — past CIU youth program",
+      imageSrc: "/images/events/past-event-2.jpg",
+      imageAlt: "Young student at a CIU community celebration",
     },
     {
       id: "past-3",
       title: "Family Learning Day",
       dateLabel: "Summer 2026",
       category: "Family",
-      imageSrc: "/images/events/past-event-3.svg",
-      imageAlt: "Placeholder — past CIU family event",
+      imageSrc: "/images/events/past-event-3.jpg",
+      imageAlt: "Families gathered in the community centre multipurpose hall",
     },
     {
       id: "past-4",
       title: "Islamic Education Workshop",
       dateLabel: "2026",
       category: "Education",
-      imageSrc: "/images/events/past-event-4.svg",
-      imageAlt: "Placeholder — past CIU educational workshop",
+      imageSrc: "/images/events/past-event-4.jpg",
+      imageAlt: "Community learning workshop with students taking notes",
     },
     {
       id: "past-5",
       title: "Volunteer Outreach Initiative",
       dateLabel: "2026",
       category: "Volunteer",
-      imageSrc: "/images/events/past-event-5.svg",
-      imageAlt: "Placeholder — past CIU volunteer initiative",
+      imageSrc: "/images/events/past-event-5.jpg",
+      imageAlt: "Azhar Canada volunteers needed outreach poster",
     },
     {
       id: "past-6",
       title: "Community Halaqah Series",
       dateLabel: "2026",
       category: "Spiritual",
-      imageSrc: "/images/events/past-event-6.svg",
-      imageAlt: "Placeholder — past CIU halaqah gathering",
+      imageSrc: "/images/events/past-event-6.jpg",
+      imageAlt: "Guest speaker addressing the community at a lecture event",
     },
   ] satisfies PastEventItem[],
 };
@@ -425,7 +430,7 @@ export const hostEventContent = {
   primaryButton: { label: "Propose an Event", href: "/Contact" },
   secondaryButton: { label: "Contact CIU", href: "/Contact" },
   imageSrc: eventsImages.partnership,
-  imageAlt: "Placeholder — CIU community partnership event",
+  imageAlt: "Community members gathered during a CIU seminar",
 };
 
 export const eventRegistrationInfoContent = {

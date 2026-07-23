@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CopyButton from "@/components/donate/CopyButton";
 import ETransferPanel from "@/components/donate/ETransferPanel";
 import { homeBtnOutlineClass } from "@/components/home/homeUi";
 import { MotionItem, MotionSection, MotionStagger } from "@/components/motion";
@@ -132,7 +133,23 @@ function PayPalPanel() {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="mt-8 rounded-2xl border border-border/80 bg-background/70 p-5 sm:p-6">
+        <p className="text-xs font-semibold tracking-[0.16em] text-brand uppercase sm:text-sm">
+          {paypal.emailLabel}
+        </p>
+        <p className="mt-3 break-all text-xl font-semibold text-foreground sm:text-2xl">
+          {paypal.email}
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <CopyButton
+            value={paypal.email}
+            label={paypal.copyEmailLabel}
+            copiedLabel={paypal.copiedLabel}
+          />
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
         <a
           href={paypal.href}
           target="_blank"

@@ -11,7 +11,7 @@ export const exploreLinks: ContentLink[] = [
 ];
 
 export const affiliateLinks: ContentLink[] = [
-  { label: "Al Azhar Islamic Centre", href: "#" },
+  { label: "Azhar Canada", href: "https://azharcanada.ca/" },
   { label: "Free Quran Canada", href: "#" },
   { label: "Future Islamic Cultural Centre", href: "#" },
 ];
