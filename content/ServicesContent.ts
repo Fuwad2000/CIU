@@ -33,10 +33,6 @@ export type ProcessStep = {
   description: string;
 };
 
-export type YouthPillar = {
-  title: string;
-};
-
 // TODO: Replace placeholder image paths with approved CIU community photography (.jpg) when available.
 export const servicesImages = {
   hero: "/images/services/services-hero.jpg",
@@ -114,21 +110,19 @@ export const coreServicesContent = {
         "CIU family support is not a replacement for licensed medical, psychological, legal, or emergency services. Professional referrals should be used where appropriate.",
     },
     {
-      id: "youth-empowerment",
-      title: "Youth Empowerment",
+      id: "ciu-kids-program",
+      title: "CIU Kids Program",
       description:
-        "Helping young Muslims build confidence, leadership, knowledge, strong character, and a healthy Islamic identity.",
+        "Weekend Quran classes and kids programs hosted by CIU at the Canadian Islamic Centre.",
       details: [
-        "Youth mentorship",
-        "Leadership development",
-        "Educational programs",
-        "Community participation",
-        "Faith-based discussions",
-        "Volunteer opportunities",
-        "Social and recreational activities",
+        "Weekend Quran classes",
+        "Kids learning sessions",
+        "Grades 1 through 12",
+        "Community classroom setting",
+        "Faith-based education for children",
       ],
-      buttonLabel: "View Youth Programs",
-      href: "/Events/youth-gathering",
+      buttonLabel: "Explore CIU Programs",
+      href: "/Education/ciu",
       icon: "graduation-cap",
     },
     {
@@ -219,22 +213,6 @@ export const familyServicesContent = {
   imageAlt: "Families and children gathered in the CIU community centre",
 };
 
-export const youthServicesContent = {
-  id: "youth-programs",
-  label: "OUR YOUTH",
-  heading: "Preparing Tomorrow's Leaders",
-  body: "CIU seeks to help young Muslims become confident, knowledgeable, responsible, and proud of their faith. Through education, mentorship, leadership opportunities, and community engagement, youth are encouraged to develop their potential while contributing positively to society.",
-  pillars: [
-    { title: "Faith and Identity" },
-    { title: "Leadership and Confidence" },
-    { title: "Education and Mentorship" },
-    { title: "Community Participation" },
-  ] satisfies YouthPillar[],
-  button: { label: "Explore Youth Programs", href: "/Events/youth-gathering" },
-  imageSrc: servicesImages.youthProgram,
-  imageAlt: "Young student smiling at a CIU community celebration",
-};
-
 export const educationServicesContent = {
   heading: "Education Rooted in Knowledge and Character",
   intro:
@@ -303,7 +281,7 @@ export const membershipPreviewContent = {
   ] satisfies MembershipBenefit[],
   note: "Membership terms, eligibility, fees, benefits, and approval requirements are subject to CIU's official membership policies.",
   // Confirm the current membership fee before displaying it publicly.
-  button: { label: "Learn About Membership", href: "/Membership" },
+  button: { label: "Apply for Membership", href: "/Membership" },
 };
 
 export const servicesProcessContent = {

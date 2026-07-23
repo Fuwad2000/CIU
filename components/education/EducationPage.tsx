@@ -117,8 +117,8 @@ export default function EducationPage() {
                 <div className="relative overflow-hidden rounded-[2rem] border border-border/80 bg-surface shadow-premium-xl">
                   <div className="relative aspect-[3/4] sm:aspect-[4/5]">
                     <Image
-                      src="/media/pictures/posters/azhar-programs-overview.jpg"
-                      alt="Azhar Canada educational programs poster"
+                    src="/media/ciu-general/azhar/azhar-01.jpeg"
+                    alt="Azhar Canada Uloom Al-Hadith Hadith Sciences course poster"
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
                       className="object-contain bg-background p-3"
@@ -249,8 +249,8 @@ export default function EducationPage() {
               <MotionItem>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border/80 shadow-premium-lg">
                   <Image
-                    src="/media/pictures/azhar_canada_09.jpg"
-                    alt="Community member beside the Al-Azhar University banner at CIU"
+                    src="/media/ciu-general/azhar/azhar-03.jpeg"
+                    alt="Azhar Canada college program at the Canadian Islamic Centre"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"

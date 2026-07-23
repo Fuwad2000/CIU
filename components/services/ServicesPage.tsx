@@ -7,7 +7,6 @@ import ServicesGrid from "@/components/services/ServicesGrid";
 import ServicesHero from "@/components/services/ServicesHero";
 import ServicesNotice from "@/components/services/ServicesNotice";
 import ServicesProcess from "@/components/services/ServicesProcess";
-import YouthServices from "@/components/services/YouthServices";
 import { MotionSection } from "@/components/motion";
 
 export default function ServicesPage() {
@@ -25,10 +24,6 @@ export default function ServicesPage() {
 
       <MotionSection>
         <FamilyServices />
-      </MotionSection>
-
-      <MotionSection>
-        <YouthServices />
       </MotionSection>
 
       <MotionSection>

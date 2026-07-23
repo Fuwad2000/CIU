@@ -24,27 +24,10 @@ function isLinkActive(pathname: string, href: string) {
   return path === "/" ? pathname === "/" : pathname.startsWith(path);
 }
 
-function isChildOwnedByNavItem(parentHref: string, childHref: string) {
-  const parentPath = stripHash(parentHref);
-  const childPath = stripHash(childHref);
-
-  if (parentPath === "/") {
-    return childPath === "/";
-  }
-
-  return childPath === parentPath || childPath.startsWith(`${parentPath}/`);
-}
-
 function isNavItemActive(pathname: string, item: NavItem) {
   if (isLinkActive(pathname, item.href)) return true;
 
-  return (
-    item.children?.some(
-      (child) =>
-        isChildOwnedByNavItem(item.href, child.href) &&
-        isLinkActive(pathname, child.href)
-    ) ?? false
-  );
+  return item.children?.some((child) => isLinkActive(pathname, child.href)) ?? false;
 }
 
 function isDropdownChildActive(pathname: string, childHref: string) {

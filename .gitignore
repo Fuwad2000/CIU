@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local-only media too large for GitHub (>100MB)
+/public/media/ciu-general/general/videos/video-01.mov

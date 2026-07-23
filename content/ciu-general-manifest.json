@@ -1,0 +1,235 @@
+{
+  "azhar": [
+    "/media/ciu-general/azhar/azhar-01.jpeg",
+    "/media/ciu-general/azhar/azhar-02.jpeg",
+    "/media/ciu-general/azhar/azhar-03.jpeg",
+    "/media/ciu-general/azhar/azhar-04.jpeg",
+    "/media/ciu-general/azhar/azhar-05.jpeg"
+  ],
+  "kids": [
+    "/media/ciu-general/ciu-programs/kids/kids-01.jpeg",
+    "/media/ciu-general/ciu-programs/kids/kids-02.jpeg",
+    "/media/ciu-general/ciu-programs/kids/kids-03.jpeg",
+    "/media/ciu-general/ciu-programs/kids/kids-04.jpeg"
+  ],
+  "kidsPosters": [
+    "/media/ciu-general/ciu-programs/posters/poster-01.jpeg",
+    "/media/ciu-general/ciu-programs/posters/poster-02.jpeg"
+  ],
+  "volunteer": [
+    "/media/ciu-general/volunteer/volunteer-01.jpeg",
+    "/media/ciu-general/volunteer/volunteer-02.jpeg",
+    "/media/ciu-general/volunteer/volunteer-03.jpeg"
+  ],
+  "generalPhotos": [
+    "/media/ciu-general/general/photos/general-01.jpg",
+    "/media/ciu-general/general/photos/general-02.jpg",
+    "/media/ciu-general/general/photos/general-03.jpg",
+    "/media/ciu-general/general/photos/general-04.jpg",
+    "/media/ciu-general/general/photos/general-05.jpg",
+    "/media/ciu-general/general/photos/general-06.jpg",
+    "/media/ciu-general/general/photos/general-07.jpg",
+    "/media/ciu-general/general/photos/general-08.jpg",
+    "/media/ciu-general/general/photos/general-09.jpg",
+    "/media/ciu-general/general/photos/general-10.jpg",
+    "/media/ciu-general/general/photos/general-11.jpg",
+    "/media/ciu-general/general/photos/general-12.jpg",
+    "/media/ciu-general/general/photos/general-13.png",
+    "/media/ciu-general/general/photos/general-14.jpg",
+    "/media/ciu-general/general/photos/general-15.jpg",
+    "/media/ciu-general/general/photos/general-16.jpg",
+    "/media/ciu-general/general/photos/general-17.jpg"
+  ],
+  "videos": [
+    {
+      "id": "excluded-IMG_2404.MOV",
+      "title": "IMG 2404",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "",
+      "sourceRelative": "CIU/IMG_2404.MOV",
+      "excludedFromGallery": true
+    },
+    {
+      "id": "ciu-video-02",
+      "title": "IMG 3540",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-02.mov",
+      "sourceRelative": "CIU/IMG_3540.MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-03",
+      "title": "IMG 3546",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-03.mov",
+      "sourceRelative": "CIU/IMG_3546.MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-04",
+      "title": "IMG 4185",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-04.mov",
+      "sourceRelative": "CIU/IMG_4185.MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-05",
+      "title": "IMG 4187(1)",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-05.mov",
+      "sourceRelative": "CIU/IMG_4187(1).MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-06",
+      "title": "IMG 4187",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-06.mov",
+      "sourceRelative": "CIU/IMG_4187.MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-07",
+      "title": "IMG 4218(1)",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-07.mov",
+      "sourceRelative": "CIU/IMG_4218(1).MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-08",
+      "title": "IMG 4218",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-08.mov",
+      "sourceRelative": "CIU/IMG_4218.MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-09",
+      "title": "IMG 4993",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-09.mov",
+      "sourceRelative": "CIU/IMG_4993.MOV",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "excluded-IMG_5649.MOV",
+      "title": "IMG_5649",
+      "album": "CIU Community Videos",
+      "category": "general",
+      "dateLabel": "2024–2025",
+      "videoSrc": "",
+      "sourceRelative": "CIU/IMG_5649.MOV",
+      "excludedFromGallery": true
+    },
+    {
+      "id": "ciu-video-10",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.16 PM (1)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-10.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.16 PM (1).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-11",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.16 PM (2)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-11.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.16 PM (2).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-12",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.16 PM (3)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-12.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.16 PM (3).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-13",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.16 PM",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-13.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.16 PM.mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-14",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.17 PM (1)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-14.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.17 PM (1).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-15",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.17 PM (2)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-15.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.17 PM (2).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-16",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.17 PM (3)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-16.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.17 PM (3).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-17",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.17 PM (4)",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-17.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.17 PM (4).mp4",
+      "excludedFromGallery": false
+    },
+    {
+      "id": "ciu-video-18",
+      "title": "WhatsApp Video 2026 07 22 at 7.06.17 PM",
+      "album": "CIU Kids Program Videos",
+      "category": "kids",
+      "dateLabel": "2024–2025",
+      "videoSrc": "/media/ciu-general/general/videos/video-18.mp4",
+      "sourceRelative": "General /KIDS_Program/WhatsApp Video 2026-07-22 at 7.06.17 PM.mp4",
+      "excludedFromGallery": false
+    }
+  ]
+}

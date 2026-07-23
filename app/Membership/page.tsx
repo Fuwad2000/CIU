@@ -1,7 +1,13 @@
-export default function MembershipPage() {
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-semibold text-zinc-900">Membership</h1>
-    </div>
-  );
+import type { Metadata } from "next";
+import MembershipPage from "@/components/membership/MembershipPage";
+import { siteContent } from "@/content/SiteContent";
+
+export const metadata: Metadata = {
+  title: `Membership | ${siteContent.shortName}`,
+  description:
+    "Apply for Canadian Islamic Union membership to access community programs, family services, education, and events across the GTA.",
+};
+
+export default function Page() {
+  return <MembershipPage />;
 }

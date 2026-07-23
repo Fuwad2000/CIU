@@ -1,4 +1,32 @@
-export type MediaGalleryCategory = "all" | "events" | "education" | "community" | "ramadan" | "posters";
+export type MediaGalleryCategory =
+  | "all"
+  | "events"
+  | "education"
+  | "community"
+  | "ramadan"
+  | "posters"
+  | "ciu-programs"
+  | "kids"
+  | "volunteer"
+  | "general"
+  | "azhar";
+
+export type MediaVideoCategory = Exclude<MediaGalleryCategory, "all" | "posters">;
+
+export type MediaVideoItem = {
+  id: string;
+  title: string;
+  album: string;
+  category: MediaVideoCategory;
+  dateLabel: string;
+  videoSrc: string;
+  posterSrc?: string;
+};
+
+import {
+  ciuGeneralGalleryItems,
+  ciuGeneralVideoItems,
+} from "./CiuGeneralMedia";
 
 export type MediaGalleryItem = {
   id: string;
@@ -42,11 +70,11 @@ export const mediaHubContent = {
   cards: [
     {
       id: "images",
-      title: "CIU Images",
+      title: "CIU Images & Videos",
       description:
-        "Photo galleries from events, education programs, community gatherings, and volunteer initiatives.",
+        "Photo and video galleries from CIU programs, Azhar Canada, community events, kids classes, and volunteer initiatives.",
       href: "/Media/images",
-      buttonLabel: "Browse Galleries",
+      buttonLabel: "Browse Photos & Videos",
       imageSrc: "/media/pictures/azhar_canada_01.jpg",
       imageAlt: "Students learning in an Islamic education classroom",
     },
@@ -69,23 +97,87 @@ export const mediaHubContent = {
 export const mediaImagesPageContent = {
   hero: {
     label: "CIU IMAGES",
-    heading: "Community Photo Galleries",
+    heading: "Community Photos & Videos",
     intro:
-      "Explore community photos, Azhar Canada program posters, and moments from CIU life grouped by event, program, or season.",
+      "Explore community photos and videos from CIU programs, Azhar Canada, volunteer initiatives, kids classes, and life at the centre.",
     imageSrc: "/media/pictures/azhar_canada_11.jpg",
     imageAlt: "Community members attending a learning workshop",
   },
-  filters: [
-    { id: "all", label: "All Photos" },
-    { id: "events", label: "Events" },
-    { id: "education", label: "Education" },
-    { id: "posters", label: "Posters" },
-    { id: "community", label: "Community" },
-    { id: "ramadan", label: "Ramadan" },
+  viewTabs: [
+    { id: "photos", label: "Photos" },
+    { id: "videos", label: "Videos" },
   ] as const,
   note:
-    "Browse photo albums and Azhar Canada program posters from CIU education programs, community events, and life at the centre.",
+    "Use All Photos or All Videos to browse everything at once, or filter by category to explore albums grouped by program or event.",
 };
+
+const photoFilterLabels: Record<Exclude<MediaGalleryCategory, "all">, string> = {
+  "ciu-programs": "CIU Programs",
+  kids: "Kids Program",
+  azhar: "Azhar Canada",
+  events: "Events",
+  education: "Education",
+  posters: "Posters",
+  community: "Community",
+  volunteer: "Volunteer",
+  general: "General",
+  ramadan: "Ramadan",
+};
+
+const videoFilterLabels: Record<MediaVideoCategory, string> = {
+  "ciu-programs": "CIU Programs",
+  kids: "Kids Program",
+  azhar: "Azhar Canada",
+  events: "Events",
+  education: "Education",
+  community: "Community",
+  volunteer: "Volunteer",
+  general: "General",
+  ramadan: "Ramadan",
+};
+
+const photoFilterOrder: Exclude<MediaGalleryCategory, "all">[] = [
+  "ciu-programs",
+  "kids",
+  "azhar",
+  "events",
+  "education",
+  "posters",
+  "community",
+  "volunteer",
+  "general",
+  "ramadan",
+];
+
+const videoFilterOrder: MediaVideoCategory[] = [
+  "kids",
+  "ciu-programs",
+  "events",
+  "community",
+  "general",
+  "azhar",
+  "volunteer",
+  "education",
+  "ramadan",
+];
+
+function buildMediaFilters<C extends string>(
+  order: C[],
+  labels: Record<C, string>,
+  items: { category: C }[],
+  allLabel: string,
+) {
+  const usedCategories = new Set(items.map((item) => item.category));
+
+  return [
+    { id: "all" as const, label: allLabel },
+    ...order
+      .filter((category) => usedCategories.has(category))
+      .map((category) => ({ id: category, label: labels[category] })),
+  ];
+}
+
+export const mediaVideoItems: MediaVideoItem[] = [...ciuGeneralVideoItems];
 
 export const mediaGalleryItems: MediaGalleryItem[] = [
   {
@@ -378,7 +470,22 @@ export const mediaGalleryItems: MediaGalleryItem[] = [
     imageAlt: "High school volunteer hours opportunity poster",
     variant: "poster",
   },
+  ...ciuGeneralGalleryItems,
 ];
+
+export const mediaPhotoFilters = buildMediaFilters(
+  photoFilterOrder,
+  photoFilterLabels,
+  mediaGalleryItems,
+  "All Photos",
+);
+
+export const mediaVideoFilters = buildMediaFilters(
+  videoFilterOrder,
+  videoFilterLabels,
+  mediaVideoItems,
+  "All Videos",
+);
 
 export const mediaLecturesPageContent = {
   hero: {

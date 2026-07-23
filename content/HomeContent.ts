@@ -162,12 +162,12 @@ export const featuredProgramsContent = {
       href: "/Education",
     },
     {
-      title: "Youth Development",
+      title: "CIU Kids Program",
       description:
-        "Helping young Muslims develop confidence, leadership skills, knowledge, and a strong Islamic identity.",
-      imageSrc: "/images/home/program-youth.jpg",
-      imageAlt: "Young student smiling at a CIU community celebration",
-      href: "/Events/youth-gathering",
+        "Weekend Quran classes and kids programs hosted by CIU at the Canadian Islamic Centre.",
+      imageSrc: "/media/ciu-general/ciu-programs/kids/kids-01.jpeg",
+      imageAlt: "Students studying during a CIU kids program classroom session",
+      href: "/Education/ciu",
     },
     {
       title: "Family Services",
@@ -206,13 +206,13 @@ export const upcomingEventsContent = {
       href: "/Events",
     },
     {
-      name: "Youth Development Night",
-      dateLabel: "August 15",
-      time: "6:30 PM",
+      name: "CIU Kids Program",
+      dateLabel: "Weekends",
+      time: "11:00 AM – 2:00 PM",
       description:
-        "An evening of mentorship, activities, and spiritual growth for young Muslims.",
+        "Weekend Quran classes and kids learning sessions at the Canadian Islamic Centre.",
       location: "CIU Community Centre — Mississauga",
-      href: "/Events/youth-gathering",
+      href: "/Education/ciu",
     },
     {
       name: "Family Community Gathering",

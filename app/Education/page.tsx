@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import EducationPage from "@/components/education/EducationPage";
+import EducationHubPage from "@/components/education/EducationHubPage";
 import { siteContent } from "@/content/SiteContent";
 
 export const metadata: Metadata = {
-  title: `Islamic Education | ${siteContent.shortName}`,
+  title: `Education | ${siteContent.shortName}`,
   description:
-    "Azhar Canada — CIU's Al-Azhar accredited Islamic education programs for children, youth, and adults across Canada.",
+    "Islamic education at CIU — Azhar Canada college programs and CIU-hosted weekend Quran and kids classes.",
 };
 
 export default function Page() {
-  return <EducationPage />;
+  return <EducationHubPage />;
 }

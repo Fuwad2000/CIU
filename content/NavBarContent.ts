@@ -4,14 +4,20 @@ export const navLinks: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/About", label: "About" },
   {
+    href: "/Education",
+    label: "Education",
+    children: [
+      { href: "/Education/azhar", label: "Azhar Programs" },
+      { href: "/Education/ciu", label: "CIU Programs" },
+    ],
+  },
+  {
     href: "/Services",
     label: "Services",
     children: [
       { href: "/Services/prayer-times", label: "Prayer Times" },
       { href: "/Services#spiritual-guidance", label: "Spiritual Guidance" },
       { href: "/Services/family-counseling", label: "Family Services" },
-      { href: "/Events/youth-gathering", label: "Youth Development" },
-      { href: "/Education", label: "Azhar Canada" },
       { href: "/Events", label: "Community Programs" },
       { href: "/Projects", label: "Charitable Initiatives" },
     ],
@@ -36,7 +42,14 @@ export const navLinks: NavItem[] = [
     ],
   },
   { href: "/Projects", label: "Project" },
-  { href: "/Membership", label: "Membership" },
+  {
+    href: "/Membership",
+    label: "Get Involved",
+    children: [
+      { href: "/Membership", label: "Membership" },
+      { href: "/Services/volunteer", label: "Volunteer" },
+    ],
+  },
   { href: "/Contact", label: "Contact" },
 ];
 
