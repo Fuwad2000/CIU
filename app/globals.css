@@ -48,6 +48,30 @@ textarea {
   max-width: 100%;
 }
 
+@media (min-width: 1024px) {
+  html.admin-type {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html.admin-type {
+    font-size: 18px;
+  }
+
+  html.admin-type input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="button"]):not([type="submit"]),
+  html.admin-type select,
+  html.admin-type textarea {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  html.admin-type {
+    font-size: 19px;
+  }
+}
+
 .bg-gold-gradient {
   background: linear-gradient(
     135deg,

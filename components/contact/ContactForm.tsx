@@ -4,11 +4,11 @@ import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
 import { useToast } from "@/components/ui/ToastProvider";
 import { contactContent } from "@/content/ContactContent";
-import { formPlaceholderMessages } from "@/content/FormContent";
 import { formInputClassName } from "@/lib/formStyles";
 
 type FormState = {
-  name: string;
+  firstName: string;
+  surname: string;
   email: string;
   phone: string;
   subject: string;
@@ -16,7 +16,8 @@ type FormState = {
 };
 
 const initialFormState: FormState = {
-  name: "",
+  firstName: "",
+  surname: "",
   email: "",
   phone: "",
   subject: "",
@@ -28,9 +29,20 @@ export default function ContactForm({ className = "" }: { className?: string }) 
   const showToast = useToast();
   const [formState, setFormState] = useState<FormState>(initialFormState);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    showToast(formPlaceholderMessages.contact);
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formState),
+    });
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => ({}))) as { error?: string };
+      showToast(payload.error ?? "Could not send your message. Please try again.");
+      return;
+    }
+    setFormState(initialFormState);
+    showToast("Thank you. Your message has been received.");
   };
 
   const updateField = (field: keyof FormState, value: string) => {
@@ -52,19 +64,36 @@ export default function ContactForm({ className = "" }: { className?: string }) 
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-foreground">
-                  {form.fields.name.label}
+                  {form.fields.firstName.label}
                 </span>
                 <input
                   type="text"
-                  name="name"
+                  name="firstName"
                   required
-                  value={formState.name}
-                  onChange={(event) => updateField("name", event.target.value)}
-                  placeholder={form.fields.name.placeholder}
+                  value={formState.firstName}
+                  onChange={(event) => updateField("firstName", event.target.value)}
+                  placeholder={form.fields.firstName.placeholder}
                   className={formInputClassName}
                 />
               </label>
 
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-medium text-foreground">
+                  {form.fields.surname.label}
+                </span>
+                <input
+                  type="text"
+                  name="surname"
+                  required
+                  value={formState.surname}
+                  onChange={(event) => updateField("surname", event.target.value)}
+                  placeholder={form.fields.surname.placeholder}
+                  className={formInputClassName}
+                />
+              </label>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-foreground">
                   {form.fields.email.label}
@@ -79,39 +108,37 @@ export default function ContactForm({ className = "" }: { className?: string }) 
                   className={formInputClassName}
                 />
               </label>
-            </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-foreground">
-                  {form.fields.phone.label}{" "}
-                  <span className="font-normal text-muted">{form.fields.phone.optionalLabel}</span>
+                  {form.fields.phone.label}
                 </span>
                 <input
                   type="tel"
                   name="phone"
+                  required
                   value={formState.phone}
                   onChange={(event) => updateField("phone", event.target.value)}
                   placeholder={form.fields.phone.placeholder}
                   className={formInputClassName}
                 />
               </label>
-
-              <label className="block">
-                <span className="mb-1.5 block text-sm font-medium text-foreground">
-                  {form.fields.subject.label}
-                </span>
-                <input
-                  type="text"
-                  name="subject"
-                  required
-                  value={formState.subject}
-                  onChange={(event) => updateField("subject", event.target.value)}
-                  placeholder={form.fields.subject.placeholder}
-                  className={formInputClassName}
-                />
-              </label>
             </div>
+
+            <label className="block">
+              <span className="mb-1.5 block text-sm font-medium text-foreground">
+                {form.fields.subject.label}
+              </span>
+              <input
+                type="text"
+                name="subject"
+                required
+                value={formState.subject}
+                onChange={(event) => updateField("subject", event.target.value)}
+                placeholder={form.fields.subject.placeholder}
+                className={formInputClassName}
+              />
+            </label>
 
             <label className="block">
               <span className="mb-1.5 block text-sm font-medium text-foreground">

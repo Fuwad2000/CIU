@@ -1,4 +1,4 @@
-import { programRegistrationFormUrl } from "@/content/RegistrationLinks";
+import { kidsRegistrationHref, programRegistrationFormUrl, quranRegistrationHref } from "@/content/RegistrationLinks";
 
 export const ciuProgramPosterImages = {
   quran:
@@ -61,7 +61,7 @@ export const ciuProgramsContent = {
       title: "CIU Quran Class",
       imageSrc: ciuProgramPosterImages.quran,
       imageAlt: "CIU Quran Class poster — Tuesday and Thursday evenings",
-      registrationHref: programRegistrationFormUrl,
+      registrationHref: quranRegistrationHref,
       buttonLabel: "Register Now",
     },
     {
@@ -69,7 +69,7 @@ export const ciuProgramsContent = {
       title: "Weekend School Registration",
       imageSrc: ciuProgramPosterImages.weekendClass,
       imageAlt: "CIU weekend school registration poster for grades 1 through 12",
-      registrationHref: programRegistrationFormUrl,
+      registrationHref: kidsRegistrationHref,
       buttonLabel: "Register Now",
     },
   ] satisfies CiuProgramPoster[],

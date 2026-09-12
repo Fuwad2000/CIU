@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { announcementContent } from "@/content/AnnouncementContent";
+import type { Announcement } from "@/lib/portal/types";
 
 function AnnouncementLabel() {
   return (
@@ -35,7 +36,7 @@ function MarqueeTrack({ items }: { items: string[] }) {
 }
 
 export default function AnnouncementTicker() {
-  const { items } = announcementContent;
+  const [items, setItems] = useState(announcementContent.items);
   const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
@@ -45,6 +46,22 @@ export default function AnnouncementTicker() {
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/announcements")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: Announcement[] | null) => {
+        if (cancelled || !Array.isArray(data) || data.length === 0) return;
+        setItems(data.map((item) => item.message));
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (items.length === 0) return null;
 
   return (
     <div

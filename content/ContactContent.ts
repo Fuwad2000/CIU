@@ -44,12 +44,12 @@ export const contactContent = {
     description:
       "Fill out the form below and we will get back to you. For urgent matters, please call us directly.",
     fields: {
-      name: { label: "Full Name", placeholder: "Your name" },
+      firstName: { label: "First Name", placeholder: "First name" },
+      surname: { label: "Surname", placeholder: "Last name" },
       email: { label: "Email Address", placeholder: "you@example.com" },
       phone: {
         label: "Phone Number",
         placeholder: "905-555-0123",
-        optionalLabel: "(optional)",
       },
       subject: { label: "Subject", placeholder: "How can we help?" },
       message: {

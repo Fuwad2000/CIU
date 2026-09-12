@@ -1,4 +1,4 @@
-import { programRegistrationFormUrl } from "@/content/RegistrationLinks";
+import { kidsRegistrationHref, quranRegistrationHref } from "@/content/RegistrationLinks";
 
 export type EventCategory =
   | "education"
@@ -169,7 +169,7 @@ export const upcomingEvents: EventItem[] = [
     description:
       "Recurring evening Quran classes focused on recitation, tajweed, and guided study for learners of all levels.",
     tags: ["Recurring", "Education", "Evenings"],
-    href: programRegistrationFormUrl,
+    href: quranRegistrationHref,
     buttonLabel: "Register Now",
     image: eventsImages.quranClass,
     recurring: true,
@@ -184,7 +184,7 @@ export const upcomingEvents: EventItem[] = [
     description:
       "Recurring weekend Quran classes and kids learning sessions hosted by CIU for grades 1 through 12.",
     tags: ["Recurring", "Kids", "Weekends"],
-    href: programRegistrationFormUrl,
+    href: kidsRegistrationHref,
     buttonLabel: "Register Now",
     image: eventsImages.pastEvents.youthLeadership,
     recurring: true,
@@ -204,7 +204,7 @@ export const recurringProgramsContent = {
       frequency: "Every Tuesday & Thursday",
       time: "7:00 PM",
       audience: "All learners",
-      href: programRegistrationFormUrl,
+      href: quranRegistrationHref,
       buttonLabel: "Register Now",
     },
     {
@@ -213,7 +213,7 @@ export const recurringProgramsContent = {
       frequency: "Every weekend",
       time: "10:00 AM – 2:00 PM",
       audience: "Grades 1 – 12",
-      href: programRegistrationFormUrl,
+      href: kidsRegistrationHref,
       buttonLabel: "Register Now",
     },
   ] satisfies RecurringProgram[],

@@ -1,5 +1,5 @@
 import { imagePlaceholder } from "./imagePlaceholder";
-import { programRegistrationFormUrl } from "./RegistrationLinks";
+import { kidsRegistrationHref, quranRegistrationHref } from "./RegistrationLinks";
 
 /** @deprecated Use imagePlaceholder from ./imagePlaceholder */
 export function homeImagePlaceholder(slot: string, width = 1200, height = 800): string {
@@ -233,7 +233,7 @@ export const upcomingEventsContent = {
       description:
         "Evening Quran classes for learners of all levels — join us for recitation, tajweed, and guided study.",
       location: "CIU Community Centre — Mississauga",
-      href: programRegistrationFormUrl,
+      href: quranRegistrationHref,
       buttonLabel: "Register Now",
     },
     {
@@ -243,7 +243,7 @@ export const upcomingEventsContent = {
       description:
         "Weekend Quran classes and kids learning sessions at the Canadian Islamic Centre.",
       location: "CIU Community Centre — Mississauga",
-      href: programRegistrationFormUrl,
+      href: kidsRegistrationHref,
       buttonLabel: "Register Now",
     },
   ] satisfies Event[],

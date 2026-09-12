@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Naskh_Arabic } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import AppProviders from "@/components/AppProviders";
 import { siteContent } from "@/content/SiteContent";
 import "./globals.css";
@@ -62,11 +60,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoNaskhArabic.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip bg-background text-foreground">
-        <AppProviders>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </AppProviders>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

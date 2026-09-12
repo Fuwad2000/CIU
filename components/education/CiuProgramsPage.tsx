@@ -85,15 +85,22 @@ export default function CiuProgramsPage() {
                   </div>
                   <div className="border-t border-border/70 p-5">
                     <h3 className="text-base font-semibold text-foreground sm:text-lg">{poster.title}</h3>
-                    <a
-                      href={poster.registrationHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${homeBtnGhostClass} mt-4`}
-                    >
-                      {poster.buttonLabel}
-                      <ExternalLink className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
-                    </a>
+                    {isExternalHref(poster.registrationHref) ? (
+                      <a
+                        href={poster.registrationHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`${homeBtnGhostClass} mt-4`}
+                      >
+                        {poster.buttonLabel}
+                        <ExternalLink className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+                      </a>
+                    ) : (
+                      <Link href={poster.registrationHref} className={`${homeBtnGhostClass} mt-4`}>
+                        {poster.buttonLabel}
+                        <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+                      </Link>
+                    )}
                   </div>
                 </article>
               </MotionItem>

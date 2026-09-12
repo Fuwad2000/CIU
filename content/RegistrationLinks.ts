@@ -1,3 +1,4 @@
-/** Azhar Canada / CIU program registration — Quran class, kids program, and related courses. */
-export const programRegistrationFormUrl =
-  "https://docs.google.com/forms/d/1ZrpMcKDsb6Al5YrJbcSA7_-rHgzh7ou1bwTMIbMpcWk/viewform";
+/** Public class registration form — Quran class and weekend kids program. */
+export const quranRegistrationHref = "/register?program=quran";
+export const kidsRegistrationHref = "/register?program=kids";
+export const programRegistrationFormUrl = "/register";
