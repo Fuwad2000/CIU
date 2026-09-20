@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePublicEvents } from "@/components/events/usePublicEvents";
 import SectionContainer from "@/components/home/SectionContainer";
 import SectionHeading from "@/components/home/SectionHeading";
 import { ArrowRightIcon, CalendarIcon, ClockIcon, MapPinIcon } from "@/components/home/icons";
@@ -15,6 +16,8 @@ import { upcomingEventsContent } from "@/content/HomeContent";
 import { isExternalHref } from "@/lib/externalLink";
 
 export default function UpcomingEvents() {
+  const events = usePublicEvents().slice(0, 3);
+
   return (
     <section className={`${homeSectionClass} border-y border-border/80 bg-section-warm`}>
       <SectionContainer>
@@ -25,8 +28,8 @@ export default function UpcomingEvents() {
         />
 
         <MotionStagger className="mt-14 grid gap-7 lg:grid-cols-3">
-          {upcomingEventsContent.events.map((event) => (
-            <MotionItem key={event.name}>
+          {events.map((event) => (
+            <MotionItem key={event.id}>
               <article
                 className={`group relative h-full overflow-hidden ${homeCardInteractiveClass} border-l-[5px] border-l-gold/75 p-7 sm:p-8`}
               >
@@ -45,7 +48,7 @@ export default function UpcomingEvents() {
                 </p>
 
                 <h3 className="mt-4 text-xl font-semibold text-foreground sm:text-2xl">
-                  {event.name}
+                  {event.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">
                   {event.description}

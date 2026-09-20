@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
+import { authenticateAdminRequest, toAdminMe } from "@/lib/portal/entra-auth";
 import {
   ADMIN_EMAIL_COOKIE,
-  adminEmailCookieOptions,
   jsonError,
   jsonOk,
-  readAdminEmail,
-  readString,
-  recordHistory,
   requireAdmin,
 } from "@/lib/portal/http";
 
@@ -15,42 +12,17 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const unauthorized = await requireAdmin(request);
   if (unauthorized) return unauthorized;
-  return jsonOk({ email: readAdminEmail(request) });
+  const auth = await authenticateAdminRequest(request);
+  if (auth.error) return auth.error;
+  if (!auth.actor) return jsonError("You do not have access to the CIU admin portal.", 403);
+  return jsonOk(toAdminMe(auth.actor));
 }
 
-export async function POST(request: Request) {
-  const unauthorized = await requireAdmin(request);
-  if (unauthorized) return unauthorized;
-  const body = (await request.json().catch(() => ({}))) as { email?: unknown };
-  const email = readString(body.email).toLowerCase();
-  if (!email || !email.includes("@")) {
-    return jsonError("Enter a valid staff email so history can record your changes.");
-  }
-
-  await recordHistory(request, {
-    action: "authenticated",
-    area: "session",
-    summary: `Signed in as ${email}`,
-    adminEmail: email,
-  });
-
-  const response = jsonOk({ email });
-  response.cookies.set(ADMIN_EMAIL_COOKIE, email, adminEmailCookieOptions());
-  return response;
+export async function POST() {
+  return jsonError("Sign in with Microsoft. Staff email cannot be set from the browser.", 410);
 }
 
-export async function DELETE(request: Request) {
-  const unauthorized = await requireAdmin(request);
-  if (unauthorized) return unauthorized;
-  const email = readAdminEmail(request);
-  if (email) {
-    await recordHistory(request, {
-      action: "signed-out",
-      area: "session",
-      summary: `Signed out ${email}`,
-      adminEmail: email,
-    });
-  }
+export async function DELETE() {
   const response = NextResponse.json({ ok: true });
   response.cookies.delete(ADMIN_EMAIL_COOKIE);
   return response;

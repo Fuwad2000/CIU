@@ -9,10 +9,10 @@ import SectionContainer from "@/components/home/SectionContainer";
 import SectionHeading from "@/components/home/SectionHeading";
 import { homeBtnOutlineClass, homeSectionClass } from "@/components/home/homeUi";
 import { MotionItem, MotionStagger } from "@/components/motion";
+import { usePublicEvents } from "@/components/events/usePublicEvents";
 import {
   categoryLabels,
   eventFilterCategories,
-  upcomingEvents,
   upcomingEventsSection,
   type EventDateFilterId,
   type EventFilterCategoryId,
@@ -62,22 +62,7 @@ export default function UpcomingEvents() {
   const [search, setSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const [showLoadMoreNote, setShowLoadMoreNote] = useState(false);
-  const [events, setEvents] = useState<EventItem[]>(upcomingEvents);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/events")
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data: EventItem[] | null) => {
-        if (!cancelled && Array.isArray(data) && data.length > 0) {
-          setEvents(data);
-        }
-      })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const events = usePublicEvents();
 
   useEffect(() => {
     const param = searchParams.get("category");

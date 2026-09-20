@@ -2,9 +2,7 @@ export const volunteerImages = {
   highSchool:
     "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785031540/volunteer-03_m0szvo.jpg",
   volunteersNeeded:
-    "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785031535/volunteer-02_ajvbvq.jpg",
-
-
+    "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785020581/home_hero4_j6vzhr.png",
   seniorVolunteers:
     "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785031529/volunteer-01_sxhauf.jpg",
   hero: "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785024115/Mosque_dome_interior_with_sunlight_bgmw0n.jpg",
@@ -30,7 +28,7 @@ export const volunteerContent = {
     intro:
       "CIU volunteers help with masjid support, event setup, education programs, outreach, and day-to-day community service at the Canadian Islamic Centre.",
     imageSrc: volunteerImages.hero,
-    imageAlt: "CIU volunteers needed recruitment poster",
+    imageAlt: "CIU community members serving together",
   },
   intro: {
     label: "Hands-On Service",
@@ -58,7 +56,7 @@ export const volunteerContent = {
       description:
         "General volunteer roles at the centre — outreach, program setup, family events, facility care, and day-to-day community support.",
       imageSrc: volunteerImages.volunteersNeeded,
-      imageAlt: "CIU volunteers needed — grow the Muslim community through service",
+      imageAlt: "CIU community members serving together",
     },
     {
       id: "senior-volunteers",

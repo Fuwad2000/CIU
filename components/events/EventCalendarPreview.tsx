@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { usePublicEvents } from "@/components/events/usePublicEvents";
 import SectionContainer from "@/components/home/SectionContainer";
 import SectionHeading from "@/components/home/SectionHeading";
 import { homeBtnOutlineClass, homeSectionClass } from "@/components/home/homeUi";
@@ -26,12 +27,25 @@ function buildMonthGrid(year: number, month: number) {
 }
 
 export default function EventCalendarPreview() {
-  /*
-    // Connect this section to the approved event management or calendar source later.
-  */
   const { id, heading, viewFullLabel, viewFullHref, demoEvents } = eventCalendarContent;
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 7, 1));
-  const [selectedIso, setSelectedIso] = useState<string | null>("2026-08-15");
+  const liveEvents = usePublicEvents();
+  const calendarEvents = useMemo(() => {
+    const dated = liveEvents
+      .filter((event) => event.date)
+      .map((event) => ({
+        date: event.date as string,
+        title: event.title,
+        time: event.time,
+      }));
+    return dated.length > 0 ? dated : demoEvents;
+  }, [liveEvents, demoEvents]);
+  const firstDate = calendarEvents[0]?.date;
+  const [currentDate, setCurrentDate] = useState(() => {
+    if (!firstDate) return new Date();
+    const [year, month] = firstDate.split("-").map(Number);
+    return new Date(year, month - 1, 1);
+  });
+  const [selectedIso, setSelectedIso] = useState<string | null>(firstDate ?? null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -41,13 +55,13 @@ export default function EventCalendarPreview() {
   }).format(currentDate);
 
   const eventsByDate = useMemo(() => {
-    const map = new Map<string, typeof demoEvents>();
-    demoEvents.forEach((event) => {
+    const map = new Map<string, typeof calendarEvents>();
+    calendarEvents.forEach((event) => {
       const existing = map.get(event.date) ?? [];
       map.set(event.date, [...existing, event]);
     });
     return map;
-  }, [demoEvents]);
+  }, [calendarEvents]);
 
   const cells = buildMonthGrid(year, month);
   const selectedEvents = selectedIso ? eventsByDate.get(selectedIso) ?? [] : [];
@@ -135,7 +149,7 @@ export default function EventCalendarPreview() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted">Select a highlighted date to preview placeholder events.</p>
+                <p className="text-sm text-muted">Select a highlighted date to see events.</p>
               )}
             </div>
           </div>

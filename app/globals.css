@@ -12,6 +12,7 @@
   --gold: #b8891f;
   --gold-dark: #966f18;
   --gold-light: #d4ad4a;
+  --danger: #b42318;
 }
 
 @theme inline {
@@ -26,6 +27,7 @@
   --color-gold: var(--gold);
   --color-gold-dark: var(--gold-dark);
   --color-gold-light: var(--gold-light);
+  --color-danger: var(--danger);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -70,6 +72,49 @@ textarea {
   html.admin-type {
     font-size: 19px;
   }
+}
+
+html.admin-type {
+  color-scheme: light;
+  --background: #f4f6f8;
+  --foreground: #111827;
+  --surface: #ffffff;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --brand: #174d32;
+  --brand-dark: #0f3d28;
+  --brand-light: #d7ebe0;
+  --danger: #b42318;
+}
+
+html.admin-type.admin-dark {
+  color-scheme: dark;
+  --background: #0f1419;
+  --foreground: #e8edf2;
+  --surface: #161c24;
+  --muted: #94a3b8;
+  --border: #2a3340;
+  --brand: #3fa36e;
+  --brand-dark: #2d8a57;
+  --brand-light: #1b3d2c;
+  --danger: #f87171;
+}
+
+html.admin-type body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html.admin-type tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+html.admin-type tbody tr:hover {
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+}
+
+html.admin-type input[type="checkbox"] {
+  accent-color: var(--brand);
 }
 
 .bg-gold-gradient {

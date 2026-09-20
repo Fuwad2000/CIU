@@ -2,8 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
-import { useToast } from "@/components/ui/ToastProvider";
-import { formPlaceholderMessages } from "@/content/FormContent";
+import { FormSubmitModal, useFormSubmitModal } from "@/components/ui/FormSubmitModal";
 import {
   volunteerContent,
   type VolunteerAgeGroup,
@@ -38,12 +37,44 @@ const initialFormState: FormState = {
 
 export default function VolunteerForm({ className = "" }: { className?: string }) {
   const { form } = volunteerContent;
-  const showToast = useToast();
+  const submit = useFormSubmitModal();
   const [formState, setFormState] = useState<FormState>(initialFormState);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    showToast(formPlaceholderMessages.volunteer);
+    if (
+      !submit.begin(
+        "Sending your registration",
+        "Please wait. This can take a few seconds — do not click again."
+      )
+    ) {
+      return;
+    }
+    try {
+      const response = await fetch("/api/volunteers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => ({}))) as { error?: string };
+        submit.fail(
+          "Registration not sent",
+          payload.error ?? "Could not send your volunteer registration. Please try again."
+        );
+        return;
+      }
+      setFormState(initialFormState);
+      submit.succeed(
+        "Registration received",
+        "Thank you. We received your volunteer registration and sent a confirmation to your email."
+      );
+    } catch {
+      submit.fail(
+        "Registration not sent",
+        "Could not send your volunteer registration. Please try again."
+      );
+    }
   };
 
   const toggleRole = (role: VolunteerRole) => {
@@ -63,7 +94,7 @@ export default function VolunteerForm({ className = "" }: { className?: string }
         <h2 className="mt-2 text-2xl font-semibold text-foreground sm:text-3xl">{form.heading}</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">{form.description}</p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5" aria-busy={submit.busy}>
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="block sm:col-span-2">
               <span className="mb-1.5 block text-sm font-medium text-foreground">
@@ -257,12 +288,19 @@ export default function VolunteerForm({ className = "" }: { className?: string }
 
           <button
             type="submit"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto sm:text-base"
+            disabled={submit.busy}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-70 sm:w-auto sm:text-base"
           >
             <Send className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
-            {form.submitLabel}
+            {submit.phase === "submitting" ? "Sending..." : form.submitLabel}
           </button>
         </form>
+        <FormSubmitModal
+          phase={submit.phase}
+          title={submit.title}
+          message={submit.message}
+          onClose={submit.close}
+        />
       </div>
     </div>
   );

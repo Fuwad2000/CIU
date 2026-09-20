@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Send } from "lucide-react";
-import { useToast } from "@/components/ui/ToastProvider";
+import { FormSubmitModal, useFormSubmitModal } from "@/components/ui/FormSubmitModal";
 import { contactContent } from "@/content/ContactContent";
 import { formInputClassName } from "@/lib/formStyles";
 
@@ -26,23 +26,35 @@ const initialFormState: FormState = {
 
 export default function ContactForm({ className = "" }: { className?: string }) {
   const { form } = contactContent;
-  const showToast = useToast();
+  const submit = useFormSubmitModal();
   const [formState, setFormState] = useState<FormState>(initialFormState);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formState),
-    });
-    if (!response.ok) {
-      const payload = (await response.json().catch(() => ({}))) as { error?: string };
-      showToast(payload.error ?? "Could not send your message. Please try again.");
+    if (
+      !submit.begin(
+        "Sending your message",
+        "Please wait. This can take a few seconds — do not click again."
+      )
+    ) {
       return;
     }
-    setFormState(initialFormState);
-    showToast("Thank you. Your message has been received.");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => ({}))) as { error?: string };
+        submit.fail("Message not sent", payload.error ?? "Could not send your message. Please try again.");
+        return;
+      }
+      setFormState(initialFormState);
+      submit.succeed(form.successTitle, form.successMessage);
+    } catch {
+      submit.fail("Message not sent", "Could not send your message. Please try again.");
+    }
   };
 
   const updateField = (field: keyof FormState, value: string) => {
@@ -59,7 +71,7 @@ export default function ContactForm({ className = "" }: { className?: string }) 
         <h2 className="mt-2 text-xl font-semibold text-foreground sm:text-2xl">{form.heading}</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">{form.description}</p>
 
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-1 flex-col">
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-1 flex-col" aria-busy={submit.busy}>
           <div className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
@@ -159,13 +171,20 @@ export default function ContactForm({ className = "" }: { className?: string }) 
           <div className="mt-auto pt-6">
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto sm:text-base"
+              disabled={submit.busy}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-70 sm:w-auto sm:text-base"
             >
               <Send className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
-              {form.submitLabel}
+              {submit.phase === "submitting" ? "Sending..." : form.submitLabel}
             </button>
           </div>
         </form>
+        <FormSubmitModal
+          phase={submit.phase}
+          title={submit.title}
+          message={submit.message}
+          onClose={submit.close}
+        />
       </div>
     </div>
   );

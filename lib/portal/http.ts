@@ -12,8 +12,10 @@ export function jsonError(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
 }
 
-export async function requireAdmin(_request: Request) {
-  return null;
+export async function requireAdmin(request: Request) {
+  const { authenticateAdminRequest } = await import("@/lib/portal/entra-auth");
+  const result = await authenticateAdminRequest(request);
+  return result.error ?? null;
 }
 
 export function readString(value: unknown) {
@@ -52,7 +54,10 @@ export async function recordHistory(
     adminEmail?: string;
   }
 ) {
-  const adminEmail = input.adminEmail || readAdminEmail(request) || "unknown";
+  const { cachedAdminActor } = await import("@/lib/portal/entra-auth");
+  const pending = cachedAdminActor(request);
+  const auth = pending ? await pending : undefined;
+  const adminEmail = input.adminEmail || auth?.actor?.email || "unknown";
   return getPortalBackend().createHistory({
     adminEmail,
     action: input.action,

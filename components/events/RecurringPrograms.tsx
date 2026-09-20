@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Clock, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock, MapPin } from "lucide-react";
+import { recurringEvents, usePublicEvents } from "@/components/events/usePublicEvents";
 import SectionContainer from "@/components/home/SectionContainer";
 import SectionHeading from "@/components/home/SectionHeading";
 import { homeCardInteractiveClass, homeSectionClass } from "@/components/home/homeUi";
@@ -11,6 +12,16 @@ import { isExternalHref } from "@/lib/externalLink";
 
 export default function RecurringPrograms() {
   const { id, label, heading, subheading, programs, note } = recurringProgramsContent;
+  const livePrograms = recurringEvents(usePublicEvents()).map((event) => ({
+    id: event.id,
+    title: event.title,
+    frequency: event.dateLabel,
+    time: event.time,
+    audience: event.location,
+    href: event.href,
+    buttonLabel: event.buttonLabel,
+  }));
+  const items = livePrograms.length > 0 ? livePrograms : programs;
 
   return (
     <section id={id} className={`${homeSectionClass} border-y border-border/80 bg-surface`}>
@@ -18,7 +29,7 @@ export default function RecurringPrograms() {
         <SectionHeading label={label} heading={heading} subheading={subheading} />
 
         <MotionStagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {programs.map((program) => (
+          {items.map((program) => (
             <MotionItem key={program.id}>
               <article className={`h-full ${homeCardInteractiveClass} p-6`}>
                 <div className="inline-flex rounded-2xl bg-brand/10 p-3 text-brand">
@@ -33,7 +44,7 @@ export default function RecurringPrograms() {
                   {program.time}
                 </p>
                 <p className="mt-2 inline-flex items-center gap-2 text-sm text-muted">
-                  <Users className="h-4 w-4 text-brand" strokeWidth={1.75} aria-hidden="true" />
+                  <MapPin className="h-4 w-4 text-brand" strokeWidth={1.75} aria-hidden="true" />
                   {program.audience}
                 </p>
                 {isExternalHref(program.href) ? (

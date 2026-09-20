@@ -1,0 +1,8 @@
+export PATH="$PATH:/opt/mssql-tools18/bin"
+which sqlcmd
+az account get-access-token \
+  --resource https://database.windows.net \
+  --output tsv \
+  --query accessToken |
+  tr -d '\n' |
+  iconv -f UTF-8 -t UTF-16LE > /tmp/sqltoken

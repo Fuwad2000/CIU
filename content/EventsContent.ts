@@ -78,7 +78,7 @@ export const eventsImages = {
     educationWorkshop:
       "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785020773/IMG_5023_qukbdo.jpg",
     volunteerOutreach:
-      "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785031535/volunteer-02_ajvbvq.jpg",
+      "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785020581/home_hero4_j6vzhr.png",
     communityHalaqah:
       "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785020764/IMG_7460_doasia.jpg",
   },
@@ -299,7 +299,7 @@ export const pastEventsContent = {
       dateLabel: "2026",
       category: "Volunteer",
       imageSrc: eventsImages.pastEvents.volunteerOutreach,
-      imageAlt: "Azhar Canada College volunteers needed outreach poster",
+      imageAlt: "Community members serving together at a CIU volunteer outreach event",
     },
     {
       id: "past-6",

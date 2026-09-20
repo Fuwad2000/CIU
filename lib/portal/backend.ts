@@ -1,8 +1,11 @@
 import { azureStore } from "@/lib/portal/azure-store";
-import { isAzureConfigured } from "@/lib/portal/env";
+import { isAzureConfigured, isSqlConfigured } from "@/lib/portal/env";
 import { memoryStore } from "@/lib/portal/memory-store";
+import { sqlStore } from "@/lib/portal/sql-store";
 import type { PortalBackend } from "@/lib/portal/types";
 
 export function getPortalBackend(): PortalBackend {
-  return isAzureConfigured() ? azureStore : memoryStore;
+  if (isSqlConfigured()) return sqlStore;
+  if (isAzureConfigured()) return azureStore;
+  return memoryStore;
 }

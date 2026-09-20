@@ -1,9 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { Megaphone } from "lucide-react";
+import { featuredEvent, usePublicEvents } from "@/components/events/usePublicEvents";
 import { eventAnnouncementContent } from "@/content/EventsContent";
 
 export default function EventAnnouncementBar() {
-  const { message, buttonLabel, buttonHref } = eventAnnouncementContent;
+  const selected = featuredEvent(usePublicEvents());
+  const message = selected
+    ? `${selected.title} — ${selected.dateLabel}${selected.time ? ` at ${selected.time}` : ""}. ${selected.location}`
+    : eventAnnouncementContent.message;
+  const buttonLabel = selected?.buttonLabel || eventAnnouncementContent.buttonLabel;
+  const buttonHref = selected?.href || eventAnnouncementContent.buttonHref;
 
   return (
     <div className="border-b border-brand/10 bg-brand/5">

@@ -1,55 +1,8 @@
 import { getPortalBackend } from "@/lib/portal/backend";
-import { jsonError, jsonOk, readString, recordHistory, requireAdmin } from "@/lib/portal/http";
-import type { PortalEventCategory, PortalEventInput } from "@/lib/portal/types";
+import { parseEventInput } from "@/lib/portal/event-input";
+import { jsonError, jsonOk, recordHistory, requireAdmin } from "@/lib/portal/http";
 
 export const dynamic = "force-dynamic";
-
-const categories = new Set<PortalEventCategory>([
-  "education",
-  "youth",
-  "family",
-  "community",
-  "spiritual",
-  "volunteer",
-]);
-
-function parseEventInput(body: Record<string, unknown>): PortalEventInput | string {
-  const title = readString(body.title);
-  const category = readString(body.category) as PortalEventCategory;
-  const dateLabel = readString(body.dateLabel);
-  const time = readString(body.time);
-  const location = readString(body.location);
-  const description = readString(body.description);
-  const href = readString(body.href);
-  if (!title || !dateLabel || !time || !location || !description || !href) {
-    return "Title, date, time, location, description, and link are required.";
-  }
-  if (!categories.has(category)) {
-    return "Choose a valid event category.";
-  }
-  const tags = Array.isArray(body.tags)
-    ? body.tags.map((tag) => readString(tag)).filter(Boolean)
-    : readString(body.tags)
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-
-  return {
-    title,
-    category,
-    dateLabel,
-    date: readString(body.date) || undefined,
-    time,
-    location,
-    description,
-    tags,
-    href,
-    buttonLabel: readString(body.buttonLabel) || "View Details",
-    image: readString(body.image) || undefined,
-    recurring: Boolean(body.recurring),
-    featured: Boolean(body.featured),
-  };
-}
 
 export async function GET(request: Request) {
   const unauthorized = await requireAdmin(request);

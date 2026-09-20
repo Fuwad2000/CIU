@@ -2,22 +2,21 @@
 
 import { FormEvent, useState } from "react";
 import { Mail } from "lucide-react";
-import { useToast } from "@/components/ui/ToastProvider";
+import { FormSubmitModal, useFormSubmitModal } from "@/components/ui/FormSubmitModal";
 import SectionContainer from "@/components/home/SectionContainer";
 import { homeBtnPrimaryClass, homeSectionClass } from "@/components/home/homeUi";
 import { MotionSection } from "@/components/motion";
-import { formPlaceholderMessages } from "@/content/FormContent";
 import { eventNewsletterContent } from "@/content/EventsContent";
 import { formInputClassName } from "@/lib/formStyles";
 
 export default function EventNewsletter() {
   const { heading, intro, consent, buttonLabel } = eventNewsletterContent;
-  const showToast = useToast();
+  const submit = useFormSubmitModal();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
 
@@ -31,7 +30,39 @@ export default function EventNewsletter() {
       return;
     }
 
-    showToast(formPlaceholderMessages.newsletter);
+    if (
+      !submit.begin(
+        "Saving your sign-up",
+        "Please wait. This can take a few seconds — do not click again."
+      )
+    ) {
+      return;
+    }
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: fullName.trim(),
+          email: email.trim(),
+          source: "events",
+          agreement: true,
+        }),
+      });
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => ({}))) as { error?: string };
+        submit.fail("Could not subscribe", payload.error ?? "Could not subscribe. Please try again.");
+        return;
+      }
+      setFullName("");
+      setEmail("");
+      submit.succeed(
+        "You’re subscribed",
+        "Thank you. We added you to the CIU newsletter and sent a confirmation to your email."
+      );
+    } catch {
+      submit.fail("Could not subscribe", "Could not subscribe. Please try again.");
+    }
   };
 
   return (
@@ -46,7 +77,7 @@ export default function EventNewsletter() {
             <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">{intro}</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-8 space-y-4" noValidate>
+          <form onSubmit={handleSubmit} className="mt-8 space-y-4" noValidate aria-busy={submit.busy}>
             <div>
               <label htmlFor="event-newsletter-name" className="text-sm font-semibold text-foreground">
                 Full Name
@@ -78,13 +109,19 @@ export default function EventNewsletter() {
                 {error}
               </p>
             ) : null}
-            <button type="submit" className={`${homeBtnPrimaryClass} w-full sm:w-auto`}>
-              {buttonLabel}
+            <button type="submit" disabled={submit.busy} className={`${homeBtnPrimaryClass} w-full sm:w-auto disabled:opacity-70`}>
+              {submit.phase === "submitting" ? "Sending..." : buttonLabel}
             </button>
             <p className="text-xs leading-relaxed text-muted">{consent}</p>
           </form>
         </MotionSection>
       </SectionContainer>
+      <FormSubmitModal
+        phase={submit.phase}
+        title={submit.title}
+        message={submit.message}
+        onClose={submit.close}
+      />
     </section>
   );
 }

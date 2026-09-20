@@ -79,6 +79,18 @@ export type ContactInput = {
 
 export type RegistrationProgram = "quran" | "kids";
 
+export const kidsAgeRanges = [
+  "5–6",
+  "7–8",
+  "9–10",
+  "11–12",
+  "13–14",
+  "15–16",
+  "17–18",
+] as const;
+
+export type KidsAgeRange = (typeof kidsAgeRanges)[number];
+
 export type ClassRegistration = {
   id: string;
   program: RegistrationProgram;
@@ -112,13 +124,16 @@ export type AdminHistoryAction =
 
 export type AdminHistoryArea =
   | "session"
+  | "users"
   | "announcements"
   | "events"
   | "contacts"
-  | "registrations";
+  | "registrations"
+  | "outreach";
 
 export type AdminHistoryEntry = {
   id: string;
+  userId?: string;
   adminEmail: string;
   action: AdminHistoryAction;
   area: AdminHistoryArea;

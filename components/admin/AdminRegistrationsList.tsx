@@ -79,7 +79,7 @@ export default function AdminRegistrationsList({
           <option value="oldest">Oldest first</option>
         </select>
       </div>
-      {error ? <p className="mt-3 text-sm text-red-700">{error}</p> : null}
+      {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
       <div className="mt-6 overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
         {filtered.length === 0 ? (
           <AdminEmptyState
@@ -96,7 +96,7 @@ export default function AdminRegistrationsList({
         ) : program === "quran" ? (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm xl:text-base">
-              <thead className="border-b border-border bg-[#f8f5f0] text-muted">
+              <thead className="border-b border-border bg-background text-muted">
                 <tr>
                   <th className="px-4 py-3 font-medium">Registered</th>
                   <th className="px-4 py-3 font-medium">Name</th>
@@ -121,7 +121,7 @@ export default function AdminRegistrationsList({
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm xl:text-base">
-              <thead className="border-b border-border bg-[#f8f5f0] text-muted">
+              <thead className="border-b border-border bg-background text-muted">
                 <tr>
                   <th className="px-4 py-3 font-medium">Registered</th>
                   <th className="px-4 py-3 font-medium">Student</th>

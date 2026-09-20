@@ -321,8 +321,8 @@ export const ciuCommunityImages = [
     id: "ciu-volunteers-needed",
     title: "Volunteers Needed",
     imageSrc:
-      "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785031535/volunteer-02_ajvbvq.jpg",
-    imageAlt: "CIU volunteers needed recruitment poster",
+      "https://res.cloudinary.com/dpcnwntmv/image/upload/v1785020581/home_hero4_j6vzhr.png",
+    imageAlt: "CIU community members serving together",
     variant: "poster" as const,
   },
   {

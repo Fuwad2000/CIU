@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { Send } from "lucide-react";
+import { FormSubmitModal, useFormSubmitModal } from "@/components/ui/FormSubmitModal";
 import { useToast } from "@/components/ui/ToastProvider";
 import { formInputClassName, formShellClassName } from "@/lib/formStyles";
-import type { RegistrationProgram } from "@/lib/portal/types";
+import { kidsAgeRanges, type RegistrationProgram } from "@/lib/portal/types";
 
 const programs: { id: RegistrationProgram; label: string; detail: string }[] = [
   {
@@ -36,8 +37,8 @@ const initialState = {
 export default function ClassRegistrationForm() {
   const searchParams = useSearchParams();
   const showToast = useToast();
+  const submit = useFormSubmitModal();
   const [formState, setFormState] = useState(initialState);
-  const [submitting, setSubmitting] = useState(false);
 
   const requestedProgram = searchParams.get("program");
 
@@ -71,7 +72,14 @@ export default function ClassRegistrationForm() {
       showToast("Please choose a class.");
       return;
     }
-    setSubmitting(true);
+    if (
+      !submit.begin(
+        "Sending your registration",
+        "Please wait. This can take a few seconds — do not click again."
+      )
+    ) {
+      return;
+    }
     const payload = isQuran
       ? {
           program: formState.program,
@@ -81,28 +89,37 @@ export default function ClassRegistrationForm() {
           notes: formState.notes,
         }
       : formState;
-    const response = await fetch("/api/registrations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    setSubmitting(false);
-    if (!response.ok) {
-      const payloadJson = (await response.json().catch(() => ({}))) as { error?: string };
-      showToast(payloadJson.error ?? "Could not submit registration. Please try again.");
-      return;
+    try {
+      const response = await fetch("/api/registrations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const payloadJson = (await response.json().catch(() => ({}))) as { error?: string };
+        submit.fail(
+          "Registration not sent",
+          payloadJson.error ?? "Could not submit registration. Please try again."
+        );
+        return;
+      }
+      setFormState({
+        ...initialState,
+        program: formState.program,
+      });
+      submit.succeed(
+        "Registration received",
+        "Thank you. We received your class registration and sent a confirmation to your email."
+      );
+    } catch {
+      submit.fail("Registration not sent", "Could not submit registration. Please try again.");
     }
-    setFormState({
-      ...initialState,
-      program: formState.program,
-    });
-    showToast("Registration received. We will contact you with next steps.");
   };
 
   return (
     <div className={formShellClassName}>
       <div className="h-1 bg-brand" />
-      <form onSubmit={handleSubmit} className="space-y-5 p-6 sm:p-8">
+      <form onSubmit={handleSubmit} className="space-y-5 p-6 sm:p-8" aria-busy={submit.busy}>
         <div>
           <p className="text-sm font-semibold tracking-[0.12em] text-brand uppercase">
             Class Registration
@@ -111,7 +128,11 @@ export default function ClassRegistrationForm() {
             Register for CIU Classes
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">
-            Quran class is for adults and learners of all ages. Weekend school is for children in grades 1–12 and needs a parent or guardian.
+            {isQuran
+              ? "Quran class is for adults and learners of all ages. Classes run Tuesday and Thursday evenings. No parent or guardian information is needed."
+              : isKids
+                ? "Weekend school is for children in grades 1–12 and needs a parent or guardian. Registrations should include the student's age, grade, and a parent or guardian contact."
+                : "Quran class is for adults and learners of all ages. Weekend school is for children in grades 1–12 and needs a parent or guardian."}
           </p>
         </div>
 
@@ -153,8 +174,8 @@ export default function ClassRegistrationForm() {
         {selectedProgram ? (
           <p className="rounded-xl bg-brand-light/60 px-4 py-3 text-sm text-brand-dark">
             {isQuran
-              ? "Quran class registration — no parent information needed."
-              : "Kids program registration — parent/guardian and grade are required."}
+              ? "Weekly Quran class — Tuesday and Thursday evenings, open to adults and learners of all ages. No parent information needed."
+              : "CIU Kids / Weekend School — grades 1–12. Parent or guardian name, student age, and grade are required."}
           </p>
         ) : null}
 
@@ -175,12 +196,19 @@ export default function ClassRegistrationForm() {
               {isKids ? (
                 <label className="block">
                   <span className="mb-1.5 block text-sm font-medium text-foreground">Student age</span>
-                  <input
+                  <select
                     required
                     value={formState.studentAge}
                     onChange={(event) => updateField("studentAge", event.target.value)}
                     className={formInputClassName}
-                  />
+                  >
+                    <option value="">Select age range</option>
+                    {kidsAgeRanges.map((range) => (
+                      <option key={range} value={range}>
+                        {range} years
+                      </option>
+                    ))}
+                  </select>
                 </label>
               ) : (
                 <label className="block">
@@ -265,15 +293,21 @@ export default function ClassRegistrationForm() {
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submit.busy}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark disabled:opacity-70"
             >
               <Send className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
-              {submitting ? "Submitting..." : "Submit registration"}
+              {submit.phase === "submitting" ? "Submitting..." : "Submit registration"}
             </button>
           </>
         ) : null}
       </form>
+      <FormSubmitModal
+        phase={submit.phase}
+        title={submit.title}
+        message={submit.message}
+        onClose={submit.close}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
+import { formatFormDetails, sendFormSubmissionEmails } from "@/lib/email/form-mail";
 import { getPortalBackend } from "@/lib/portal/backend";
 import { jsonError, jsonOk, readString } from "@/lib/portal/http";
-import type { RegistrationProgram } from "@/lib/portal/types";
+import { kidsAgeRanges, type RegistrationProgram } from "@/lib/portal/types";
 
 export const dynamic = "force-dynamic";
 
@@ -33,8 +34,12 @@ export async function POST(request: Request) {
     if (!kidsGrades.has(grade)) {
       return jsonError("Choose a grade from 1 to 12.");
     }
+    if (!(kidsAgeRanges as readonly string[]).includes(studentAge)) {
+      return jsonError("Choose a student age range.");
+    }
   }
 
+  const notes = readString(body.notes);
   const record = await getPortalBackend().createRegistration({
     program,
     studentName,
@@ -43,7 +48,23 @@ export async function POST(request: Request) {
     parentName: program === "kids" ? parentName : undefined,
     email,
     phone,
-    notes: readString(body.notes),
+    notes,
+  });
+
+  await sendFormSubmissionEmails({
+    form: program === "kids" ? "kids-program" : "quran-class",
+    submitterName: program === "kids" ? parentName : studentName,
+    submitterEmail: email,
+    internalDetails: formatFormDetails({
+      Program: program === "kids" ? "kids" : "quran",
+      Student: studentName,
+      Age: studentAge,
+      Grade: program === "kids" ? grade : undefined,
+      Parent: program === "kids" ? parentName : undefined,
+      Email: email,
+      Phone: phone,
+      Notes: notes,
+    }),
   });
 
   return jsonOk(record, 201);

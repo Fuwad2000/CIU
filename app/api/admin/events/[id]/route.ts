@@ -1,4 +1,5 @@
 import { getPortalBackend } from "@/lib/portal/backend";
+import { parseEventInput } from "@/lib/portal/event-input";
 import { jsonError, jsonOk, recordHistory, requireAdmin } from "@/lib/portal/http";
 
 export const dynamic = "force-dynamic";
@@ -13,25 +14,23 @@ export async function PATCH(request: Request, { params }: Params) {
   const current = (await getPortalBackend().listEvents()).find((item) => item.id === id);
   if (!current) return jsonError("Event not found.", 404);
 
-  const updated = await getPortalBackend().updateEvent(id, {
-    title: typeof body.title === "string" ? body.title : current.title,
-    category: typeof body.category === "string" ? (body.category as typeof current.category) : current.category,
-    dateLabel: typeof body.dateLabel === "string" ? body.dateLabel : current.dateLabel,
-    date: typeof body.date === "string" ? body.date : current.date,
-    time: typeof body.time === "string" ? body.time : current.time,
-    location: typeof body.location === "string" ? body.location : current.location,
-    description: typeof body.description === "string" ? body.description : current.description,
-    tags: Array.isArray(body.tags)
-      ? body.tags.map(String)
-      : typeof body.tags === "string"
-        ? body.tags.split(",").map((tag) => tag.trim())
-        : current.tags,
-    href: typeof body.href === "string" ? body.href : current.href,
-    buttonLabel: typeof body.buttonLabel === "string" ? body.buttonLabel : current.buttonLabel,
-    image: typeof body.image === "string" ? body.image : current.image,
-    recurring: typeof body.recurring === "boolean" ? body.recurring : current.recurring,
-    featured: typeof body.featured === "boolean" ? body.featured : current.featured,
+  const parsed = parseEventInput({
+    title: body.title ?? current.title,
+    category: body.category ?? current.category,
+    date: body.date ?? current.date ?? "",
+    startTime: body.startTime,
+    time: body.time ?? current.time,
+    location: body.location ?? current.location,
+    description: body.description ?? current.description,
+    tags: body.tags ?? current.tags,
+    href: body.href ?? current.href,
+    buttonLabel: body.buttonLabel ?? current.buttonLabel,
+    image: body.image ?? current.image,
+    recurring: body.recurring ?? current.recurring,
+    featured: body.featured ?? current.featured,
   });
+  if (typeof parsed === "string") return jsonError(parsed);
+  const updated = await getPortalBackend().updateEvent(id, parsed);
   if (!updated) return jsonError("Event not found.", 404);
   await recordHistory(request, {
     action: "updated",

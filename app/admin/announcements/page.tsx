@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { Bell } from "lucide-react";
+import { Bell, Plus, X } from "lucide-react";
 import AdminEmptyState from "@/components/admin/AdminEmptyState";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import { adminFetch, formatDateTime } from "@/lib/portal/client";
@@ -13,6 +13,7 @@ export default function AdminAnnouncementsPage() {
   const [message, setMessage] = useState("");
   const [href, setHref] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [formOpen, setFormOpen] = useState(false);
   const [error, setError] = useState("");
 
   const load = () =>
@@ -24,10 +25,28 @@ export default function AdminAnnouncementsPage() {
     void load();
   }, []);
 
-  const resetForm = () => {
+  const closeForm = () => {
+    setFormOpen(false);
     setMessage("");
     setHref("");
     setEditingId(null);
+    setError("");
+  };
+
+  const openCreate = () => {
+    setEditingId(null);
+    setMessage("");
+    setHref("");
+    setError("");
+    setFormOpen(true);
+  };
+
+  const openEdit = (item: Announcement) => {
+    setEditingId(item.id);
+    setMessage(item.message);
+    setHref(item.href ?? "");
+    setError("");
+    setFormOpen(true);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -45,7 +64,7 @@ export default function AdminAnnouncementsPage() {
           body: JSON.stringify({ message, href, active: true }),
         });
       }
-      resetForm();
+      closeForm();
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save announcement.");
@@ -63,6 +82,7 @@ export default function AdminAnnouncementsPage() {
   const remove = async (id: string) => {
     if (!confirm("Delete this announcement?")) return;
     await adminFetch(`/api/admin/announcements/${id}`, { method: "DELETE" });
+    if (editingId === id) closeForm();
     await load();
   };
 
@@ -71,52 +91,85 @@ export default function AdminAnnouncementsPage() {
       <AdminPageHeader
         eyebrow="Public site"
         title="Announcements"
-        description="Active messages animate across the public site ticker."
+        description="Active messages animate across the public site ticker. Add or edit a record when you need to make a change."
+        action={
+          formOpen ? (
+            <button
+              type="button"
+              onClick={closeForm}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-background xl:text-base"
+            >
+              <X className="h-4 w-4" strokeWidth={1.75} />
+              Close
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={openCreate}
+              className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark xl:text-base"
+            >
+              <Plus className="h-4 w-4" strokeWidth={1.75} />
+              Add announcement
+            </button>
+          )
+        }
       />
 
-      <form onSubmit={handleSubmit} className="rounded-3xl border border-border/80 bg-surface p-5 shadow-sm">
-        <label className="block">
-          <span className="mb-1.5 block text-sm font-medium xl:text-base">Message</span>
-          <input
-            required
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            className={formInputClassName}
-          />
-        </label>
-        <label className="mt-4 block">
-          <span className="mb-1.5 block text-sm font-medium xl:text-base">Optional link</span>
-          <input
-            value={href}
-            onChange={(event) => setHref(event.target.value)}
-            placeholder="/Events or https://..."
-            className={formInputClassName}
-          />
-        </label>
-        {error ? <p className="mt-3 text-sm text-red-700">{error}</p> : null}
-        <div className="mt-4 flex gap-3">
-          <button type="submit" className="rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white xl:text-base">
-            {editingId ? "Update announcement" : "Add announcement"}
-          </button>
-          {editingId ? (
-            <button type="button" onClick={resetForm} className="text-sm text-muted">
+      {formOpen ? (
+        <form onSubmit={handleSubmit} className="mb-6 rounded-3xl border border-border/80 bg-surface p-5 shadow-sm">
+          <div className="mb-4">
+            <p className="text-sm font-semibold text-foreground xl:text-base">
+              {editingId ? "Edit announcement" : "New announcement"}
+            </p>
+            <p className="mt-1 text-sm text-muted">
+              {editingId
+                ? "Update the ticker message, then save. Active items appear on the public website."
+                : "Write a ticker message, then save to publish it on the public website."}
+            </p>
+          </div>
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium xl:text-base">Message</span>
+            <input
+              required
+              value={message}
+              onChange={(event) => setMessage(event.target.value)}
+              className={formInputClassName}
+            />
+          </label>
+          <label className="mt-4 block">
+            <span className="mb-1.5 block text-sm font-medium xl:text-base">Optional link</span>
+            <input
+              value={href}
+              onChange={(event) => setHref(event.target.value)}
+              placeholder="/Events or https://..."
+              className={formInputClassName}
+            />
+          </label>
+          {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
+          <div className="mt-4 flex gap-3">
+            <button type="submit" className="rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white xl:text-base">
+              {editingId ? "Save changes" : "Publish announcement"}
+            </button>
+            <button type="button" onClick={closeForm} className="text-sm text-muted xl:text-base">
               Cancel
             </button>
-          ) : null}
-        </div>
-      </form>
+          </div>
+        </form>
+      ) : error && items.length === 0 ? (
+        <p className="mb-6 text-sm text-danger">{error}</p>
+      ) : null}
 
-      <div className="mt-6 overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
+      <div className="overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
         {items.length === 0 ? (
           <AdminEmptyState
             icon={Bell}
             title="No announcements yet"
-            description="Add a ticker message above. Active items will appear on the public website."
+            description="Use Add announcement to publish a ticker message on the public website."
           />
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm xl:text-base">
-              <thead className="border-b border-border bg-[#f8f5f0] text-muted">
+              <thead className="border-b border-border bg-background text-muted">
                 <tr>
                   <th className="px-4 py-3 font-medium xl:px-5 xl:py-3.5">Message</th>
                   <th className="px-4 py-3 font-medium xl:px-5 xl:py-3.5">Status</th>
@@ -140,21 +193,13 @@ export default function AdminAnnouncementsPage() {
                     <td className="px-4 py-3 text-muted">{formatDateTime(item.updatedAt)}</td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-2">
-                        <button
-                          type="button"
-                          className="text-brand"
-                          onClick={() => {
-                            setEditingId(item.id);
-                            setMessage(item.message);
-                            setHref(item.href ?? "");
-                          }}
-                        >
+                        <button type="button" className="text-brand" onClick={() => openEdit(item)}>
                           Edit
                         </button>
                         <button type="button" className="text-brand" onClick={() => toggleActive(item)}>
                           {item.active ? "Hide" : "Show"}
                         </button>
-                        <button type="button" className="text-red-700" onClick={() => remove(item.id)}>
+                        <button type="button" className="text-danger" onClick={() => remove(item.id)}>
                           Delete
                         </button>
                       </div>

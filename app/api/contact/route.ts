@@ -1,3 +1,4 @@
+import { formatFormDetails, sendFormSubmissionEmails } from "@/lib/email/form-mail";
 import { getPortalBackend } from "@/lib/portal/backend";
 import { jsonError, jsonOk, readString } from "@/lib/portal/http";
 
@@ -23,6 +24,19 @@ export async function POST(request: Request) {
     phone,
     subject,
     message,
+  });
+
+  await sendFormSubmissionEmails({
+    form: "contact",
+    submitterName: `${firstName} ${surname}`,
+    submitterEmail: email,
+    internalDetails: formatFormDetails({
+      Name: `${firstName} ${surname}`,
+      Email: email,
+      Phone: phone,
+      Subject: subject,
+      Message: message,
+    }),
   });
 
   return jsonOk(record, 201);

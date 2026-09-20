@@ -1,67 +1,56 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
-import { ciuLogoSrc } from "@/content/SiteContent";
-import { formInputClassName } from "@/lib/formStyles";
+import { useMsal } from "@azure/msal-react";
+import { useState } from "react";
+import AdminAuthFrame, { MicrosoftMark } from "@/components/admin/AdminAuthFrame";
+import AdminBrandMark from "@/components/admin/AdminBrandMark";
+import { isPublicEntraConfigured, signInWithMicrosoft } from "@/lib/portal/entra-msal";
 
 export default function AdminLoginForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [password, setPassword] = useState("");
+  const { inProgress } = useMsal();
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const configured = isPublicEntraConfigured();
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSubmitting(true);
+  const handleSignIn = async () => {
     setError("");
-    const response = await fetch("/api/admin/session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
-    setSubmitting(false);
-    if (!response.ok) {
-      const payload = (await response.json().catch(() => ({}))) as { error?: string };
-      setError(payload.error ?? "Could not sign in.");
-      return;
+    setSubmitting(true);
+    try {
+      await signInWithMicrosoft();
+    } catch {
+      setSubmitting(false);
+      setError("We couldn't start sign-in. Please try again.");
     }
-    router.push(searchParams.get("next") || "/admin");
-    router.refresh();
   };
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-section-warm px-4 py-16">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-3xl border border-border bg-surface p-8 shadow-premium"
+    <AdminAuthFrame>
+      <div className="hidden items-center gap-3 lg:flex">
+        <AdminBrandMark size={44} />
+        <p className="text-sm font-semibold tracking-wide text-muted">Canadian Islamic Union</p>
+      </div>
+      <p className="mt-8 text-xs font-semibold tracking-[0.18em] text-brand uppercase lg:mt-10">Staff portal</p>
+      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground">Welcome back</h1>
+      <div className="gold-accent-bar mt-4" />
+      <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
+        Sign in with your CIU Microsoft account to continue.
+      </p>
+      {!configured ? (
+        <p className="mt-6 text-sm text-danger">Sign-in isn’t available right now. Please try again later.</p>
+      ) : null}
+      {error ? <p className="mt-4 text-sm text-danger">{error}</p> : null}
+      <button
+        type="button"
+        onClick={() => void handleSignIn()}
+        disabled={submitting || !configured || inProgress !== "none"}
+        className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-brand px-5 py-3.5 text-sm font-semibold text-white shadow-premium transition hover:bg-brand-dark disabled:opacity-70 sm:text-base"
       >
-        <Image src={ciuLogoSrc} alt="CIU" width={48} height={48} />
-        <h1 className="mt-5 text-2xl font-semibold text-foreground">Admin sign in</h1>
-        <p className="mt-2 text-sm text-muted">
-          Staff only. Set <code>ADMIN_PASSWORD</code> in the environment before using this portal.
-        </p>
-        <label className="mt-6 block">
-          <span className="mb-1.5 block text-sm font-medium text-foreground">Password</span>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className={formInputClassName}
-          />
-        </label>
-        {error ? <p className="mt-3 text-sm text-red-700">{error}</p> : null}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-brand px-5 py-3 font-semibold text-white hover:bg-brand-dark disabled:opacity-70"
-        >
-          {submitting ? "Signing in..." : "Sign in"}
-        </button>
-      </form>
-    </div>
+        <MicrosoftMark />
+        {submitting ? "Opening Microsoft..." : "Continue with Microsoft"}
+      </button>
+      <p className="mt-5 text-center text-xs text-muted sm:text-sm">
+        Only CIU staff with access can open this portal.
+      </p>
+    </AdminAuthFrame>
   );
 }

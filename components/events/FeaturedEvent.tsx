@@ -4,6 +4,7 @@ import ZoomableImage from "@/components/lightbox/ZoomableImage";
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
 import EventTag from "@/components/events/EventTag";
+import { featuredEvent, usePublicEvents } from "@/components/events/usePublicEvents";
 import SectionContainer from "@/components/home/SectionContainer";
 import {
   homeBtnOutlineClass,
@@ -14,6 +15,7 @@ import { MotionItem, MotionStagger } from "@/components/motion";
 import { featuredEventContent } from "@/content/EventsContent";
 
 export default function FeaturedEvent() {
+  const selected = featuredEvent(usePublicEvents());
   const {
     label,
     title,
@@ -27,7 +29,25 @@ export default function FeaturedEvent() {
     note,
     imageSrc,
     imageAlt,
-  } = featuredEventContent;
+  } = selected
+    ? {
+        label: featuredEventContent.label,
+        title: selected.title,
+        dateLabel: selected.dateLabel,
+        time: selected.time,
+        location: selected.location,
+        description: selected.description,
+        chips: selected.tags,
+        primaryButton:
+          selected.href === "/Contact"
+            ? { label: selected.buttonLabel, href: selected.href }
+            : featuredEventContent.primaryButton,
+        secondaryButton: { label: selected.buttonLabel, href: selected.href },
+        note: featuredEventContent.note,
+        imageSrc: selected.image ?? featuredEventContent.imageSrc,
+        imageAlt: `${selected.title} event`,
+      }
+    : featuredEventContent;
 
   return (
     <section className={homeSectionClass}>
