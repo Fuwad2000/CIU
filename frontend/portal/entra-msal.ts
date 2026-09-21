@@ -8,12 +8,16 @@ import {
   type AccountInfo,
   type Configuration,
 } from "@azure/msal-browser";
+import { isCompletePublicEntraConfig, type PublicEntraConfig } from "@shared/entra-public";
 
 export const ADMIN_REDIRECT_PATH = "/admin";
 export const ADMIN_LOGIN_PATH = "/admin/login";
 export const POST_LOGOUT_PATH = "/";
 
-export function publicEntraConfig() {
+let runtimeConfig: PublicEntraConfig | null = null;
+let loadPromise: Promise<boolean> | null = null;
+
+function envFallbackConfig(): PublicEntraConfig {
   return {
     tenantId: process.env.NEXT_PUBLIC_ENTRA_TENANT_ID?.trim() ?? "",
     clientId: process.env.NEXT_PUBLIC_ENTRA_PORTAL_CLIENT_ID?.trim() ?? "",
@@ -21,9 +25,32 @@ export function publicEntraConfig() {
   };
 }
 
+export function publicEntraConfig(): PublicEntraConfig {
+  return runtimeConfig ?? envFallbackConfig();
+}
+
 export function isPublicEntraConfigured() {
-  const config = publicEntraConfig();
-  return Boolean(config.tenantId && config.clientId && config.apiScope);
+  return isCompletePublicEntraConfig(publicEntraConfig());
+}
+
+export async function loadPublicEntraConfig() {
+  if (isPublicEntraConfigured()) return true;
+  if (!loadPromise) {
+    loadPromise = fetch("/api/admin/entra-public")
+      .then(async (response) => {
+        const payload = (await response.json().catch(() => ({}))) as Partial<PublicEntraConfig>;
+        const next = {
+          tenantId: payload.tenantId?.trim() ?? "",
+          clientId: payload.clientId?.trim() ?? "",
+          apiScope: payload.apiScope?.trim() ?? "",
+        };
+        if (!response.ok || !isCompletePublicEntraConfig(next)) return false;
+        runtimeConfig = next;
+        return true;
+      })
+      .catch(() => false);
+  }
+  return loadPromise;
 }
 
 export function entraRedirectUri() {
@@ -70,6 +97,9 @@ let instance: PublicClientApplication | null = null;
 export function getMsalInstance() {
   if (typeof window === "undefined") {
     throw new Error("Microsoft sign-in is only available in the browser.");
+  }
+  if (!isPublicEntraConfigured()) {
+    throw new Error("Microsoft sign-in is not configured.");
   }
   if (!instance) {
     instance = new PublicClientApplication(msalConfig());

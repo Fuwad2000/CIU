@@ -3,8 +3,7 @@
 import { MsalProvider, useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { InteractionStatus, type PublicClientApplication } from "@azure/msal-browser";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useSyncExternalStore } from "react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AdminAccessDenied from "@frontend/components/admin/AdminAccessDenied";
 import { AdminAuthStatus } from "@frontend/components/admin/AdminAuthStatus";
 import { AdminSessionProvider } from "@frontend/components/admin/AdminSessionContext";
@@ -16,17 +15,9 @@ import type { StaffSessionRecord } from "@shared/admin-session";
 import {
   ADMIN_LOGIN_PATH,
   getMsalInstance,
-  isPublicEntraConfigured,
+  loadPublicEntraConfig,
   signOutWithMicrosoft,
 } from "@frontend/portal/entra-msal";
-
-function useBrowserMsal() {
-  return useSyncExternalStore(
-    () => () => undefined,
-    () => getMsalInstance(),
-    () => null as PublicClientApplication | null
-  );
-}
 
 type PrepStep = "microsoft" | "session" | "access" | "opening";
 
@@ -224,9 +215,30 @@ function AdminAuthGate({ children }: { children: React.ReactNode }) {
 }
 
 export default function AdminAuthProvider({ children }: { children: React.ReactNode }) {
-  const instance = useBrowserMsal();
+  const [instance, setInstance] = useState<PublicClientApplication | null>(null);
+  const [available, setAvailable] = useState<boolean | null>(null);
 
-  if (!isPublicEntraConfigured()) {
+  useEffect(() => {
+    let cancelled = false;
+    void loadPublicEntraConfig().then((ok) => {
+      if (cancelled) return;
+      if (!ok) {
+        setAvailable(false);
+        return;
+      }
+      try {
+        setInstance(getMsalInstance());
+        setAvailable(true);
+      } catch {
+        setAvailable(false);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (available === false) {
     return (
       <AdminAuthStatus
         title="Sign-in isn’t available right now"
