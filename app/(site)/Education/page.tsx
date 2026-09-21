@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import EducationHubPage from "@/components/education/EducationHubPage";
-import { siteContent } from "@/content/SiteContent";
+import EducationHubPage from "@frontend/components/education/EducationHubPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Education | ${siteContent.shortName}`,

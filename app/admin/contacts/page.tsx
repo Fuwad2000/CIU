@@ -1,41 +1,42 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, Inbox, Search } from "lucide-react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { adminFetch, formatShortDate } from "@/lib/portal/client";
-import { formInputClassName } from "@/lib/formStyles";
-import type { ContactMessage } from "@/lib/portal/types";
+import { useEffect, useState } from "react";
+import { Inbox } from "lucide-react";
+import { AdminColumnHeaders, AdminTableEmptyRow } from "@frontend/components/admin/AdminColumnHeader";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { adminFetch, formatShortDate } from "@frontend/portal/client";
+import { useAdminTable } from "@frontend/portal/use-admin-table";
+import type { ContactMessage } from "@shared/types";
 
-type SortKey = "name" | "email" | "date";
-type SortDir = "asc" | "desc";
-
-const columns: { key: SortKey | "phone" | "subject" | "message"; label: string; sortable?: boolean }[] = [
-  { key: "name", label: "Name", sortable: true },
-  { key: "email", label: "Email", sortable: true },
-  { key: "phone", label: "Phone" },
-  { key: "subject", label: "Subject" },
-  { key: "message", label: "Message" },
-  { key: "date", label: "Date", sortable: true },
-];
+type ColumnKey = "name" | "email" | "phone" | "subject" | "message" | "date";
 
 function contactName(item: ContactMessage) {
   return item.name || [item.firstName, item.surname].filter(Boolean).join(" ") || "";
 }
 
-function sortValue(item: ContactMessage, key: SortKey) {
-  if (key === "date") return item.createdAt || "";
-  if (key === "name") return contactName(item);
-  return item.email || "";
-}
+const accessors: Record<ColumnKey, (item: ContactMessage) => { sort: string; filter: string }> = {
+  name: (item) => ({ sort: contactName(item), filter: contactName(item) }),
+  email: (item) => ({ sort: item.email || "", filter: item.email || "" }),
+  phone: (item) => ({ sort: item.phone || "", filter: item.phone || "" }),
+  subject: (item) => ({ sort: item.subject || "", filter: item.subject || "" }),
+  message: (item) => ({ sort: item.message || "", filter: item.message || "" }),
+  date: (item) => ({ sort: item.createdAt || "", filter: formatShortDate(item.createdAt) }),
+};
+
+const headers: Array<{ key: ColumnKey; label: string; sort?: boolean; filter?: boolean }> = [
+  { key: "name", label: "Name", sort: true, filter: true },
+  { key: "email", label: "Email", sort: true, filter: true },
+  { key: "phone", label: "Phone", filter: true },
+  { key: "subject", label: "Subject", filter: true },
+  { key: "message", label: "Message" },
+  { key: "date", label: "Date", sort: true },
+];
 
 export default function AdminContactsPage() {
   const [items, setItems] = useState<ContactMessage[]>([]);
-  const [query, setQuery] = useState("");
-  const [sortKey, setSortKey] = useState<SortKey>("date");
-  const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [error, setError] = useState("");
+  const { rows, sortKey, sortDir, toggleSort, filters, setFilter } = useAdminTable(items, accessors, "date");
 
   useEffect(() => {
     adminFetch<ContactMessage[]>("/api/admin/contacts")
@@ -43,92 +44,39 @@ export default function AdminContactsPage() {
       .catch((err: Error) => setError(err.message));
   }, []);
 
-  const toggleSort = (key: SortKey) => {
-    if (sortKey === key) {
-      setSortDir((current) => (current === "asc" ? "desc" : "asc"));
-      return;
-    }
-    setSortKey(key);
-    setSortDir(key === "date" ? "desc" : "asc");
-  };
-
-  const filtered = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    const next = items.filter((item) =>
-      [contactName(item), item.email, item.phone, item.subject, item.message]
-        .join(" ")
-        .toLowerCase()
-        .includes(needle)
-    );
-    next.sort((a, b) => {
-      const left = sortValue(a, sortKey).toLowerCase();
-      const right = sortValue(b, sortKey).toLowerCase();
-      const result = left.localeCompare(right, "en", { numeric: true, sensitivity: "base" });
-      return sortDir === "asc" ? result : -result;
-    });
-    return next;
-  }, [items, query, sortKey, sortDir]);
-
   return (
     <div>
       <AdminPageHeader
         eyebrow="Inbox"
         title="Contact messages"
-        description="Full details from everyone who used the public contact form."
-      />
-      <input
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search name, phone, email, or message"
-        className={formInputClassName}
+        description="Full details from everyone who used the public contact form. Sort or filter from a column heading."
       />
       {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
       <div className="mt-6 overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
-        {filtered.length === 0 ? (
+        {items.length === 0 ? (
           <AdminEmptyState
-            icon={items.length === 0 ? Inbox : Search}
-            title={items.length === 0 ? "No messages yet" : "No matching messages"}
-            description={
-              items.length === 0
-                ? "When someone submits the public contact form, their details will appear here."
-                : "Try a different name, email, phone, or subject."
-            }
+            icon={Inbox}
+            title="No messages yet"
+            description="When someone submits the public contact form, their details will appear here."
           />
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm xl:text-base">
               <thead className="border-b border-border bg-background text-muted">
                 <tr>
-                  {columns.map((column) => {
-                    const active = column.sortable && sortKey === column.key;
-                    return (
-                      <th key={column.key} className="px-4 py-3 font-medium">
-                        {column.sortable ? (
-                          <button
-                            type="button"
-                            onClick={() => toggleSort(column.key as SortKey)}
-                            className={`inline-flex items-center gap-1.5 transition hover:text-foreground ${
-                              active ? "text-foreground" : ""
-                            }`}
-                            aria-label={`Sort by ${column.label}`}
-                          >
-                            {column.label}
-                            {active && sortDir === "asc" ? (
-                              <ChevronUp className="h-4 w-4" strokeWidth={1.75} />
-                            ) : (
-                              <ChevronDown className={`h-4 w-4 ${active ? "" : "opacity-40"}`} strokeWidth={1.75} />
-                            )}
-                          </button>
-                        ) : (
-                          column.label
-                        )}
-                      </th>
-                    );
-                  })}
+                  <AdminColumnHeaders
+                    columns={headers}
+                    sortKey={sortKey}
+                    sortDir={sortDir}
+                    onSort={toggleSort}
+                    filters={filters}
+                    onFilterChange={setFilter}
+                  />
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((item) => (
+                {rows.length === 0 ? <AdminTableEmptyRow colSpan={headers.length} /> : null}
+                {rows.map((item) => (
                   <tr key={item.id} className="border-b border-border last:border-0 align-top">
                     <td className="px-4 py-3 font-medium text-foreground">{contactName(item) || "—"}</td>
                     <td className="px-4 py-3">{item.email || "—"}</td>

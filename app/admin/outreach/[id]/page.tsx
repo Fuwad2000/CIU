@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import OutreachCampaignEditor from "@/components/admin/OutreachCampaignEditor";
-import { useAdminSession } from "@/components/admin/AdminSessionContext";
-import { adminFetch, formatDateTime } from "@/lib/portal/client";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import OutreachCampaignEditor from "@frontend/components/admin/OutreachCampaignEditor";
+import { useAdminSession } from "@frontend/components/admin/AdminSessionContext";
+import { adminFetch, formatDateTime } from "@frontend/portal/client";
 import {
   OUTREACH_AUDIENCE_LABELS,
   OUTREACH_STATUS_LABELS,
   OUTREACH_TYPE_LABELS,
   type OutreachCampaign,
   type OutreachRecipient,
-} from "@/lib/portal/outreach";
+} from "@shared/outreach";
 import { Megaphone } from "lucide-react";
 
 export default function OutreachCampaignDetailPage() {
@@ -76,7 +76,7 @@ export default function OutreachCampaignDetailPage() {
         description={`${OUTREACH_TYPE_LABELS[campaign.type]} · ${OUTREACH_STATUS_LABELS[campaign.status]}`}
         action={
           <Link href="/admin/outreach" className="text-sm font-medium text-muted hover:text-foreground">
-            Back to campaigns
+            Back to history
           </Link>
         }
       />

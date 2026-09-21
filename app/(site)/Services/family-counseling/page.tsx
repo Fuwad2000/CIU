@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import FamilyCounselingPage from "@/components/services/FamilyCounselingPage";
-import { siteContent } from "@/content/SiteContent";
+import FamilyCounselingPage from "@frontend/components/services/FamilyCounselingPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Family Services | ${siteContent.shortName}`,

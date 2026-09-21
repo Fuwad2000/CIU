@@ -207,7 +207,7 @@ def main():
 
     pdf.h1("2. How the website talks to Azure")
     pdf.body(
-        "Set these environment variables on the website. lib/portal/azure-store.ts already maps "
+        "Set these environment variables on the website. backend/stores/azure-store.ts already maps "
         "to the paths below. Until AZURE_API_BASE_URL is set, the site uses an in-memory store that resets on deploy."
     )
     pdf.table(

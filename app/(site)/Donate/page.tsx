@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import DonatePage from "@/components/donate/DonatePage";
-import { siteContent } from "@/content/SiteContent";
+import DonatePage from "@frontend/components/donate/DonatePage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Donate | ${siteContent.shortName}`,

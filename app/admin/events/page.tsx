@@ -2,12 +2,40 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { CalendarDays, Plus, X } from "lucide-react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { adminFetch, formatDateTime } from "@/lib/portal/client";
-import { parseStoredEventTime } from "@/lib/portal/event-datetime";
-import { formInputClassName } from "@/lib/formStyles";
-import type { PortalEvent, PortalEventCategory } from "@/lib/portal/types";
+import { AdminColumnHeaders, AdminTableEmptyRow } from "@frontend/components/admin/AdminColumnHeader";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { adminFetch, formatDateTime } from "@frontend/portal/client";
+import { useAdminTable } from "@frontend/portal/use-admin-table";
+import { parseStoredEventTime } from "@shared/event-datetime";
+import PosterUpload from "@frontend/components/admin/PosterUpload";
+import { formInputClassName } from "@frontend/lib/formStyles";
+import type { PosterImageInput } from "@shared/poster-image";
+import type { PortalEvent, PortalEventCategory } from "@shared/types";
+
+type ColumnKey = "event" | "category" | "when" | "updated";
+
+const accessors: Record<ColumnKey, (item: PortalEvent) => { sort: string; filter: string }> = {
+  event: (item) => ({
+    sort: item.title,
+    filter: [item.title, item.location, item.featured ? "Featured" : "", item.recurring ? "Recurring" : ""]
+      .filter(Boolean)
+      .join(" "),
+  }),
+  category: (item) => ({ sort: item.category, filter: item.category }),
+  when: (item) => ({
+    sort: item.date || item.dateLabel,
+    filter: `${item.dateLabel} · ${item.time}`,
+  }),
+  updated: (item) => ({ sort: item.updatedAt, filter: formatDateTime(item.updatedAt) }),
+};
+
+const headers: Array<{ key: ColumnKey; label: string; sort?: boolean; filter?: boolean }> = [
+  { key: "event", label: "Event", sort: true, filter: true },
+  { key: "category", label: "Category", sort: true, filter: true },
+  { key: "when", label: "When", sort: true },
+  { key: "updated", label: "Updated", sort: true },
+];
 
 const emptyEvent = {
   title: "",
@@ -30,6 +58,8 @@ export default function AdminEventsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [error, setError] = useState("");
+  const [poster, setPoster] = useState<PosterImageInput | null>(null);
+  const { rows, sortKey, sortDir, toggleSort, filters, setFilter } = useAdminTable(items, accessors, "when");
 
   const load = () =>
     adminFetch<PortalEvent[]>("/api/admin/events")
@@ -44,12 +74,14 @@ export default function AdminEventsPage() {
     setFormOpen(false);
     setEditingId(null);
     setForm(emptyEvent);
+    setPoster(null);
     setError("");
   };
 
   const openCreate = () => {
     setEditingId(null);
     setForm(emptyEvent);
+    setPoster(null);
     setError("");
     setFormOpen(true);
   };
@@ -71,6 +103,7 @@ export default function AdminEventsPage() {
       recurring: Boolean(item.recurring),
       featured: Boolean(item.featured),
     });
+    setPoster(null);
     setError("");
     setFormOpen(true);
   };
@@ -205,10 +238,19 @@ export default function AdminEventsPage() {
             <span className="mb-1.5 block text-sm font-medium xl:text-base">Tags (comma separated)</span>
             <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} className={formInputClassName} />
           </label>
-          <label className="block md:col-span-2">
-            <span className="mb-1.5 block text-sm font-medium xl:text-base">Image URL</span>
-            <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} className={formInputClassName} />
-          </label>
+          <div className="md:col-span-2">
+            <PosterUpload
+              label="Poster (optional)"
+              hint="Upload a picture from this device to preview it here. It will be saved when blob storage is ready."
+              poster={poster}
+              fallbackSrc={form.image}
+              onChange={(next) => {
+                setPoster(next);
+                if (!next) setForm((current) => ({ ...current, image: "" }));
+              }}
+              onError={setError}
+            />
+          </div>
           <label className="flex items-center gap-2 text-sm xl:text-base">
             <input type="checkbox" checked={form.recurring} onChange={(e) => setForm({ ...form, recurring: e.target.checked })} />
             Recurring
@@ -231,7 +273,7 @@ export default function AdminEventsPage() {
         <p className="mb-6 text-sm text-danger">{error}</p>
       ) : null}
 
-      <div className="overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
+      <div className="mt-6 overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
         {items.length === 0 ? (
           <AdminEmptyState
             icon={CalendarDays}
@@ -243,14 +285,20 @@ export default function AdminEventsPage() {
             <table className="min-w-full text-left text-sm xl:text-base">
               <thead className="border-b border-border bg-background text-muted">
                 <tr>
-                  <th className="px-4 py-3 font-medium">Event</th>
-                  <th className="px-4 py-3 font-medium">When</th>
-                  <th className="px-4 py-3 font-medium">Updated</th>
+                  <AdminColumnHeaders
+                    columns={headers}
+                    sortKey={sortKey}
+                    sortDir={sortDir}
+                    onSort={toggleSort}
+                    filters={filters}
+                    onFilterChange={setFilter}
+                  />
                   <th className="px-4 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {items.map((item) => (
+                {rows.length === 0 ? <AdminTableEmptyRow colSpan={headers.length + 1} /> : null}
+                {rows.map((item) => (
                   <tr key={item.id} className="border-b border-border last:border-0">
                     <td className="px-4 py-3">
                       <p className="font-medium text-foreground">{item.title}</p>
@@ -263,6 +311,7 @@ export default function AdminEventsPage() {
                         </p>
                       ) : null}
                     </td>
+                    <td className="px-4 py-3 capitalize text-muted">{item.category}</td>
                     <td className="px-4 py-3">{item.dateLabel} · {item.time}</td>
                     <td className="px-4 py-3 text-muted">{formatDateTime(item.updatedAt)}</td>
                     <td className="px-4 py-3">

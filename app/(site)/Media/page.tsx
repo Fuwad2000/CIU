@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import MediaPage from "@/components/media/MediaPage";
-import { siteContent } from "@/content/SiteContent";
+import MediaPage from "@frontend/components/media/MediaPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Media | ${siteContent.shortName}`,

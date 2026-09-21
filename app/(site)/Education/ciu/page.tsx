@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import CiuProgramsPage from "@/components/education/CiuProgramsPage";
-import { siteContent } from "@/content/SiteContent";
+import CiuProgramsPage from "@frontend/components/education/CiuProgramsPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `CIU Programs | ${siteContent.shortName}`,

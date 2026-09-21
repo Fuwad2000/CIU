@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import PrayerTimesPage from "@/components/prayer/PrayerTimesPage";
-import { siteContent } from "@/content/SiteContent";
+import PrayerTimesPage from "@frontend/components/prayer/PrayerTimesPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Prayer Times | ${siteContent.shortName}`,

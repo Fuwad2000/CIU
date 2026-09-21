@@ -222,6 +222,15 @@ html.admin-type input[type="checkbox"] {
   }
 }
 
+@keyframes auth-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
 @keyframes hero-progress {
   from {
     transform: scaleX(0);

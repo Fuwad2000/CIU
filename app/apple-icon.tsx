@@ -1,4 +1,4 @@
-import { fetchSiteIconBytes } from "@/lib/siteIcon";
+import { fetchSiteIconBytes } from "@frontend/lib/siteIcon";
 
 export const dynamic = "force-dynamic";
 export const size = { width: 180, height: 180 };

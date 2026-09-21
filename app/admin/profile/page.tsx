@@ -1,11 +1,11 @@
 "use client";
 
-import AdminAccessCards from "@/components/admin/AdminAccessCards";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { useAdminSession } from "@/components/admin/AdminSessionContext";
-import { displayInitials } from "@/lib/portal/admin-me";
-import { ADMIN_ROLE_LABELS, ADMIN_ROLE_SUMMARIES } from "@/lib/portal/admin-roles";
-import { formatDateTime, formatShortDate } from "@/lib/portal/client";
+import AdminAccessCards from "@frontend/components/admin/AdminAccessCards";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { useAdminSession } from "@frontend/components/admin/AdminSessionContext";
+import { displayInitials } from "@shared/admin-me";
+import { ADMIN_ROLE_LABELS, ADMIN_ROLE_SUMMARIES } from "@shared/admin-roles";
+import { formatDateTime, formatShortDate } from "@frontend/portal/client";
 
 export default function AdminProfilePage() {
   const { profile } = useAdminSession();

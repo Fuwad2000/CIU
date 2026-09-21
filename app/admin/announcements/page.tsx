@@ -2,11 +2,27 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { Bell, Plus, X } from "lucide-react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { adminFetch, formatDateTime } from "@/lib/portal/client";
-import { formInputClassName } from "@/lib/formStyles";
-import type { Announcement } from "@/lib/portal/types";
+import { AdminColumnHeaders, AdminTableEmptyRow } from "@frontend/components/admin/AdminColumnHeader";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { adminFetch, formatDateTime } from "@frontend/portal/client";
+import { useAdminTable } from "@frontend/portal/use-admin-table";
+import { formInputClassName } from "@frontend/lib/formStyles";
+import type { Announcement } from "@shared/types";
+
+type ColumnKey = "message" | "status" | "updated";
+
+const accessors: Record<ColumnKey, (item: Announcement) => { sort: string; filter: string }> = {
+  message: (item) => ({ sort: item.message, filter: `${item.message} ${item.href ?? ""}` }),
+  status: (item) => ({ sort: item.active ? "Active" : "Hidden", filter: item.active ? "Active" : "Hidden" }),
+  updated: (item) => ({ sort: item.updatedAt, filter: formatDateTime(item.updatedAt) }),
+};
+
+const headers: Array<{ key: ColumnKey; label: string; sort?: boolean; filter?: boolean }> = [
+  { key: "message", label: "Message", filter: true },
+  { key: "status", label: "Status", sort: true, filter: true },
+  { key: "updated", label: "Updated", sort: true },
+];
 
 export default function AdminAnnouncementsPage() {
   const [items, setItems] = useState<Announcement[]>([]);
@@ -15,6 +31,7 @@ export default function AdminAnnouncementsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [error, setError] = useState("");
+  const { rows, sortKey, sortDir, toggleSort, filters, setFilter } = useAdminTable(items, accessors, "updated");
 
   const load = () =>
     adminFetch<Announcement[]>("/api/admin/announcements")
@@ -159,7 +176,7 @@ export default function AdminAnnouncementsPage() {
         <p className="mb-6 text-sm text-danger">{error}</p>
       ) : null}
 
-      <div className="overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
+      <div className="mt-6 overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
         {items.length === 0 ? (
           <AdminEmptyState
             icon={Bell}
@@ -171,14 +188,20 @@ export default function AdminAnnouncementsPage() {
             <table className="min-w-full text-left text-sm xl:text-base">
               <thead className="border-b border-border bg-background text-muted">
                 <tr>
-                  <th className="px-4 py-3 font-medium xl:px-5 xl:py-3.5">Message</th>
-                  <th className="px-4 py-3 font-medium xl:px-5 xl:py-3.5">Status</th>
-                  <th className="px-4 py-3 font-medium xl:px-5 xl:py-3.5">Updated</th>
+                  <AdminColumnHeaders
+                    columns={headers}
+                    sortKey={sortKey}
+                    sortDir={sortDir}
+                    onSort={toggleSort}
+                    filters={filters}
+                    onFilterChange={setFilter}
+                  />
                   <th className="px-4 py-3 font-medium xl:px-5 xl:py-3.5">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {items.map((item) => (
+                {rows.length === 0 ? <AdminTableEmptyRow colSpan={headers.length + 1} /> : null}
+                {rows.map((item) => (
                   <tr key={item.id} className="border-b border-border last:border-0">
                     <td className="px-4 py-3 text-foreground xl:px-5 xl:py-4">{item.message}</td>
                     <td className="px-4 py-3 xl:px-5 xl:py-4">

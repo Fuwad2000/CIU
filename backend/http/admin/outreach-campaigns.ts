@@ -1,0 +1,57 @@
+import { requireAdminActor } from "@backend/auth/admin-auth";
+import { isSqlConfigured } from "@backend/env";
+import { jsonError, jsonOk, recordHistory } from "@backend/http/respond";
+import { parseOutreachCampaignInput } from "@backend/outreach/input";
+import { denyOutreachCreate, denyStaffAudience } from "@backend/outreach/policy";
+import { outreachSqlMessage } from "@backend/outreach/sql";
+import { createOutreachCampaign, listOutreachCampaigns } from "@backend/outreach/store";
+
+
+export async function GET(request: Request) {
+  const auth = await requireAdminActor(request);
+  if (auth.error) return auth.error;
+  if (!isSqlConfigured()) {
+    return jsonError("Azure SQL is not configured. Set SQL_SERVER and SQL_DATABASE.", 503);
+  }
+
+  try {
+    return jsonOk(await listOutreachCampaigns());
+  } catch (error) {
+    return jsonError(outreachSqlMessage(error, "Could not load campaigns."), 500);
+  }
+}
+
+export async function POST(request: Request) {
+  const auth = await requireAdminActor(request);
+  if (auth.error) return auth.error;
+  if (!auth.actor) return jsonError("You do not have access to the CIU admin portal.", 403);
+  if (!isSqlConfigured()) {
+    return jsonError("Azure SQL is not configured. Set SQL_SERVER and SQL_DATABASE.", 503);
+  }
+
+  const deniedCreate = denyOutreachCreate(auth.actor.adminRole);
+  if (deniedCreate) return jsonError(deniedCreate, 403);
+
+  const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+  const parsed = parseOutreachCampaignInput(body);
+  if (typeof parsed === "string") return jsonError(parsed);
+
+  const deniedStaff = denyStaffAudience(auth.actor.adminRole, parsed.audiences);
+  if (deniedStaff) return jsonError(deniedStaff, 403);
+
+  try {
+    const record = await createOutreachCampaign({
+      ...parsed,
+      createdBy: auth.actor.id,
+    });
+    await recordHistory(request, {
+      action: "created",
+      area: "outreach",
+      summary: `Created outreach draft: ${record.subject}`,
+      entityId: record.id,
+    });
+    return jsonOk(record, 201);
+  } catch (error) {
+    return jsonError(outreachSqlMessage(error, "Could not save campaign."), 500);
+  }
+}

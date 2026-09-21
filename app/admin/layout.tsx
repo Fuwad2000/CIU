@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import AdminAuthProvider from "@/components/admin/AdminAuthProvider";
-import { adminThemeBootScript } from "@/lib/portal/admin-theme";
+import AdminAuthProvider from "@frontend/components/admin/AdminAuthProvider";
 
 export const metadata: Metadata = {
   title: "Admin | CIU",
@@ -12,10 +11,5 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <>
-      <script dangerouslySetInnerHTML={{ __html: adminThemeBootScript }} />
-      <AdminAuthProvider>{children}</AdminAuthProvider>
-    </>
-  );
+  return <AdminAuthProvider>{children}</AdminAuthProvider>;
 }

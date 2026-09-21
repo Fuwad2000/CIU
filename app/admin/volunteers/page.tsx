@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { ChevronDown, ChevronUp, HeartHandshake, Search } from "lucide-react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { adminFetch, formatShortDate } from "@/lib/portal/client";
-import { formInputClassName } from "@/lib/formStyles";
-import type { VolunteerRecord } from "@/lib/portal/sql-store";
+import { useEffect, useState } from "react";
+import { HeartHandshake } from "lucide-react";
+import { AdminColumnHeaders, AdminTableEmptyRow } from "@frontend/components/admin/AdminColumnHeader";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { useAdminSession } from "@frontend/components/admin/AdminSessionContext";
+import { AdminApiError, adminFetch, formatShortDate } from "@frontend/portal/client";
+import { useAdminTable } from "@frontend/portal/use-admin-table";
+import type { VolunteerRecord } from "@shared/records";
 
-type SortKey = "name" | "email" | "date";
-type SortDir = "asc" | "desc";
+type ColumnKey = "name" | "email" | "phone" | "age" | "roles" | "availability" | "hours" | "message" | "date";
 
 const ageLabels: Record<VolunteerRecord["ageGroup"], string> = {
   "high-school": "High school",
@@ -24,12 +25,46 @@ const availabilityLabels: Record<VolunteerRecord["availability"], string> = {
   flexible: "Flexible",
 };
 
+function hoursLabel(value: VolunteerRecord["volunteerHours"]) {
+  if (value === "yes") return "Yes";
+  if (value === "no") return "No";
+  return "";
+}
+
+const accessors: Record<ColumnKey, (item: VolunteerRecord) => { sort: string; filter: string }> = {
+  name: (item) => ({ sort: item.fullName, filter: item.fullName }),
+  email: (item) => ({ sort: item.email, filter: item.email }),
+  phone: (item) => ({ sort: item.phone, filter: item.phone }),
+  age: (item) => ({ sort: ageLabels[item.ageGroup], filter: ageLabels[item.ageGroup] }),
+  roles: (item) => ({ sort: item.roles.join(", "), filter: item.roles.join(", ") }),
+  availability: (item) => ({
+    sort: availabilityLabels[item.availability],
+    filter: availabilityLabels[item.availability],
+  }),
+  hours: (item) => ({ sort: hoursLabel(item.volunteerHours), filter: hoursLabel(item.volunteerHours) }),
+  message: (item) => ({ sort: item.message || "", filter: item.message || "" }),
+  date: (item) => ({ sort: item.createdAt, filter: formatShortDate(item.createdAt) }),
+};
+
+const headers: Array<{ key: ColumnKey; label: string; sort?: boolean; filter?: boolean }> = [
+  { key: "name", label: "Name", sort: true, filter: true },
+  { key: "email", label: "Email", sort: true, filter: true },
+  { key: "phone", label: "Phone", filter: true },
+  { key: "age", label: "Category", sort: true, filter: true },
+  { key: "roles", label: "Roles", filter: true },
+  { key: "availability", label: "Availability", sort: true, filter: true },
+  { key: "hours", label: "Student hours", sort: true, filter: true },
+  { key: "message", label: "Message" },
+  { key: "date", label: "Date", sort: true },
+];
+
 export default function AdminVolunteersPage() {
+  const { profile } = useAdminSession();
   const [items, setItems] = useState<VolunteerRecord[]>([]);
-  const [query, setQuery] = useState("");
-  const [sortKey, setSortKey] = useState<SortKey>("date");
-  const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [error, setError] = useState("");
+  const [removingId, setRemovingId] = useState("");
+  const { rows, sortKey, sortDir, toggleSort, filters, setFilter } = useAdminTable(items, accessors, "date");
+  const canDelete = profile.canDeleteSubscriptions;
 
   useEffect(() => {
     adminFetch<VolunteerRecord[]>("/api/admin/volunteers")
@@ -37,103 +72,54 @@ export default function AdminVolunteersPage() {
       .catch((err: Error) => setError(err.message));
   }, []);
 
-  const toggleSort = (key: SortKey) => {
-    if (sortKey === key) {
-      setSortDir((current) => (current === "asc" ? "desc" : "asc"));
-      return;
+  const onRemove = async (item: VolunteerRecord) => {
+    if (!window.confirm(`Remove ${item.fullName} (${item.email}) from volunteers?`)) return;
+    setError("");
+    setRemovingId(item.id);
+    try {
+      await adminFetch<{ ok: true }>(`/api/admin/volunteers/${item.id}`, { method: "DELETE" });
+      setItems((current) => current.filter((row) => row.id !== item.id));
+    } catch (err) {
+      setError(err instanceof AdminApiError ? err.message : "Could not remove this volunteer.");
+    } finally {
+      setRemovingId("");
     }
-    setSortKey(key);
-    setSortDir(key === "date" ? "desc" : "asc");
   };
-
-  const filtered = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    const next = items.filter((item) =>
-      [item.fullName, item.email, item.phone, item.roles.join(" "), item.message]
-        .join(" ")
-        .toLowerCase()
-        .includes(needle)
-    );
-    next.sort((a, b) => {
-      const left = (sortKey === "date" ? a.createdAt : sortKey === "name" ? a.fullName : a.email).toLowerCase();
-      const right = (sortKey === "date" ? b.createdAt : sortKey === "name" ? b.fullName : b.email).toLowerCase();
-      const result = left.localeCompare(right, "en", { numeric: true, sensitivity: "base" });
-      return sortDir === "asc" ? result : -result;
-    });
-    return next;
-  }, [items, query, sortKey, sortDir]);
 
   return (
     <div>
       <AdminPageHeader
-        eyebrow="Inbox"
+        eyebrow="Subscriptions"
         title="Volunteers"
-        description="People who registered to serve at the masjid and centre."
-      />
-      <input
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search name, email, phone, or role"
-        className={formInputClassName}
+        description="People who registered to serve at the masjid and centre. Sort or filter from a column heading."
       />
       {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
       <div className="mt-6 overflow-hidden rounded-3xl border border-border/80 bg-surface shadow-sm">
-        {filtered.length === 0 ? (
+        {items.length === 0 ? (
           <AdminEmptyState
-            icon={items.length === 0 ? HeartHandshake : Search}
-            title={items.length === 0 ? "No volunteers yet" : "No matching volunteers"}
-            description={
-              items.length === 0
-                ? "When someone submits the public volunteer form, they will appear here."
-                : "Try a different name, email, or role."
-            }
+            icon={HeartHandshake}
+            title="No volunteers yet"
+            description="When someone submits the public volunteer form, they will appear here."
           />
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm xl:text-base">
               <thead className="border-b border-border bg-background text-muted">
                 <tr>
-                  {(
-                    [
-                      { key: "name", label: "Name", sortable: true },
-                      { key: "email", label: "Email", sortable: true },
-                      { key: "phone", label: "Phone" },
-                      { key: "age", label: "Category" },
-                      { key: "roles", label: "Roles" },
-                      { key: "availability", label: "Availability" },
-                      { key: "hours", label: "Student hours" },
-                      { key: "message", label: "Message" },
-                      { key: "date", label: "Date", sortable: true },
-                    ] as const
-                  ).map((column) => {
-                    const active = "sortable" in column && column.sortable && sortKey === column.key;
-                    return (
-                      <th key={column.key} className="px-4 py-3 font-medium">
-                        {"sortable" in column && column.sortable ? (
-                          <button
-                            type="button"
-                            onClick={() => toggleSort(column.key as SortKey)}
-                            className={`inline-flex items-center gap-1.5 transition hover:text-foreground ${
-                              active ? "text-foreground" : ""
-                            }`}
-                          >
-                            {column.label}
-                            {active && sortDir === "asc" ? (
-                              <ChevronUp className="h-4 w-4" strokeWidth={1.75} />
-                            ) : (
-                              <ChevronDown className={`h-4 w-4 ${active ? "" : "opacity-40"}`} strokeWidth={1.75} />
-                            )}
-                          </button>
-                        ) : (
-                          column.label
-                        )}
-                      </th>
-                    );
-                  })}
+                  <AdminColumnHeaders
+                    columns={headers}
+                    sortKey={sortKey}
+                    sortDir={sortDir}
+                    onSort={toggleSort}
+                    filters={filters}
+                    onFilterChange={setFilter}
+                  />
+                  {canDelete ? <th className="px-4 py-3 font-medium"> </th> : null}
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((item) => (
+                {rows.length === 0 ? <AdminTableEmptyRow colSpan={headers.length + (canDelete ? 1 : 0)} /> : null}
+                {rows.map((item) => (
                   <tr key={item.id} className="border-b border-border last:border-0 align-top">
                     <td className="px-4 py-3 font-medium text-foreground">{item.fullName}</td>
                     <td className="px-4 py-3">
@@ -145,9 +131,21 @@ export default function AdminVolunteersPage() {
                     <td className="px-4 py-3">{ageLabels[item.ageGroup]}</td>
                     <td className="px-4 py-3 text-muted">{item.roles.join(", ") || "—"}</td>
                     <td className="px-4 py-3">{availabilityLabels[item.availability]}</td>
-                    <td className="px-4 py-3">{item.volunteerHours === "yes" ? "Yes" : item.volunteerHours === "no" ? "No" : "—"}</td>
+                    <td className="px-4 py-3">{hoursLabel(item.volunteerHours) || "—"}</td>
                     <td className="max-w-xs px-4 py-3 whitespace-pre-wrap text-muted">{item.message || "—"}</td>
                     <td className="whitespace-nowrap px-4 py-3 text-muted">{formatShortDate(item.createdAt)}</td>
+                    {canDelete ? (
+                      <td className="px-4 py-3 text-right">
+                        <button
+                          type="button"
+                          onClick={() => onRemove(item)}
+                          disabled={removingId === item.id}
+                          className="text-sm font-medium text-danger hover:underline disabled:opacity-60"
+                        >
+                          {removingId === item.id ? "Removing…" : "Delete"}
+                        </button>
+                      </td>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>

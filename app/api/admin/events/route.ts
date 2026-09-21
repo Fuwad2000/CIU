@@ -1,27 +1,2 @@
-import { getPortalBackend } from "@/lib/portal/backend";
-import { parseEventInput } from "@/lib/portal/event-input";
-import { jsonError, jsonOk, recordHistory, requireAdmin } from "@/lib/portal/http";
-
 export const dynamic = "force-dynamic";
-
-export async function GET(request: Request) {
-  const unauthorized = await requireAdmin(request);
-  if (unauthorized) return unauthorized;
-  return jsonOk(await getPortalBackend().listEvents());
-}
-
-export async function POST(request: Request) {
-  const unauthorized = await requireAdmin(request);
-  if (unauthorized) return unauthorized;
-  const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-  const parsed = parseEventInput(body);
-  if (typeof parsed === "string") return jsonError(parsed);
-  const record = await getPortalBackend().createEvent(parsed);
-  await recordHistory(request, {
-    action: "created",
-    area: "events",
-    summary: `Added event: ${record.title}`,
-    entityId: record.id,
-  });
-  return jsonOk(record, 201);
-}
+export { GET, POST } from "@backend/http/admin/events";

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Bell, BookOpen, CalendarDays, HeartHandshake, History, Mail, Megaphone, Newspaper, UserPlus, Users } from "lucide-react";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { useAdminSession } from "@/components/admin/AdminSessionContext";
-import { ADMIN_ROLE_SUMMARIES } from "@/lib/portal/admin-roles";
-import { adminFetch } from "@/lib/portal/client";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { useAdminSession } from "@frontend/components/admin/AdminSessionContext";
+import { ADMIN_ROLE_SUMMARIES } from "@shared/admin-roles";
+import { adminFetch } from "@frontend/portal/client";
 
 type Overview = {
   backend?: "sql" | "azure-api" | "memory";
@@ -33,7 +33,7 @@ const cards = [
   { href: "/admin/members", key: "members", label: "Membership", hint: "Mailing list", icon: UserPlus },
   { href: "/admin/volunteers", key: "volunteers", label: "Volunteers", hint: "Service sign-ups", icon: HeartHandshake },
   { href: "/admin/newsletter", key: "newsletter", label: "Newsletter", hint: "Event emails", icon: Newspaper },
-  { href: "/admin/outreach", key: "outreach", label: "Outreach", hint: "Email campaigns", icon: Megaphone },
+  { href: "/admin/outreach", key: "outreach", label: "Outreach", hint: "Sent email history", icon: Megaphone },
   { href: "/admin/registrations/quran", key: "quranRegistrations", label: "Quran class", hint: "Adult registrations", icon: BookOpen },
   { href: "/admin/registrations/kids", key: "kidsRegistrations", label: "Kids program", hint: "Weekend school", icon: Users },
   {

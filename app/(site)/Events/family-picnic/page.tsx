@@ -1,9 +1,9 @@
-import ZoomableImage from "@/components/lightbox/ZoomableImage";
+import ZoomableImage from "@frontend/components/lightbox/ZoomableImage";
 import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
-import SectionContainer from "@/components/home/SectionContainer";
-import { homeBtnPrimaryClass, homeSectionClass } from "@/components/home/homeUi";
-import { featuredEventContent } from "@/content/EventsContent";
+import SectionContainer from "@frontend/components/home/SectionContainer";
+import { homeBtnPrimaryClass, homeSectionClass } from "@frontend/components/home/homeUi";
+import { featuredEventContent } from "@frontend/content/EventsContent";
 
 export default function FamilyPicnicPage() {
   const { title, dateLabel, time, location, description, chips, primaryButton, imageSrc, imageAlt, note } =

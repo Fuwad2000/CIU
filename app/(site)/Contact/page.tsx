@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import ContactPage from "@/components/contact/ContactPage";
-import { siteContent } from "@/content/SiteContent";
+import ContactPage from "@frontend/components/contact/ContactPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Contact | ${siteContent.shortName}`,

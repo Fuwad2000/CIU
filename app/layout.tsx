@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Naskh_Arabic } from "next/font/google";
-import AppProviders from "@/components/AppProviders";
-import { siteContent } from "@/content/SiteContent";
+import Script from "next/script";
+import AppProviders from "@frontend/components/AppProviders";
+import { siteContent } from "@frontend/content/SiteContent";
+import { adminThemeBootScript } from "@frontend/portal/admin-theme";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -61,6 +63,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoNaskhArabic.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-clip bg-background text-foreground">
+        <Script id="ciu-admin-theme" strategy="beforeInteractive">
+          {adminThemeBootScript}
+        </Script>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

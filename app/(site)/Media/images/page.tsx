@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import MediaImagesPage from "@/components/media/MediaImagesPage";
-import { siteContent } from "@/content/SiteContent";
+import MediaImagesPage from "@frontend/components/media/MediaImagesPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `CIU Images | ${siteContent.shortName}`,

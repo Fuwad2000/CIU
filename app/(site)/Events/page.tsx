@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import EventsPage from "@/components/events/EventsPage";
-import { siteContent } from "@/content/SiteContent";
+import EventsPage from "@frontend/components/events/EventsPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Events | ${siteContent.shortName}`,

@@ -14,6 +14,7 @@ SET QUOTED_IDENTIFIER ON;
 SET ANSI_NULLS ON;
 GO
 
+
 IF OBJECT_ID('dbo.outreach_campaigns', 'U') IS NULL
 BEGIN
     CREATE TABLE dbo.outreach_campaigns
@@ -100,7 +101,7 @@ BEGIN
             UNIQUE (campaignId, email),
 
         CONSTRAINT CK_outreach_recipients_audience
-            CHECK (audience IN ('newsletter', 'members', 'volunteers', 'quran', 'kids', 'admins')),
+            CHECK (audience IN ('newsletter', 'members', 'volunteers', 'contacts', 'additional', 'quran', 'kids', 'admins')),
 
         CONSTRAINT CK_outreach_recipients_status
             CHECK (deliveryStatus IN ('pending', 'sent', 'failed', 'skipped'))
@@ -129,6 +130,37 @@ BEGIN
 
         CONSTRAINT CK_outreach_templates_type
             CHECK (type IN ('newsletter', 'announcement', 'event', 'volunteer', 'marketing', 'general'))
+    );
+END;
+GO
+
+IF OBJECT_ID('dbo.outreach_additional', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.outreach_additional
+    (
+        id UNIQUEIDENTIFIER NOT NULL
+            CONSTRAINT PK_outreach_additional PRIMARY KEY
+            DEFAULT NEWID(),
+
+        fullName NVARCHAR(200) NOT NULL,
+
+        email NVARCHAR(256) NOT NULL,
+
+        phone NVARCHAR(40) NULL,
+
+        notes NVARCHAR(500) NULL,
+
+        createdBy UNIQUEIDENTIFIER NULL,
+
+        createdAt DATETIME2 NOT NULL
+            CONSTRAINT DF_outreach_additional_createdAt DEFAULT SYSUTCDATETIME(),
+
+        CONSTRAINT UQ_outreach_additional_email
+            UNIQUE (email),
+
+        CONSTRAINT FK_outreach_additional_createdBy
+            FOREIGN KEY (createdBy) REFERENCES dbo.users(id)
+            ON DELETE SET NULL
     );
 END;
 GO
@@ -206,7 +238,9 @@ BEGIN
     ALTER TABLE dbo.history
         ADD CONSTRAINT CK_history_area CHECK
         (
-            area IN ('session', 'users', 'announcements', 'events', 'contacts', 'registrations', 'outreach')
+            area IN ('session', 'users', 'announcements', 'events', 'contacts', 'registrations', 'outreach', 'members', 'volunteers', 'newsletter')
         );
 END;
 GO
+
+

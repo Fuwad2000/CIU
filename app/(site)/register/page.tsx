@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import ClassRegistrationForm from "@/components/register/ClassRegistrationForm";
-import { siteContent } from "@/content/SiteContent";
+import ClassRegistrationForm from "@frontend/components/register/ClassRegistrationForm";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Class Registration | ${siteContent.shortName}`,

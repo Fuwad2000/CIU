@@ -1,7 +1,7 @@
 "use client";
 
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import AdminThemePicker from "@/components/admin/AdminThemePicker";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import AdminThemePicker from "@frontend/components/admin/AdminThemePicker";
 
 export default function AdminProfileAppearancePage() {
   return (

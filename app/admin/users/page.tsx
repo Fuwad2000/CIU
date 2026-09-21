@@ -2,18 +2,22 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { UserCog } from "lucide-react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import AdminRoleGate from "@/components/admin/AdminRoleGate";
-import { useAdminSession } from "@/components/admin/AdminSessionContext";
+import { AdminColumnHeaders, AdminTableEmptyRow } from "@frontend/components/admin/AdminColumnHeader";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import AdminRoleGate from "@frontend/components/admin/AdminRoleGate";
+import { useAdminSession } from "@frontend/components/admin/AdminSessionContext";
 import {
   ADMIN_ROLE_LABELS,
   resolveAdminRole,
   type AdminRole,
   type CreatableAdminRole,
-} from "@/lib/portal/admin-roles";
-import { adminFetch, formatDateTime } from "@/lib/portal/client";
-import { formInputClassName } from "@/lib/formStyles";
+} from "@shared/admin-roles";
+import { adminFetch, formatDateTime } from "@frontend/portal/client";
+import { useAdminTable } from "@frontend/portal/use-admin-table";
+import { formInputClassName } from "@frontend/lib/formStyles";
+
+type ColumnKey = "name" | "email" | "level" | "status" | "added";
 
 type StaffUserRecord = {
   id: string;
@@ -40,6 +44,27 @@ type UsersPayload = {
   };
 };
 
+function roleLabel(user: StaffUserRecord) {
+  const role = resolveAdminRole(user);
+  return role ? ADMIN_ROLE_LABELS[role] : user.role;
+}
+
+const accessors: Record<ColumnKey, (item: StaffUserRecord) => { sort: string; filter: string }> = {
+  name: (item) => ({ sort: item.displayName, filter: item.displayName }),
+  email: (item) => ({ sort: item.email, filter: item.email }),
+  level: (item) => ({ sort: roleLabel(item), filter: roleLabel(item) }),
+  status: (item) => ({ sort: item.isActive ? "Active" : "Inactive", filter: item.isActive ? "Active" : "Inactive" }),
+  added: (item) => ({ sort: item.createdAt, filter: formatDateTime(item.createdAt) }),
+};
+
+const headers: Array<{ key: ColumnKey; label: string; sort?: boolean; filter?: boolean }> = [
+  { key: "name", label: "Name", sort: true, filter: true },
+  { key: "email", label: "Email", sort: true, filter: true },
+  { key: "level", label: "Level", sort: true, filter: true },
+  { key: "status", label: "Status", sort: true, filter: true },
+  { key: "added", label: "Added", sort: true },
+];
+
 export default function AdminUsersPage() {
   const { profile } = useAdminSession();
   const [users, setUsers] = useState<StaffUserRecord[]>([]);
@@ -50,6 +75,7 @@ export default function AdminUsersPage() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [busyId, setBusyId] = useState("");
+  const { rows, sortKey, sortDir, toggleSort, filters, setFilter } = useAdminTable(users, accessors, "added");
 
   const load = () =>
     adminFetch<UsersPayload>("/api/admin/users")
@@ -184,16 +210,22 @@ export default function AdminUsersPage() {
             <table className="min-w-full text-left text-sm xl:text-base">
               <thead className="border-b border-border bg-background text-muted">
                 <tr>
-                  <th className="px-4 py-3 font-medium">Name</th>
-                  <th className="px-4 py-3 font-medium">Email</th>
-                  <th className="px-4 py-3 font-medium">Level</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium">Added</th>
+                  <AdminColumnHeaders
+                    columns={headers}
+                    sortKey={sortKey}
+                    sortDir={sortDir}
+                    onSort={toggleSort}
+                    filters={filters}
+                    onFilterChange={setFilter}
+                  />
                   {viewer?.canManageAdminRoles ? <th className="px-4 py-3 font-medium">Actions</th> : null}
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => {
+                {rows.length === 0 ? (
+                  <AdminTableEmptyRow colSpan={headers.length + (viewer?.canManageAdminRoles ? 1 : 0)} />
+                ) : null}
+                {rows.map((user) => {
                   const userRole = resolveAdminRole(user);
                   const isSelf = user.id === viewer?.id;
                   const canManageRow =

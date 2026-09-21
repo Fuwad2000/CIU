@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import EducationPage from "@/components/education/EducationPage";
-import { siteContent } from "@/content/SiteContent";
+import EducationPage from "@frontend/components/education/EducationPage";
+import { siteContent } from "@frontend/content/SiteContent";
 
 export const metadata: Metadata = {
   title: `Azhar Canada College | ${siteContent.shortName}`,

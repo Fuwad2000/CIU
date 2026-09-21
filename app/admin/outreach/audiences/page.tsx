@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Contact } from "lucide-react";
-import AdminEmptyState from "@/components/admin/AdminEmptyState";
-import AdminPageHeader from "@/components/admin/AdminPageHeader";
-import { adminFetch } from "@/lib/portal/client";
+import AdminEmptyState from "@frontend/components/admin/AdminEmptyState";
+import AdminPageHeader from "@frontend/components/admin/AdminPageHeader";
+import { adminFetch } from "@frontend/portal/client";
 
 type AudienceRow = {
   id: string;
@@ -30,7 +30,7 @@ export default function OutreachAudiencesPage() {
       <AdminPageHeader
         eyebrow="Outreach"
         title="Audiences"
-        description="These lists already exist in CIU. Outreach does not create a second copy. Choose them when you create a campaign."
+        description="These are the lists you can email from Outreach. Contact list is unique people: each form sender once, plus anyone staff add."
       />
       {error ? <p className="mb-4 text-sm text-danger">{error}</p> : null}
       {items.length === 0 ? (
